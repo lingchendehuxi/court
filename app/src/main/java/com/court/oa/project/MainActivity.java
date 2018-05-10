@@ -1,4 +1,4 @@
-package com.example.matebookd.myapplication;
+package com.court.oa.project;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -6,15 +6,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.matebookd.myapplication.application.MyApplication;
-import com.example.matebookd.myapplication.fragment.THallFragment;
-import com.example.matebookd.myapplication.fragment.TMeetFragment;
-import com.example.matebookd.myapplication.fragment.TNotifyFragment;
-import com.example.matebookd.myapplication.fragment.TMineFragment;
-import com.example.matebookd.myapplication.fragment.THomeFragment;
+import com.court.oa.project.application.MyApplication;
+import com.court.oa.project.fragment.THallFragment;
+import com.court.oa.project.fragment.TMeetFragment;
+import com.court.oa.project.fragment.TNotifyFragment;
+import com.court.oa.project.fragment.TMineFragment;
+import com.court.oa.project.fragment.THomeFragment;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // requestWindowFeature(Window.FEATURE_NO_TITLE); // 设置无标题栏
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE); // 设置无标题栏
         MyApplication.getInstance().addActivity(this);
         setContentView(R.layout.activity_main);
         initView();

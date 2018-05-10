@@ -1,4 +1,4 @@
-package com.example.matebookd.myapplication.application;
+package com.court.oa.project.application;
 
 import android.app.Activity;
 import android.app.ActivityManager;
