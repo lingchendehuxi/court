@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">吴江法院政务</string>
+    <string name="loading">玩命处理中...</string>
 </resources>

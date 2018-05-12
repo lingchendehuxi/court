@@ -18,5 +18,8 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="progress_circle_loading">
+        <item name="android:indeterminateDrawable">@drawable/progress_circle_loading</item>
+    </style>
 
 </resources>
