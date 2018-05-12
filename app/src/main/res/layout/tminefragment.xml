@@ -3,7 +3,89 @@
     style="@style/configuration"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
-    android:background="@android:color/holo_green_dark">
+    android:background="@android:color/white"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/title_bar_first" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/theme_color"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/mine_pic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="20dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/mine" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/mine_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="王春燕" />
+
+                <TextView
+                    android:id="@+id/mine_job"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="纪检书记" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/mine_info_go"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="20dp"
+                android:src="@mipmap/into_next" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/mine_menu"
+            style="@style/mine_menu_style"
+            android:text="我的菜单" />
+
+        <View style="@style/mine_menu_gap" />
+
+        <TextView
+            android:id="@+id/mine_question"
+            style="@style/mine_menu_style"
+            android:text="问卷调查" />
+
+        <View style="@style/mine_menu_gap" />
+
+        <TextView
+            android:id="@+id/mine_leave"
+            style="@style/mine_menu_style"
+            android:text="请假记录" />
+
+        <View style="@style/mine_menu_gap" />
+
+        <TextView
+            android:id="@+id/mine_tel"
+            style="@style/mine_menu_style"
+            android:text="联系客服" />
+
+        <View style="@style/mine_menu_gap" />
+
+    </LinearLayout>
 
 </ScrollView>

@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">吴江法院政务</string>
     <string name="loading">玩命处理中...</string>
+    <string name="title_activity_mine__menu_activity">Mine_Menu_activity</string>
+    <string name="title_activity_mine_question_activity">Mine_question_activity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment1">Hello blank fragment1</string>
+    <string name="hello_blank_fragment2">Hello blank fragment2</string>
+    <string name="title_activity_mine_leave_activity">Mine_leave_activity</string>
 </resources>

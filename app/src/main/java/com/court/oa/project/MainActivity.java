@@ -1,12 +1,17 @@
 package com.court.oa.project;
 
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -16,6 +21,7 @@ import com.court.oa.project.fragment.TMeetFragment;
 import com.court.oa.project.fragment.TNotifyFragment;
 import com.court.oa.project.fragment.TMineFragment;
 import com.court.oa.project.fragment.THomeFragment;
+import com.court.oa.project.tool.FitStateUI;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
@@ -28,22 +34,34 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private THallFragment tHallFragment;
     private TNotifyFragment tNotifyFragment;
     private TMineFragment tMineFragment;
+    private LinearLayout ll_bg;
+    private int themeColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); // 设置无标题栏
         MyApplication.getInstance().addActivity(this);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_main);
         initView();
-        FragmentTransaction tar = manager.beginTransaction();
-        tar.replace(R.id.framelayout_main, new THomeFragment()).commit();
-
+        RadioButton rb_home = findViewById(R.id.rb_home);
+        rb_home.setChecked(true);
     }
 
     private void initView() {
         radio = findViewById(R.id.radio);
         radio.setOnCheckedChangeListener(this);
+        ll_bg = findViewById(R.id.ll_bg);
+        themeColor = getResources().getColor(R.color.theme_color);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(android.R.color.white));
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            //状态栏颜色字体(白底黑字)修改 MIUI6+
+            FitStateUI.setMiuiStatusBarDarkMode(this, true);
+        }
     }
 
     @Override
@@ -95,11 +113,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
         transaction.commit();
     }
+
     /**
      * 将所有的Fragment都置为隐藏状态。
      *
-     * @param transaction
-     *            用于对Fragment执行操作的事务
+     * @param transaction 用于对Fragment执行操作的事务
      */
     private void hideFragments(FragmentTransaction transaction) {
 

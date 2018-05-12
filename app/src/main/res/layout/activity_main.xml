@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="1"
-    android:background="@android:color/white"
+    android:background="@color/theme_color"
     android:orientation="vertical">
 
     <FrameLayout
@@ -19,8 +19,8 @@
         android:id="@+id/radio"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:background="@android:color/black">
+        android:background="@android:color/black"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rb_home"

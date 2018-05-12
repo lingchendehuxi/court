@@ -3,23 +3,53 @@
     <style xmlns:custom="http://schemas.android.com/apk/res-auto" name="configuration" custom:autoScaleEnable="true" custom:designHeight="575dp" custom:designWidth="384dp" />
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="footer" >
+    <style name="footer">
         <item name="android:button">@null</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
     </style>
+
     <style name="progress_circle_loading">
         <item name="android:indeterminateDrawable">@drawable/progress_circle_loading</item>
     </style>
+
+
+    <style name="AppTheme.Main" parent="AppTheme" />
+
+
+    <!--mine_style-->
+    <style name="mine_menu_style">
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/first_selector_color</item>
+    </style>
+
+    <style name="mine_menu_gap">
+        <item name="android:layout_height">4dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/mine_gray</item>
+    </style>
+
+    <style name="AppTheme.Main.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Main.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.Main.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
 </resources>

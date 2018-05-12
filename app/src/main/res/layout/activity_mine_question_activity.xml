@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_bar_first" />
+
+    <RadioGroup
+        android:id="@+id/radio"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/mine_gray"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_question"
+            style="@style/footer"
+            android:background="@drawable/qusition_selector_color"
+            android:text="问卷"
+            android:textColor="@drawable/footer_textcolor" />
+
+        <RadioButton
+            android:id="@+id/rb_my_question"
+            style="@style/footer"
+            android:background="@drawable/qusition_selector_color"
+            android:text="我的问卷"
+            android:textColor="@drawable/footer_textcolor" />
+
+
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/framelayout_question"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+</LinearLayout>
