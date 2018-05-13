@@ -63,7 +63,9 @@
         <activity
             android:name=".activity.Mine_leave_activity"
             android:label="@string/title_activity_mine_leave_activity"
-            android:theme="@style/AppTheme.Main.NoActionBar"></activity>
+            android:theme="@style/AppTheme.Main.NoActionBar" />
+        <activity android:name=".activity.Mine_leave_addmine_activity" />
+        <activity android:name=".activity.Mine_leave_chose_activity" />
     </application>
 
 </manifest>

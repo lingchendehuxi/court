@@ -1,5 +1,6 @@
 package com.court.oa.project.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,7 +19,7 @@ import com.court.oa.project.fragment.Mine_leave_thr_fragment;
 import com.court.oa.project.fragment.Mine_question_fir_fragment;
 import com.court.oa.project.fragment.Mine_question_sec_fragment;
 
-public class Mine_leave_activity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,View.OnClickListener{
+public class Mine_leave_activity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
     private Mine_leave_fir_fragment mine_leave_fir_fragment;
     private Mine_leave_sec_fragment mine_leave_sec_fragment;
@@ -46,6 +47,7 @@ public class Mine_leave_activity extends AppCompatActivity implements RadioGroup
         TextView tv_sort = findViewById(R.id.tv_sort);
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
+        iv_set.setOnClickListener(this);
     }
 
     @Override
@@ -53,6 +55,9 @@ public class Mine_leave_activity extends AppCompatActivity implements RadioGroup
         switch (view.getId()) {
             case R.id.iv_back:
                 this.finish();
+                break;
+            case R.id.iv_set:
+                startActivity(new Intent(Mine_leave_activity.this,Mine_leave_addmine_activity.class));
                 break;
         }
     }

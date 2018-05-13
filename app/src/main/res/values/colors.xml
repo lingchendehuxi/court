@@ -9,4 +9,6 @@
     <color name="mine_gray">#797879</color>
     <!--mine_menu_color-->
     <color name="mine_menu_deepblue">#5092fe</color>
+    <!--hall_menu_chose-->
+    <color name="hall_little_yellow">#ffc97b</color>
 </resources>

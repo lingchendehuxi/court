@@ -46,7 +46,7 @@
             android:layout_height="match_parent"
             android:paddingLeft="10dp"
             android:paddingRight="16dp"
-            android:src="@mipmap/balck_tel" />
+            android:src="@mipmap/add" />
     </LinearLayout>
 
     <TextView

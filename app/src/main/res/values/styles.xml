@@ -36,15 +36,30 @@
         <item name="android:background">@drawable/first_selector_color</item>
     </style>
 
-    <style name="mine_menu_gap">
+    <style name="mine_menu_gap_4">
         <item name="android:layout_height">4dp</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/mine_gray</item>
+    </style>
+    <style name="mine_menu_gap_1">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
         <item name="android:background">@color/mine_gray</item>
     </style>
 
     <style name="AppTheme.Main.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="footer_leave_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="AppTheme.Main.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

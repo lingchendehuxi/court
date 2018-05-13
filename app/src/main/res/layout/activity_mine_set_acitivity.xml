@@ -11,27 +11,27 @@
         style="@style/mine_menu_style"
         android:text="个人信息" />
 
-    <View style="@style/mine_menu_gap" />
+    <View style="@style/mine_menu_gap_4" />
 
     <TextView
         android:id="@+id/mine_set_password"
         style="@style/mine_menu_style"
         android:text="设置密码" />
 
-    <View style="@style/mine_menu_gap" />
+    <View style="@style/mine_menu_gap_4" />
 
     <TextView
         android:id="@+id/mine_set_update"
         style="@style/mine_menu_style"
         android:text="版本更新" />
 
-    <View style="@style/mine_menu_gap" />
+    <View style="@style/mine_menu_gap_4" />
 
     <TextView
         android:id="@+id/mine_set_logout"
         style="@style/mine_menu_style"
         android:text="退出登录" />
 
-    <View style="@style/mine_menu_gap" />
+    <View style="@style/mine_menu_gap_4" />
 
 </LinearLayout>

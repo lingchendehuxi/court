@@ -63,28 +63,28 @@
             style="@style/mine_menu_style"
             android:text="我的菜单" />
 
-        <View style="@style/mine_menu_gap" />
+        <View style="@style/mine_menu_gap_4" />
 
         <TextView
             android:id="@+id/mine_question"
             style="@style/mine_menu_style"
             android:text="问卷调查" />
 
-        <View style="@style/mine_menu_gap" />
+        <View style="@style/mine_menu_gap_4" />
 
         <TextView
             android:id="@+id/mine_leave"
             style="@style/mine_menu_style"
             android:text="请假记录" />
 
-        <View style="@style/mine_menu_gap" />
+        <View style="@style/mine_menu_gap_4" />
 
         <TextView
             android:id="@+id/mine_tel"
             style="@style/mine_menu_style"
             android:text="联系客服" />
 
-        <View style="@style/mine_menu_gap" />
+        <View style="@style/mine_menu_gap_4" />
 
     </LinearLayout>
 
