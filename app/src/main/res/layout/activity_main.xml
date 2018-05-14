@@ -19,7 +19,8 @@
         android:id="@+id/radio"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@android:color/black"
+        android:paddingTop="6dp"
+        android:background="@mipmap/home_menu_bg"
         android:orientation="horizontal">
 
         <RadioButton

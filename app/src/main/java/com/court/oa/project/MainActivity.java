@@ -54,14 +54,14 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         radio.setOnCheckedChangeListener(this);
         ll_bg = findViewById(R.id.ll_bg);
         themeColor = getResources().getColor(R.color.theme_color);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(android.R.color.white));
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             //状态栏颜色字体(白底黑字)修改 MIUI6+
             FitStateUI.setMiuiStatusBarDarkMode(this, true);
-        }
+        }*/
     }
 
     @Override

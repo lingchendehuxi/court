@@ -9,4 +9,5 @@
     <color name="mine_gray">#797879</color>
     <!--mine_menu_color-->
     <color name="mine_menu_deepblue">#5092fe</color>
+    <color name="mine_menu_deepgray">#9aa2a8</color>
 </resources>
