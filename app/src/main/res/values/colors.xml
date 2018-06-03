@@ -5,10 +5,22 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="theme_color">#4faefc</color>
+    <!--login_color-->
+    <color name="login_password">#1562BC</color>
+    <color name="login_blow_white">#C5E3FE</color>
+    <!--home_color-->
+    <color name="home_title_gray">#414042</color>
+    <color name="home_content_gray">#6D6E71</color>
+    <color name="home_time_gray">#808285</color>
+    <!--meet_color-->
+    <color name="meet_time_gray">#58595B</color>
+    <!--notify_color-->
+    <color name="notify_context_gray">#929497</color>
     <!--mine_color-->
-    <color name="mine_gray">#797879</color>
+    <color name="mine_gray">#f0f0f0</color>
     <!--mine_menu_color-->
     <color name="mine_menu_deepblue">#5092fe</color>
     <!--hall_menu_chose-->
     <color name="hall_little_yellow">#ffc97b</color>
+    <color name="mine_menu_deepgray">#9aa2a8</color>
 </resources>

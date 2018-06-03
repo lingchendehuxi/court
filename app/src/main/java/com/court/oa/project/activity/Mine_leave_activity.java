@@ -13,11 +13,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.application.MyApplication;
 import com.court.oa.project.fragment.Mine_leave_fir_fragment;
 import com.court.oa.project.fragment.Mine_leave_sec_fragment;
 import com.court.oa.project.fragment.Mine_leave_thr_fragment;
 import com.court.oa.project.fragment.Mine_question_fir_fragment;
 import com.court.oa.project.fragment.Mine_question_sec_fragment;
+import com.court.oa.project.tool.FitStateUI;
 
 public class Mine_leave_activity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
@@ -31,6 +33,8 @@ public class Mine_leave_activity extends AppCompatActivity implements RadioGroup
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); // 设置无标题栏
+        MyApplication.getInstance().addActivity(this);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_mine_leave_activity);
         initView();
         RadioButton rb_unshow = findViewById(R.id.rb_unshow);
@@ -43,10 +47,11 @@ public class Mine_leave_activity extends AppCompatActivity implements RadioGroup
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
-        tv_title.setText("请假");
+        tv_title.setText("请假记录");
         TextView tv_sort = findViewById(R.id.tv_sort);
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
+        iv_set.setImageDrawable(getResources().getDrawable(R.mipmap.add));
         iv_set.setOnClickListener(this);
     }
 

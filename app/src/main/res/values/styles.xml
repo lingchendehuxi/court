@@ -26,7 +26,11 @@
 
     <style name="AppTheme.Main" parent="AppTheme" />
 
-
+    <!--hall_work_style-->
+    <style name="hall_work_table">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/home_time_gray</item>
+    </style>
     <!--mine_style-->
     <style name="mine_menu_style">
         <item name="android:layout_height">60dp</item>
@@ -34,10 +38,12 @@
         <item name="android:paddingLeft">25dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">@drawable/first_selector_color</item>
+        <item name="android:textColor">@color/home_title_gray</item>
+        <item name="android:textSize">16dp</item>
     </style>
 
     <style name="mine_menu_gap_4">
-        <item name="android:layout_height">4dp</item>
+        <item name="android:layout_height">5dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@color/mine_gray</item>
     </style>

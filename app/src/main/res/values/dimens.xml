@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="home_padding">20dp</dimen>
+    <dimen name="meet_padding">17dp</dimen>
 </resources>

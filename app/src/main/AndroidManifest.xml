@@ -55,17 +55,30 @@
         <activity
             android:name=".activity.Mine_Menu_activity"
             android:label="@string/title_activity_mine__menu_activity"
-            android:theme="@style/AppTheme.Main.NoActionBar" />
+            android:theme="@style/AppTheme.Main" />
         <activity
             android:name=".activity.Mine_question_activity"
             android:label="@string/title_activity_mine_question_activity"
-            android:theme="@style/AppTheme.Main.NoActionBar" />
+            android:theme="@style/AppTheme.Main" />
         <activity
             android:name=".activity.Mine_leave_activity"
             android:label="@string/title_activity_mine_leave_activity"
-            android:theme="@style/AppTheme.Main.NoActionBar" />
-        <activity android:name=".activity.Mine_leave_addmine_activity" />
-        <activity android:name=".activity.Mine_leave_chose_activity" />
+            android:theme="@style/AppTheme.Main" />
+        <activity android:name=".activity.Mine_leave_addmine_activity"
+            android:theme="@style/AppTheme.Main"/>
+        <activity android:name=".activity.Mine_leave_chose_activity"
+            android:theme="@style/AppTheme.Main"/>
+        <activity android:name=".activity.Meet_Detail_activity"
+            android:theme="@style/AppTheme.Main"/>
+        <activity android:name=".activity.Notify_Detail_activity"
+            android:theme="@style/AppTheme.Main"/>
+        <activity android:name=".activity.Mine_Menu_Detial_activity"
+            android:theme="@style/AppTheme.Main"/>
+        <activity android:name=".activity.Register_My_activity"
+            android:theme="@style/AppTheme.Main"/>
+        <activity android:name=".activity.Login_My_activity"
+            android:theme="@style/AppTheme.Main"/>
+
     </application>
 
 </manifest>

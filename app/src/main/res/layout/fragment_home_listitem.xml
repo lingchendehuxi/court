@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_bg"
+    style="@style/configuration"
+    android:layout_width="match_parent"
+    android:layout_height="147dp"
+    android:alpha="1"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/home_padding"
+    android:paddingRight="@dimen/home_padding"
+    android:paddingTop="19dp">
+
+    <TextView
+        android:id="@+id/home_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="吴江法院"
+        android:textColor="@color/home_title_gray"
+        android:textSize="19dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="普法普法发发发普法普法发发发普法普法发发发普法普法发发发普法普法发发发普法普法发发发普法普法发发发普法普法发普法普法发发发普法普法发发发普法普法普法普法发发发普法普法发发发普法普法发发发普法普法发发发普法普法发普法普法发发发普法普法发发发普法普法发发发普法普法发发发发普法普法发发发普法普法发发发普法普法发发发普法普法发发发发发普法普法发发发  发  发   发  发   发   发"
+        android:textColor="@color/home_content_gray"
+        android:textSize="14dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="19dp"
+        android:background="@color/mine_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_gravity="bottom"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/home_time_gray"
+            android:textSize="13dp"
+            android:text="2018.5.26" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:textColor="@color/home_time_gray"
+            android:textSize="13dp"
+            android:text="14:00" />
+
+    </LinearLayout>
+</LinearLayout>

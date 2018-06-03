@@ -5,11 +5,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <ImageView
+
+    <com.court.oa.project.tool.RefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/home_top"/>
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+
+    </com.court.oa.project.tool.RefreshLayout>
 
 
 </LinearLayout>

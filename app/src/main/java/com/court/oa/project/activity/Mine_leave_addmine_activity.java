@@ -3,21 +3,28 @@ package com.court.oa.project.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.application.MyApplication;
+import com.court.oa.project.tool.FitStateUI;
 
-public class Mine_leave_addmine_activity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class Mine_leave_addmine_activity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private RadioGroup radio;
     private LinearLayout leave_approver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE); // 设置无标题栏
+        MyApplication.getInstance().addActivity(this);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_mine_leave_addmine_activity);
         initView();
     }

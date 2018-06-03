@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/configuration"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="1"
+    android:background="@color/home_time_gray"
+    android:orientation="vertical">
+    <!--早餐-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:background="@color/theme_color"
+            android:gravity="center"
+            android:text="早"
+            android:paddingBottom="0.5dp"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"/>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/line_h"
+            android:orientation="vertical"
+            android:showDividers="beginning|middle|end"
+            android:stretchColumns="*"
+            android:background="@android:color/white">
+
+            <TableRow
+                android:divider="@drawable/line_h"
+                android:orientation="horizontal"
+                android:showDividers="beginning|middle|end">
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    style="@style/hall_work_table"
+                    android:text="标题一" />
+
+                <TextView
+                    android:layout_width="3dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    style="@style/hall_work_table"
+                    android:text="标题一" />
+            </TableRow>
+
+            <TableRow
+                android:divider="@drawable/line_h"
+                android:showDividers="beginning|middle|end">
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    style="@style/hall_work_table"
+                    android:text="内容" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    style="@style/hall_work_table"
+                    android:text="内容" />
+            </TableRow>
+
+            <TableRow
+                android:divider="@drawable/line_h"
+                android:showDividers="beginning|middle|end">
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:gravity="center"
+                    style="@style/hall_work_table"
+                    android:padding="8dp"
+                    android:text="内容" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    style="@style/hall_work_table"
+                    android:text="内容" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_bg"
+    style="@style/configuration"
+    android:layout_width="match_parent"
+    android:layout_height="94dp"
+    android:alpha="1"
+    android:orientation="vertical"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
+    android:paddingTop="25dp"
+    android:paddingBottom="25dp"
+    android:gravity="center_vertical"
+    >
+    <TextView
+        android:id="@+id/tmine_menu_Listtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textColor="@color/home_title_gray"
+        android:text="假期调休通知"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:textColor="@color/home_title_gray"
+            android:text="李嘉诚"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textSize="13dp"
+            android:textColor="@color/notify_context_gray"
+            android:text="16：45"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

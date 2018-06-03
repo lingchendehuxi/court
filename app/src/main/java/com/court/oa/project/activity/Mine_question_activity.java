@@ -13,8 +13,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.application.MyApplication;
 import com.court.oa.project.fragment.Mine_question_fir_fragment;
 import com.court.oa.project.fragment.Mine_question_sec_fragment;
+import com.court.oa.project.tool.FitStateUI;
 
 public class Mine_question_activity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private Mine_question_fir_fragment mine_question_fir_fragment;
@@ -26,6 +28,8 @@ public class Mine_question_activity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); // 设置无标题栏
+        MyApplication.getInstance().addActivity(this);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_mine_question_activity);
         initView();
         RadioButton rb_question = findViewById(R.id.rb_question);

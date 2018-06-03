@@ -3,10 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.court.oa.project.fragment.Mine_question_fir_fragment">
-
-    <TextView
+    <com.court.oa.project.tool.RefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment1" />
+        android:background="@android:color/white">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+
+    </com.court.oa.project.tool.RefreshLayout>
 
 </FrameLayout>

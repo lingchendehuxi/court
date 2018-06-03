@@ -6,57 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="1"
-    android:background="@color/theme_color"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/framelayout_main"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"></FrameLayout>
-
-    <RadioGroup
-        android:id="@+id/radio"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingTop="6dp"
-        android:background="@mipmap/home_menu_bg"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rb_home"
-            style="@style/footer"
-            android:drawableTop="@drawable/footer_home_ico"
-            android:text="首页"
-            android:textColor="@drawable/footer_textcolor" />
-
-        <RadioButton
-            android:id="@+id/rb_meet"
-            style="@style/footer"
-            android:drawableTop="@drawable/footer_meet_ico"
-            android:text="会务"
-            android:textColor="@drawable/footer_textcolor" />
-
-        <RadioButton
-            android:id="@+id/rb_hall"
-            style="@style/footer"
-            android:drawableTop="@drawable/footer_hall_ico"
-            android:text="食堂"
-            android:textColor="@drawable/footer_textcolor" />
-
-        <RadioButton
-            android:id="@+id/rb_notify"
-            style="@style/footer"
-            android:drawableTop="@drawable/footer_notify_ico"
-            android:text="通知"
-            android:textColor="@drawable/footer_textcolor" />
-
-        <RadioButton
-            android:id="@+id/rb_my"
-            style="@style/footer"
-            android:drawableTop="@drawable/footer_my_ico"
-            android:text="我的"
-            android:textColor="@drawable/footer_textcolor" />
-    </RadioGroup>
-
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="正在加载中。。"
+        android:textColor="@color/mine_menu_deepgray"/>
 </LinearLayout>

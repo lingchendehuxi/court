@@ -3,9 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <com.court.oa.project.tool.RefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="1" />
+        android:background="@android:color/white">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+
+    </com.court.oa.project.tool.RefreshLayout>
 
 </FrameLayout>

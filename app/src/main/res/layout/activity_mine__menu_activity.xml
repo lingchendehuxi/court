@@ -3,7 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include layout="@layout/title_bar_first"/>
 
+    <include layout="@layout/title_bar_first" />
+
+    <com.court.oa.project.tool.RefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+
+    </com.court.oa.project.tool.RefreshLayout>
 
 </LinearLayout>

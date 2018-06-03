@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_bg"
+    style="@style/configuration"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="1"
+    android:background="@mipmap/register_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/register_edit"
+            android:hint="请输入手机号"
+            android:paddingLeft="20dp"
+            android:textColorLink="@color/login_blow_white"
+            android:textColorHint="@android:color/white" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:background="@mipmap/register_edit"
+            android:textColorLink="@color/login_blow_white"
+            android:hint="输入密码"
+            android:paddingLeft="20dp"
+            android:textColorHint="@android:color/white" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:background="@mipmap/register_edit"
+            android:textColorLink="@color/login_blow_white"
+            android:hint="确认密码"
+            android:paddingLeft="20dp"
+            android:textColorHint="@android:color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/register_edit"
+            android:gravity="center"
+            android:text="注册"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+
+</LinearLayout>
