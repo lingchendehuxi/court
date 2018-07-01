@@ -32,12 +32,5 @@
                 android:orientation="horizontal"></LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="近期会务/Meet"
-        android:textColor="@android:color/white"
-        android:textSize="28dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"/>
+
 </LinearLayout>

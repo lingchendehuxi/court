@@ -98,7 +98,7 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
      */
     private void setData() {
         list = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("itemImage", i + "默认");
             map.put("itemText", i + "默认");
@@ -115,7 +115,7 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
      */
     private void setListener() {
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setOnLoadListener(this);
+        //swipeLayout.setOnLoadListener(this);
     }
 
     /**
@@ -129,7 +129,7 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
                 list.clear();
-                for (int i = 0; i < 8; i++) {
+                for (int i = 0; i < 3; i++) {
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("itemImage", i + "刷新");
                     map.put("itemText", i + "刷新");

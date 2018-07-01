@@ -1,7 +1,5 @@
 package com.court.oa.project.fragment;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,36 +8,34 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.court.oa.project.R;
-import com.court.oa.project.activity.Notify_Detail_activity;
 import com.court.oa.project.adapter.THall_Leave_Adapter;
-import com.court.oa.project.adapter.TNotifyAdapter;
 import com.court.oa.project.tool.RefreshLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
-public class THallFragment extends Fragment implements View.OnClickListener, RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener{
+public class THallFragment extends Fragment implements View.OnClickListener, RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener,RadioGroup.OnCheckedChangeListener{
     private View view;
-    private TextView hall_title;
-    private LinearLayout hall_chose;
     private LinearLayout hall_date;
-    private CheckBox cb_set;
     private TextView hall_buy;
     private String[] date = new String[]{
             "05.07","05.08","05.09","05.10","05.11","05.12","05.13","05.14"};
     private String[] workDate = new String[]{"周一","周二","周三","周四","周五"};
     private LinearLayout hall_leave;
     private LinearLayout hall_work;
+    private LinearLayout hall_package;
+    private LinearLayout hall_commit;
     //
     private RefreshLayout swipeLayout;
     private ArrayList list;
@@ -54,35 +50,27 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     }
 
     private void initView() {
-        hall_chose = view.findViewById(R.id.hall_chose);
-        hall_chose.setOnClickListener(this);
         hall_date = view.findViewById(R.id.hall_date);
-        cb_set = view.findViewById(R.id.cb_set);
-        hall_title = view.findViewById(R.id.hall_title);
         hall_buy = view.findViewById(R.id.hall_buy);
         hall_leave = view.findViewById(R.id.hall_leave);
         hall_work = view.findViewById(R.id.hall_work);
+        hall_package = view.findViewById(R.id.hall_package);
+        hall_commit = view.findViewById(R.id.hall_commit);
         swipeLayout = view.findViewById(R.id.swipe_container);
-        cb_set.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(hall_date.getChildCount()>0){
-                    hall_date.removeAllViews();
-                }
-                if (isChecked) {
-                    hall_title.setText("工作餐");
-                    setWorkData();
-                }else {
-                    hall_title.setText("外带");
-                    setLeaveData();
-                }
-            }
-        });
+        hall_buy.setOnClickListener(this);
+        RadioGroup radio = view.findViewById(R.id.radio);
+        radio.setOnCheckedChangeListener(this);
         setLeaveData();
     }
-    private void setWorkData(){
+    private void goneView(){
         hall_buy.setVisibility(View.GONE);
         hall_leave.setVisibility(View.GONE);
+        hall_package.setVisibility(View.GONE);
+        hall_work.setVisibility(View.GONE);
+        hall_commit.setVisibility(View.GONE);
+    }
+    private void setWorkData(){
+        goneView();
         hall_work.setVisibility(View.VISIBLE);
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -109,9 +97,9 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         }
     }
     private void setLeaveData(){
+        goneView();
         hall_buy.setVisibility(View.VISIBLE);
         hall_leave.setVisibility(View.VISIBLE);
-        hall_work.setVisibility(View.GONE);
         setData();
         setListener();
         DisplayMetrics dm = new DisplayMetrics();
@@ -139,14 +127,48 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         }
 
     }
+    private void setPackageDate(){
+        goneView();
+        hall_buy.setText("提交");
+        hall_buy.setVisibility(View.VISIBLE);
+        hall_package.setVisibility(View.VISIBLE);
+
+    }
+    private void setCommitSucess(){
+        goneView();
+        hall_commit.setVisibility(View.VISIBLE);
+
+    }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.hall_chose:
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        if(hall_date.getChildCount()>0){
+            hall_date.removeAllViews();
+        }
+        switch (i){
+            case R.id.rb_normal:
+                setWorkData();
+                break;
+            case R.id.rb_send:
+                setLeaveData();
+                break;
+            case R.id.rb_package:
+                setPackageDate();
                 break;
         }
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.hall_buy:
+                if(hall_package.getVisibility() == View.VISIBLE){
+                    setCommitSucess();
+                }
+                break;
+        }
+    }
+
     //set Leave
     /**
      * 添加数据

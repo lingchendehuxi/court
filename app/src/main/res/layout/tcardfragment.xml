@@ -3,10 +3,16 @@
     style="@style/configuration"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <include layout="@layout/title_bar_meet_first" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:paddingTop="20dp"
+        android:background="@mipmap/title_bar_bg"
+        android:gravity="center"
+        android:text="考勤" />
+
     <com.court.oa.project.tool.RefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
@@ -16,8 +22,7 @@
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="5dp"></ListView>
+            android:layout_height="match_parent"></ListView>
 
     </com.court.oa.project.tool.RefreshLayout>
 

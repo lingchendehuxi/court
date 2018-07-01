@@ -61,7 +61,7 @@
         <TextView
             android:id="@+id/mine_menu"
             style="@style/mine_menu_style"
-            android:text="我的菜单" />
+            android:text="我的食堂" />
 
         <View style="@style/mine_menu_gap_4" />
 
@@ -82,7 +82,7 @@
         <TextView
             android:id="@+id/mine_tel"
             style="@style/mine_menu_style"
-            android:text="联系客服" />
+            android:text="考勤记录" />
 
         <View style="@style/mine_menu_gap_4" />
 

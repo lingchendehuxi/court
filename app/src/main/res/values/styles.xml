@@ -18,6 +18,16 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
     </style>
+    <!--hall_chose date-->
+    <style name="top_chose">
+        <item name="android:button">@null</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/chose_date_normal_bg</item>
+    </style>
 
     <style name="progress_circle_loading">
         <item name="android:indeterminateDrawable">@drawable/progress_circle_loading</item>

@@ -5,41 +5,42 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical">
-
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:background="@mipmap/title_bar_bg"
-        android:gravity="center"
-        android:paddingTop="20dp"
-        >
+        android:textColor="@android:color/white"
+        android:text="食堂"
+        android:gravity="center"/>
+    <RadioGroup
+        android:id="@+id/radio"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@mipmap/title_bar_bg"
+        android:orientation="horizontal"
+        android:paddingTop="6dp">
 
-        <LinearLayout
-            android:id="@+id/hall_chose"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/rb_normal"
+            style="@style/footer"
+            android:drawableBottom="@drawable/top_hall_ico"
+            android:text="周菜单"
+            android:textColor="@drawable/top_hall_textcolor" />
 
-            <TextView
-                android:id="@+id/hall_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:textColor="@android:color/white"
-                android:text="外带" />
+        <RadioButton
+            android:id="@+id/rb_send"
+            style="@style/footer"
+            android:drawableBottom="@drawable/top_hall_ico"
+            android:text="外卖熟食"
+            android:textColor="@drawable/top_hall_textcolor" />
 
-            <CheckBox
-                android:id="@+id/cb_set"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:drawableLeft="@drawable/fragment_meet_ico"
-                android:paddingTop="4dp"
-                android:paddingLeft="13dp"
-                android:paddingRight="17dp" />
-        </LinearLayout>
-
-    </LinearLayout>
+        <RadioButton
+            android:id="@+id/rb_package"
+            style="@style/footer"
+            android:drawableBottom="@drawable/top_hall_ico"
+            android:text="晚餐打包"
+            android:textColor="@drawable/top_hall_textcolor" />
+    </RadioGroup>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -65,6 +66,12 @@
         <include
             android:id="@+id/hall_work"
             layout="@layout/fragment_hall_work"/>
+        <include
+            android:id="@+id/hall_package"
+            layout="@layout/fragment_hall_package"/>
+        <include
+            android:id="@+id/hall_commit"
+            layout="@layout/fragment_hall_commit_success"/>
 
     </LinearLayout>
 

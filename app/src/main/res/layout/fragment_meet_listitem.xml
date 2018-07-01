@@ -11,77 +11,58 @@
     android:paddingRight="@dimen/meet_padding"
     android:paddingTop="20dp">
 
+    <TextView
+        android:id="@+id/meetList_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="群众路线专题会"
+        android:textColor="@color/home_title_gray"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/meetList_context"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="11dp"
+        android:text="参会人员"
+        android:textColor="@color/home_title_gray"
+        android:textSize="18dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@mipmap/meet_drawable" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/meetList_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="群众路线专题会"
-                    android:textColor="@color/home_title_gray"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/person_number"
-                    android:gravity="center"
-                    android:text="50人"
-                    android:textColor="@android:color/white"
-                    android:textSize="14dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="11dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="时间： 2019.09.13  15：00"
-                    android:textColor="@color/meet_time_gray"
-                    android:textSize="14dp" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="时间： 2019.09.13  15：00"
-                android:textColor="@color/meet_time_gray"
-                android:textSize="14dp" />
-        </LinearLayout>
-
+            android:text="时间： 2019.09.13  15：00"
+            android:textColor="@color/meet_time_gray"
+            android:textSize="14dp" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="时间： 2019.09.13  15：00"
+            android:textColor="@color/meet_time_gray"
+            android:textSize="14dp" />
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="2dp"
         android:layout_marginTop="14dp"
-        android:background="@color/home_time_gray" />
+        android:background="@color/mine_gray" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -107,6 +88,6 @@
             android:text="03.30截至"
             android:textColor="@color/meet_time_gray"
             android:textSize="14dp" />
-    </LinearLayout>
 
+    </LinearLayout>
 </LinearLayout>

@@ -22,5 +22,6 @@
     <color name="mine_menu_deepblue">#5092fe</color>
     <!--hall_menu_chose-->
     <color name="hall_little_yellow">#ffc97b</color>
+    <color name="chose_date_yellow">#FFC775</color>
     <color name="mine_menu_deepgray">#9aa2a8</color>
 </resources>

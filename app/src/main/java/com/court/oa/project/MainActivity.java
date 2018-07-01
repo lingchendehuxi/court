@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.court.oa.project.application.MyApplication;
+import com.court.oa.project.fragment.TCardFragment;
 import com.court.oa.project.fragment.THallFragment;
 import com.court.oa.project.fragment.TMeetFragment;
 import com.court.oa.project.fragment.TNotifyFragment;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private THallFragment tHallFragment;
     private TNotifyFragment tNotifyFragment;
     private TMineFragment tMineFragment;
+    private TCardFragment tCardFragment;
     private LinearLayout ll_bg;
     private int themeColor;
 
@@ -110,6 +112,14 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     transaction.show(tMineFragment);
                 }
                 break;
+            case R.id.rb_card:
+                if (tCardFragment == null) {
+                    tCardFragment = new TCardFragment();
+                    transaction.add(R.id.framelayout_main, tCardFragment);
+                } else {
+                    transaction.show(tCardFragment);
+                }
+                break;
         }
         transaction.commit();
     }
@@ -135,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
         if (tMineFragment != null) {
             transaction.hide(tMineFragment);
+        }
+        if (tCardFragment != null) {
+            transaction.hide(tCardFragment);
         }
     }
 
