@@ -20,48 +20,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/ll_showPop"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:text="请假原因" />
-
-            <RadioGroup
-                android:id="@+id/radio"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rb_b"
-                    style="@style/footer_leave_style"
-                    android:text="病假"
-                    android:textColor="@android:color/black" />
-
-                <RadioButton
-                    android:id="@+id/rb_s"
-                    style="@style/footer_leave_style"
-                    android:text="事假"
-                    android:textColor="@android:color/black" />
-
-                <RadioButton
-                    android:id="@+id/rb_g"
-                    style="@style/footer_leave_style"
-                    android:text="公出"
-                    android:textColor="@android:color/black" />
-
-                <RadioButton
-                    android:id="@+id/rb_n"
-                    style="@style/footer_leave_style"
-                    android:text="年假"
-                    android:textColor="@android:color/black" />
-
-
-            </RadioGroup>
-
-            <View style="@style/mine_menu_gap_1" />
+                android:background="@drawable/shape_corners_radius_5"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="请假原因"
+                    android:textColor="@color/home_time_gray"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:src="@mipmap/arrows_gray"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

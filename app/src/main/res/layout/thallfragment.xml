@@ -30,14 +30,14 @@
         <RadioButton
             android:id="@+id/rb_send"
             style="@style/footer"
-            android:drawableBottom="@drawable/top_hall_ico"
+            android:drawableBottom="@drawable/top_hall_ico1"
             android:text="外卖熟食"
             android:textColor="@drawable/top_hall_textcolor" />
 
         <RadioButton
             android:id="@+id/rb_package"
             style="@style/footer"
-            android:drawableBottom="@drawable/top_hall_ico"
+            android:drawableBottom="@drawable/top_hall_ico1"
             android:text="晚餐打包"
             android:textColor="@drawable/top_hall_textcolor" />
     </RadioGroup>
