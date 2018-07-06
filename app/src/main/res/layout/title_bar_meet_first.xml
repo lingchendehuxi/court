@@ -19,43 +19,29 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_sort"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:gravity="center"
-                android:text="时间"
-                android:textColor="@android:color/white"
-                android:textSize="15dp" />
-        </LinearLayout>
+            android:orientation="horizontal"></LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center">
 
-            <CheckBox
-                android:id="@+id/cb_set"
+            <ImageView
+                android:id="@+id/iv_scaner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
-                android:drawableLeft="@drawable/fragment_meet_ico"
-                android:paddingTop="4dp"
                 android:paddingLeft="13dp"
-                android:paddingRight="17dp" />
+                android:paddingRight="17dp"
+                android:paddingTop="4dp"
+                android:src="@mipmap/meet_scaner" />
         </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_title"
+        style="@style/title_context"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="会务"
-        android:textColor="@android:color/white"
-        android:textSize="21dp"
-        android:textStyle="bold" />
+        android:text="会务" />
 </FrameLayout>

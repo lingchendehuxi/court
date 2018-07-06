@@ -54,8 +54,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="上头条"
-        android:textColor="@android:color/white"
-        android:textSize="14dp"
-        android:textStyle="bold" />
+        android:text="我的"
+        style="@style/title_context" />
 </FrameLayout>

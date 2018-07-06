@@ -39,14 +39,7 @@ public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListe
     private void initView() {
         CheckBox cb_set = view.findViewById(R.id.cb_set);
         swipeLayout = (RefreshLayout) view.findViewById(R.id.swipe_container);
-        cb_set.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
 
-                }
-            }
-        });
     }
 
     /**

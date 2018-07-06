@@ -82,5 +82,10 @@
 
     <style name="AppTheme.Main.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="title_context">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">19dp</item>
+    </style>
+
 
 </resources>
