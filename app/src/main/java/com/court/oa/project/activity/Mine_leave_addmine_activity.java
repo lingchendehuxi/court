@@ -1,6 +1,5 @@
 package com.court.oa.project.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,26 +14,27 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.court.oa.project.R;
 import com.court.oa.project.application.MyApplication;
 import com.court.oa.project.tool.FitStateUI;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class Mine_leave_addmine_activity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private LinearLayout leave_approver;
-    private LinearLayout ll_showPop;
-    private RadioGroup radio1;
-    private RadioGroup radio2;
-    private RadioGroup radio3;
-    private RadioButton rb_b;
-    private RadioButton rb_s;
-    private RadioButton rb_tq;
-    private RadioButton rb_c;
-    private RadioButton rb_hl;
-    private RadioButton rb_h;
-    private RadioButton rb_sang;
-    private RadioButton rb_qt;
+    private LinearLayout ll_showPop,ll_begin,ll_end;
+    private RadioGroup radio1,radio2,radio3;
+    private RadioButton rb_b,rb_s,rb_tq,rb_c,rb_hl,rb_h,rb_sang,rb_qt;
+    private TextView tv_begin,tv_end;
 
+    Calendar selectedDate = Calendar.getInstance();
+    Calendar startDate = Calendar.getInstance();
+    Calendar endDate = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +46,8 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
     }
 
     private void initView() {
+        startDate.set(2010,0,1);//设置起始年份
+        endDate.set(2030,0,0);//设置结束年份
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
@@ -54,9 +56,15 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
         iv_set.setVisibility(View.INVISIBLE);
+        ll_begin = findViewById(R.id.ll_begin);
+        ll_end = findViewById(R.id.ll_end);
         leave_approver = findViewById(R.id.leave_approver);
         ll_showPop = findViewById(R.id.ll_showPop);
+        tv_begin = findViewById(R.id.tv_begin);
+        tv_end = findViewById(R.id.tv_end);
         ll_showPop.setOnClickListener(this);
+        ll_begin.setOnClickListener(this);
+        ll_end.setOnClickListener(this);
     }
 
     @Override
@@ -109,6 +117,16 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
             case R.id.ll_showPop:
                 showPopup();
                 break;
+            case R.id.ll_begin:
+                if(isFastClick()){
+                    showDataDialog(0);
+                }
+                break;
+            case R.id.ll_end:
+                if(isFastClick()){
+                    showDataDialog(1);
+                }
+                break;
         }
     }
     private void showPopup(){
@@ -155,5 +173,77 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
         window.update();
         // TODO: 2016/5/17 以下拉的方式显示，并且可以设置显示的位置
         window.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0,0);
+    }
+
+    /**
+     * @param index
+     */
+    public void showDataDialog(final int index)
+    {
+        TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                switch (index){
+                    case 0:
+                        tv_begin.setText(getTime(date));
+                        break;
+                    case 1:
+                        tv_end.setText(getTime(date));
+                        break;
+                }
+            }
+        }).setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
+                .setCancelText("取消")//取消按钮文字
+                .setSubmitText("确定")//确认按钮文字
+                .setContentSize(18)//滚轮文字大小
+                .setTitleSize(20)//标题文字大小
+                .setTitleText("选择时间")//标题文字
+                .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
+//                .isCyclic(true)//是否循环滚动
+//                //.setTitleColor(Color.BLACK)//标题文字颜色
+//                .setSubmitColor(Color.BLUE)//确定按钮文字颜色
+//                .setCancelColor(Color.BLUE)//取消按钮文字颜色
+//                //.setTitleBgColor(0xFF666666)//标题背景颜色 Night mode
+//                .setBgColor(0xFF333333)//滚轮背景颜色 Night mode
+                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
+                .setRangDate(startDate,endDate)//起始终止年月日设定
+//                .setLabel("年","月","日","时","分","秒")//默认设置为年月日时分秒
+                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+//                .isDialog(true)//是否显示为对话框样式
+                .build();
+
+        pvTime.show();
+    }
+
+    /**
+     * 将长时间格式字符串转换为时间 yyyy-MM-dd HH:mm:ss
+     *
+     */
+    public static String getStringDate(Long date)
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+        String dateString = formatter.format(date);
+
+        return dateString;
+    }
+
+    private String getTime(Date date) {//可根据需要自行截取数据显示
+        //"YYYY-MM-DD HH:MM:SS"        "yyyy-MM-dd"
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+
+    // 两次点击按钮之间的点击间隔不能少于1000毫秒
+    private static final int MIN_CLICK_DELAY_TIME = 1000;
+    private static long lastClickTime;
+
+    public static boolean isFastClick() {
+        boolean flag = false;
+        long curClickTime = System.currentTimeMillis();
+        if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
+            flag = true;
+        }
+        lastClickTime = curClickTime;
+        return flag;
     }
 }
