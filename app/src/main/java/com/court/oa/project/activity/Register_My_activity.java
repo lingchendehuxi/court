@@ -43,19 +43,19 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
         switch (view.getId()){
             case R.id.tv_register:
                 if(StringUtils.isEmpty(et_phone.getText().toString())){
-                    ToastUtil.showLongToast(this,"手机号为空！");
+                    ToastUtil.show(this,"手机号为空！");
                     break;
                 }
                 if(!Utils.isMobileNO(et_phone.getText().toString())){
-                    ToastUtil.showLongToast(this,"手机号错误！");
+                    ToastUtil.show(this,"手机号错误！");
                     break;
                 }
                 if(!Utils.isRegisterPassword(et_pass.getText().toString())){
-                    ToastUtil.showLongToast(this,"密码是6-15位的数字、下划线或者大小写字母组成！");
+                    ToastUtil.show(this,"密码是6-15位的数字、下划线或者大小写字母组成！");
                     break;
                 }
                 if(!et_pass.getText().toString().equals(et_passAgain.getText().toString())){
-                    ToastUtil.showLongToast(this,"确认密码错误！");
+                    ToastUtil.show(this,"确认密码错误！");
                     break;
                 }
                 setRegister();
@@ -66,6 +66,6 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
     public void setRegister(){
         String StrPhone = et_phone.getText().toString();
         String strPass = MD5Utils.encode(et_pass.getText().toString());
-        ToastUtil.showShortToast(this,"StrPhone -- "+StrPhone+" ; strPass -- "+strPass);
+        ToastUtil.show(this,"StrPhone -- "+StrPhone+" ; strPass -- "+strPass);
     }
 }

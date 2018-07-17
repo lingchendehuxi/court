@@ -1,90 +1,74 @@
 package com.court.oa.project.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.Gravity;
-import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 /*
  * 全局toast，解决多个toast同时显示
  */
 public class ToastUtil {
-    private static Toast toast;
-    private static View view;
+    public static Toast mToast;
+    /**
+     * 传入文字
+     * */
+    public static void show( Context context , String text){
 
-    private ToastUtil() {
-    }
-
-    @SuppressLint("ShowToast")
-    private static void getToast(Context context) {
-        if (toast == null) {
-            toast = new Toast(context);
+        if (mToast == null){
+            mToast = Toast.makeText( context, text , Toast.LENGTH_SHORT);
+        }else {
+            //如果当前Toast没有消失， 直接显示内容，不需要重新设置
+            mToast.setText(text);
         }
-        if (view == null) {
-            view = Toast.makeText(context, "", Toast.LENGTH_SHORT).getView();
+        mToast.setGravity(Gravity.CENTER , 0 , 0);
+        mToast.show();
+    }
+    /**
+     * 传入资源文件
+     * */
+    public static void show(Context context, int resId){
+        if (mToast == null){
+            mToast = Toast.makeText( context, resId , Toast.LENGTH_SHORT);
+        }else {
+            //如果当前Toast没有消失， 直接显示内容，不需要重新设置
+            mToast.setText(resId);
         }
-        toast.setView(view);
+        mToast.show();
     }
+    /**
+     * 传入文字,在中间显示
+     * */
+    public static void showCenter( Context context , String text){
 
-    public static void showShortToast(Context context, CharSequence msg) {
-        showToast(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
-    }
-
-    public static void showShortToast(Context context, int resId) {
-        showToast(context.getApplicationContext(), resId, Toast.LENGTH_SHORT);
-    }
-
-    public static void showLongToast(Context context, CharSequence msg) {
-        showToast(context.getApplicationContext(), msg, Toast.LENGTH_LONG);
-    }
-
-    public static void showLongToast(Context context, int resId) {
-        showToast(context.getApplicationContext(), resId, Toast.LENGTH_LONG);
-    }
-
-    private static void showToast(Context context, CharSequence msg,
-                                  int duration) {
-        try {
-            getToast(context);
-            toast.setText(msg);
-            toast.setDuration(duration);
-            toast.setGravity(Gravity.CENTER,0,0);
-            toast.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (mToast == null){
+            mToast = Toast.makeText( context, text , Toast.LENGTH_SHORT);
+        }else {
+            //如果当前Toast没有消失， 直接显示内容，不需要重新设置
+            mToast.setText(text);
         }
+        mToast.setGravity(Gravity.CENTER , 0 , 0);
+        mToast.show();
     }
-    public static void showToastGravity(Context context, int msg,
-                                  int duration,int gravity) {
-        try {
-            getToast(context);
-            toast.setText(msg);
-            toast.setDuration(duration);
-            toast.setGravity(gravity,0,0);
-            toast.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    /**
+     * 传入文字，带图片
+     * */
+    public static void showImg( Context context , String text , int resImg){
 
-    private static void showToast(Context context, int resId, int duration) {
-        try {
-            if (resId == 0) {
-                return;
-            }
-            getToast(context);
-            toast.setText(resId);
-            toast.setDuration(duration);
-            toast.setGravity(Gravity.CENTER,0,0);
-            toast.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (mToast == null){
+            mToast = Toast.makeText( context, text , Toast.LENGTH_SHORT);
+        }else {
+            //如果当前Toast没有消失， 直接显示内容，不需要重新设置
+            mToast.setText(text);
         }
+        //添加图片的操作,这里没有设置图片和文字显示在一行的操作呢...
+        LinearLayout view = (LinearLayout) mToast.getView();
+        ImageView imageView = new ImageView(context);
+        imageView.setImageResource(resImg);
+        view.addView(imageView);
+
+        mToast.show();
     }
 }
