@@ -150,7 +150,11 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
         rb_h.setOnCheckedChangeListener(this);
         rb_sang.setOnCheckedChangeListener(this);
         rb_qt.setOnCheckedChangeListener(this);
-        PopupWindow window = new PopupWindow(popupView, 600, 600);
+        WindowManager wm = (WindowManager) this
+                .getSystemService(this.WINDOW_SERVICE);
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+        PopupWindow window = new PopupWindow(popupView,width- 180,height/2);
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = 0.5f;
         getWindow().setAttributes(lp);
