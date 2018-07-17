@@ -1,6 +1,7 @@
 package com.court.oa.project;
 
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +24,8 @@ import com.court.oa.project.fragment.TNotifyFragment;
 import com.court.oa.project.fragment.TMineFragment;
 import com.court.oa.project.fragment.THomeFragment;
 import com.court.oa.project.tool.FitStateUI;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
@@ -169,5 +172,31 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * 在Fragment申请权限无法回调onRequestPermissionsResult方法
+     * 进行处理让它把改事件传递到我们的fragment中
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // 获取到Activity下的Fragment
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments == null)
+        {
+            return;
+        }
+        // 查找在Fragment中onRequestPermissionsResult方法并调用
+        for (Fragment fragment : fragments)
+        {
+            if (fragment != null)
+            {
+                // 这里就会调用我们Fragment中的onRequestPermissionsResult方法
+                fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+        }
+    }
 }
 
