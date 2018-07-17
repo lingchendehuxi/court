@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/configuration"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_bar_first" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="25dp">
+
+            <TextView
+                android:id="@+id/notifyList_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="假期调休通知"
+                android:textColor="@color/home_title_gray"
+                android:textSize="15dp" />
+            <RadioGroup
+                android:id="@+id/radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/home_menu_bg"
+                android:orientation="vertical"
+                android:paddingTop="6dp">
+
+                <RadioButton
+                    android:id="@+id/rb_home"
+                    style="@style/question_chose"
+                    android:drawableTop="@drawable/footer_home_ico"
+                    android:text="首页"
+                    android:textColor="@drawable/footer_home_textcolor" />
+
+                <RadioButton
+                    android:id="@+id/rb_notify"
+                    style="@style/question_chose"
+                    android:drawableTop="@drawable/footer_notify_ico"
+                    android:text="通知"
+                    android:textColor="@drawable/footer_home_textcolor" />
+
+                <RadioButton
+                    android:id="@+id/rb_meet"
+                    style="@style/question_chose"
+                    android:drawableTop="@drawable/footer_meet_ico"
+                    android:text="会议"
+                    android:textColor="@drawable/footer_home_textcolor" />
+
+                <RadioButton
+                    android:id="@+id/rb_card"
+                    style="@style/question_chose"
+                    android:drawableTop="@drawable/footer_card_ico"
+                    android:text="考勤"
+                    android:textColor="@drawable/footer_home_textcolor" />
+
+            </RadioGroup>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>
