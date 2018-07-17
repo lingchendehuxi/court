@@ -22,15 +22,19 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/et_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/register_edit"
             android:hint="请输入手机号"
             android:paddingLeft="20dp"
+            android:inputType="phone"
+            android:maxLength="20"
             android:textColorLink="@color/login_blow_white"
             android:textColorHint="@android:color/white" />
 
         <EditText
+            android:id="@+id/et_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
@@ -38,9 +42,12 @@
             android:textColorLink="@color/login_blow_white"
             android:hint="输入密码"
             android:paddingLeft="20dp"
+            android:maxLength="20"
+            android:inputType="textPassword"
             android:textColorHint="@android:color/white" />
 
         <EditText
+            android:id="@+id/et_passAgain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
@@ -48,6 +55,8 @@
             android:textColorLink="@color/login_blow_white"
             android:hint="确认密码"
             android:paddingLeft="20dp"
+            android:maxLength="20"
+            android:inputType="textPassword"
             android:textColorHint="@android:color/white" />
     </LinearLayout>
 
@@ -59,6 +68,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
