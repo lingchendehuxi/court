@@ -27,6 +27,7 @@ public class MyApplication extends Application {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
+		myApp = this;
 	}
 
 

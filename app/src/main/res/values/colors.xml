@@ -24,4 +24,8 @@
     <color name="hall_little_yellow">#ffc97b</color>
     <color name="chose_date_yellow">#FFC775</color>
     <color name="mine_menu_deepgray">#9aa2a8</color>
+
+    <color name="viewfinder_mask">#b2000000</color>
+    <color name="result_view">#b0000000</color>
+    <color name="font_lake_blue">#06c1ae</color>
 </resources>

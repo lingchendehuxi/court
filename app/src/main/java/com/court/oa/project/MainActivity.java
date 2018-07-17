@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         transaction = manager.beginTransaction();
         hideFragments(transaction);
         switch (checkedId) {
-            case R.id.rb_home:
+            case R.id.rb_home://首页
                 if (tHomeFragment == null) {
                     tHomeFragment = new THomeFragment();
                     transaction.add(R.id.framelayout_main, tHomeFragment);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     transaction.show(tHomeFragment);
                 }
                 break;
-            case R.id.rb_meet:
+            case R.id.rb_meet://会务
                 if (tMeetFragment == null) {
                     tMeetFragment = new TMeetFragment();
                     transaction.add(R.id.framelayout_main, tMeetFragment);
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     transaction.show(tMeetFragment);
                 }
                 break;
-            case R.id.rb_hall:
+            case R.id.rb_hall://食堂
                 if (tHallFragment == null) {
                     tHallFragment = new THallFragment();
                     transaction.add(R.id.framelayout_main, tHallFragment);
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     transaction.show(tHallFragment);
                 }
                 break;
-            case R.id.rb_notify:
+            case R.id.rb_notify://通知
                 if (tNotifyFragment == null) {
                     tNotifyFragment = new TNotifyFragment();
                     transaction.add(R.id.framelayout_main, tNotifyFragment);
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     transaction.show(tNotifyFragment);
                 }
                 break;
-            case R.id.rb_my:
+            case R.id.rb_my://我的
                 if (tMineFragment == null) {
                     tMineFragment = new TMineFragment();
                     transaction.add(R.id.framelayout_main, tMineFragment);
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     transaction.show(tMineFragment);
                 }
                 break;
-            case R.id.rb_card:
+            case R.id.rb_card://考勤
                 if (tCardFragment == null) {
                     tCardFragment = new TCardFragment();
                     transaction.add(R.id.framelayout_main, tCardFragment);

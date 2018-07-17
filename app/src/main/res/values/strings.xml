@@ -8,4 +8,5 @@
     <string name="hello_blank_fragment1">Hello blank fragment1</string>
     <string name="hello_blank_fragment2">Hello blank fragment2</string>
     <string name="title_activity_mine_leave_activity">Mine_leave_activity</string>
+    <string name="scan_text">扫描二维码</string>
 </resources>
