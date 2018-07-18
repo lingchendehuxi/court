@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.court.oa.project.R;
 import com.court.oa.project.application.MyApplication;
 import com.court.oa.project.contants.Contants;
+import com.court.oa.project.contants.HttpNames;
 import com.court.oa.project.okhttp.OkHttpManager;
 import com.court.oa.project.tool.FitStateUI;
 import com.court.oa.project.utils.MD5Utils;
@@ -84,7 +85,7 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
         parameters.put("userName", StrPhone);
         parameters.put("pwd", strPass);
         OkHttpManager.postAsync(
-                "http://114.55.248.239:8089/api/regist", parameters,
+                HttpNames.SERVER_NAME_REGIST, parameters,
                 Register_My_activity.this, null, Contants.REGIST_FOR_USER);
     }
 
@@ -96,12 +97,13 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
     @Override
     public void requestSuccess(String result, String method) throws Exception {
         JSONObject object = new JSONObject(result);
+        Log.d("aaa","Register_My_activity : " + object.toString());
         switch (method) {
             case Contants.REGIST_FOR_USER:
                 if (object.getInt("code") == 1) {
-                    ToastUtil.show(Register_My_activity.this,object.getString("msg"));
                 } else {
                 }
+                ToastUtil.show(Register_My_activity.this,object.getString("msg"));
                 break;
 
             default:

@@ -8,6 +8,8 @@ import android.os.Looper;
 import android.util.Log;
 
 
+import com.court.oa.project.contants.HttpNames;
+
 import org.json.JSONObject;
 
 import java.io.File;
@@ -341,14 +343,14 @@ public class OkHttpManager {
     	if(callBack instanceof Activity){
     		if(HttpUtil.isCheckNet((Activity)callBack)){
     			DailogShow.showWaitDialog((Activity)callBack);
-    			getInstance().inner_postAsync(url, params, callBack,headersParams,method);
+    			getInstance().inner_postAsync(HttpNames.SERVER_ADDRESS + url, params, callBack,headersParams,method);
     		}else{
     			HttpUtil.showToast((Activity)callBack, "请检查网络");
     		}
     	}else{
     		if(HttpUtil.isCheckNet(((android.support.v4.app.Fragment) callBack).getActivity())){
     			DailogShow.showWaitDialog(((android.support.v4.app.Fragment)callBack).getActivity());
-    			getInstance().inner_postAsync(url, params, callBack,headersParams,method);
+    			getInstance().inner_postAsync(HttpNames.SERVER_ADDRESS + url, params, callBack,headersParams,method);
     		}else{
     			HttpUtil.showToast(((android.support.v4.app.Fragment) callBack).getActivity(), "请检查网络");
     		}
