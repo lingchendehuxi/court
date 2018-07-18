@@ -21,7 +21,7 @@
         >
         <CheckBox
             android:id="@+id/rb_home"
-            style="@style/footer"
+            style="@style/card_top"
             android:drawableRight="@drawable/fragment_meet_ico"
             android:background="@color/chose_date_yellow"
             android:text="首页"
@@ -29,14 +29,14 @@
 
         <CheckBox
             android:id="@+id/rb_notify"
-            style="@style/footer"
+            style="@style/card_top"
             android:drawableRight="@drawable/fragment_meet_ico"
             android:text="通知"
             android:textColor="@drawable/footer_home_textcolor" />
 
         <CheckBox
             android:id="@+id/rb_meet"
-            style="@style/footer"
+            style="@style/card_top"
             android:drawableRight="@drawable/fragment_meet_ico"
             android:text="会议"
             android:textColor="@drawable/footer_home_textcolor" />

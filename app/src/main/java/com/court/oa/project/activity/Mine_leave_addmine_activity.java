@@ -154,7 +154,7 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
                 .getSystemService(this.WINDOW_SERVICE);
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
-        PopupWindow window = new PopupWindow(popupView,width- 180,height/2);
+        PopupWindow window = new PopupWindow(popupView,width- 100,height/2+80);
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = 0.5f;
         getWindow().setAttributes(lp);

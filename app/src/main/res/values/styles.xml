@@ -9,7 +9,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
     <style name="footer">
         <item name="android:button">@null</item>
         <item name="android:layout_width">0dp</item>
@@ -18,6 +17,17 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="card_top">
+        <item name="android:button">@null</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">25dp</item>
+    </style>
+
     <style name="question_chose">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -77,11 +87,17 @@
     </style>
 
     <style name="footer_leave_style">
+        <item name="android:button">@null</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:drawableLeft">@drawable/leave_type_ico</item>
+
     </style>
 
     <style name="AppTheme.Main.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
