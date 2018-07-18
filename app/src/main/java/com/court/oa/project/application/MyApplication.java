@@ -10,6 +10,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class MyApplication extends Application {
 
 	private List<Activity> list = new ArrayList<Activity>();
@@ -28,6 +30,8 @@ public class MyApplication extends Application {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		myApp = this;
+		JPushInterface.setDebugMode(true);
+		JPushInterface.init(this);
 	}
 
 
