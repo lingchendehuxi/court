@@ -45,9 +45,19 @@
                 android:layout_weight="1"
                 android:background="@drawable/chose_date_normal_bg"
                 android:layout_marginBottom="1dp"
+                android:layout_marginRight="1dp"
                 android:button="@null"
                 android:gravity="center"
                 android:text="周二" />
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@drawable/chose_date_normal_bg"
+                android:layout_marginBottom="1dp"
+                android:button="@null"
+                android:gravity="center"
+                android:text="周三" />
 
             <CheckBox
                 android:layout_width="0dp"
@@ -58,7 +68,7 @@
                 android:background="@drawable/chose_date_normal_bg"
                 android:button="@null"
                 android:gravity="center"
-                android:text="周三" />
+                android:text="周四" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,7 +83,24 @@
                 android:background="@drawable/chose_date_left_bg"
                 android:button="@null"
                 android:gravity="center"
-                android:text="周四" />
+                android:text="周五" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                android:background="@color/mine_gray"
+                android:gravity="center">
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/chose_date_normal_bg"
+                    android:button="@null"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginRight="1dp"
+                    android:gravity="center"
+                    android:text="周六" />
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -88,9 +115,8 @@
                     android:layout_marginBottom="1dp"
                     android:layout_marginTop="1dp"
                     android:gravity="center"
-                    android:text="周五" />
+                    android:text="周日" />
             </LinearLayout>
-
             <CheckBox
                 android:button="@null"
                 android:layout_width="0dp"
@@ -100,6 +126,7 @@
                 android:layout_weight="1"
                 android:gravity="center" />
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

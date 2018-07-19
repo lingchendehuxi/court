@@ -4,9 +4,7 @@
     style="@style/configuration"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-
-    >
+    android:orientation="vertical">
 
     <include layout="@layout/title_bar_first" />
 
@@ -38,6 +36,7 @@
                     android:text="群众路线专题会"
                     android:textColor="@color/home_title_gray"
                     android:textSize="18dp" />
+
                 <TextView
                     android:id="@+id/meetList_context"
                     android:layout_width="wrap_content"
@@ -101,11 +100,49 @@
                         android:textSize="14dp" />
                 </LinearLayout>
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="142dp"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/example" />
+                    android:layout_height="59dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/font_lake_blue"
+                    android:id="@+id/ll_open_text">
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@mipmap/mine"
+                        android:layout_marginLeft="12dp"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="12dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="关于如何开展相关活动中"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:maxLength="10"
+                            android:ellipsize="end"
+                            />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="12.5M"
+                            android:maxLength="10"
+                            android:ellipsize="end"/>
+
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="附件"
+                        android:layout_marginRight="20dp"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"

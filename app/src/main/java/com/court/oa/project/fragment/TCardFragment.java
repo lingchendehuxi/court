@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.court.oa.project.R;
 import com.court.oa.project.activity.Meet_Detail_activity;
+import com.court.oa.project.adapter.TCardAdapter;
 import com.court.oa.project.adapter.TMeetAdapter;
 import com.court.oa.project.tool.RefreshLayout;
 
@@ -25,19 +26,61 @@ public class TCardFragment extends Fragment implements RefreshLayout.OnLoadListe
     private RefreshLayout swipeLayout;
     private ArrayList list;
     private ListView listView;
-    private TMeetAdapter adapter;
+    private TCardAdapter adapter;
+    private CheckBox cb_part,cb_person,cb_time;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (View) inflater.inflate(R.layout.tcardfragment, null);
         initView();
-        setData();
-        setListener();
         return view;
     }
 
     private void initView() {
         swipeLayout = (RefreshLayout) view.findViewById(R.id.swipe_container);
+        cb_part = view.findViewById(R.id.cb_part);
+        cb_person = view.findViewById(R.id.cb_person);
+        cb_time = view.findViewById(R.id.cb_time);
+        cb_part.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    setPartData();
+                    swipeLayout.setOnLoadListener(null);
+                    listView.setVisibility(View.VISIBLE);
+                }else{
+                    listView.setVisibility(View.INVISIBLE);
+                    isShow();
+                }
+            }
+        });
+        cb_person.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    setPersonData();
+                    swipeLayout.setOnLoadListener(null);
+                    listView.setVisibility(View.VISIBLE);
+                }else{
+                    listView.setVisibility(View.INVISIBLE);
+                    isShow();
+                }
+            }
+        });
+        cb_time.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    setTimeData();
+                    swipeLayout.setOnLoadListener(null);
+                    listView.setVisibility(View.VISIBLE);
+                }else{
+                    listView.setVisibility(View.INVISIBLE);
+                    isShow();
+                }
+            }
+        });
     }
 
     /**
@@ -45,14 +88,14 @@ public class TCardFragment extends Fragment implements RefreshLayout.OnLoadListe
      */
     private void setData() {
         list = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 5; i++) {
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("itemImage", i + "默认");
-            map.put("itemText", i + "默认");
+            map.put("itemImage", i + "数据");
+            map.put("itemText", i + "数据");
             list.add(map);
         }
         listView = (ListView) view.findViewById(R.id.list);
-        adapter = new TMeetAdapter(getActivity(), list);
+        adapter = new TCardAdapter(getActivity(), list,2);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,7 +104,90 @@ public class TCardFragment extends Fragment implements RefreshLayout.OnLoadListe
                 getActivity().startActivity(intent);
             }
         });
+        setListener();
     }
+    /**
+     * 添加部门数据
+     */
+    private void setPartData() {
+        list = new ArrayList<HashMap<String, String>>();
+        for (int i = 0; i < 1; i++) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("itemImage", i + "默认");
+            map.put("itemText", i + "默认");
+            list.add(map);
+        }
+        listView = (ListView) view.findViewById(R.id.list);
+        adapter = new TCardAdapter(getActivity(), list,1);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                HashMap<String,String> map = (HashMap<String, String>) list.get(i);
+                cb_part.setText(map.get("itemImage"));
+                listView.setVisibility(View.INVISIBLE);
+                cb_part.setChecked(false);
+            }
+        });
+    }
+    /**
+     * 添加人员数据
+     */
+    private void setPersonData() {
+        list = new ArrayList<HashMap<String, String>>();
+        for (int i = 0; i < 1; i++) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("itemImage", i + "默认");
+            map.put("itemText", i + "默认");
+            list.add(map);
+        }
+        listView = (ListView) view.findViewById(R.id.list);
+        adapter = new TCardAdapter(getActivity(), list,1);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                HashMap<String,String> map = (HashMap<String, String>) list.get(i);
+                cb_person.setText(map.get("itemImage"));
+                listView.setVisibility(View.INVISIBLE);
+                cb_person.setChecked(false);
+            }
+        });
+    }
+    /**
+     * 添加时间数据
+     */
+    private void setTimeData() {
+        list = new ArrayList<HashMap<String, String>>();
+        for (int i = 0; i < 1; i++) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("itemImage", i + "默认");
+            map.put("itemText", i + "默认");
+            list.add(map);
+        }
+        listView = (ListView) view.findViewById(R.id.list);
+        adapter = new TCardAdapter(getActivity(), list,1);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                HashMap<String,String> map = (HashMap<String, String>) list.get(i);
+                cb_time.setText(map.get("itemImage"));
+                listView.setVisibility(View.INVISIBLE);
+                cb_time.setChecked(false);
+            }
+        });
+    }
+    //设置检查是否三个选项全选中
+    private void isShow(){
+        if("部门".equals(cb_part.getText().toString())||
+                "人员".equals(cb_person.getText().toString())||"时间".equals(cb_time.getText().toString())){
+            return;
+        }
+        setData();
+        listView.setVisibility(View.VISIBLE);
+    }
+
 
     /**
      * 设置监听

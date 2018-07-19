@@ -25,20 +25,32 @@
             android:textColor="@color/home_title_gray"
             android:text="假期调休通知"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_person"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginLeft="17dp"
             android:textSize="13dp"
             android:textColor="@color/home_title_gray"
             android:text="李嘉诚"/>
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:textSize="13dp"
             android:textColor="@color/notify_context_gray"
             android:text="16：45"/>
+        <TextView
+            android:id="@+id/tv_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="13dp"
+            android:textColor="@android:color/white"
+            android:background="@mipmap/person_number"
+            android:visibility="gone"
+            android:text="问卷"/>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"

@@ -265,6 +265,9 @@
         <activity android:name=".activity.Login_My_activity"
             android:theme="@style/AppTheme.Main"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.Notify_question_result_activity"
+            android:theme="@style/AppTheme.Main"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MipcaActivityCapture"
             android:configChanges="orientation|keyboardHidden"

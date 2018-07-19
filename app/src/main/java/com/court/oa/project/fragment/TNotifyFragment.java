@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.court.oa.project.R;
 import com.court.oa.project.activity.Meet_Detail_activity;
 import com.court.oa.project.activity.Notify_Detail_activity;
+import com.court.oa.project.activity.Notify_question_result_activity;
 import com.court.oa.project.adapter.TMeetAdapter;
 import com.court.oa.project.adapter.TNotifyAdapter;
 import com.court.oa.project.tool.RefreshLayout;
@@ -61,16 +62,29 @@ public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadLis
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("itemImage", i + "默认");
 			map.put("itemText", i + "默认");
+			map.put("isQustion", "0");
 			list.add(map);
 		}
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("itemImage", "默认");
+		map.put("itemText", "默认");
+		map.put("isQustion", "1");
+		list.add(map);
+
 		listView = (ListView) view.findViewById(R.id.list);
 		adapter = new TNotifyAdapter(getActivity(), list);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				Intent intent = new Intent(getActivity(), Notify_Detail_activity.class);
-				getActivity().startActivity(intent);
+				HashMap<String,String> hashMap = (HashMap<String, String>) list.get(i);
+				if("0".equals(hashMap.get("isQustion"))){
+					Intent intent = new Intent(getActivity(), Notify_Detail_activity.class);
+					getActivity().startActivity(intent);
+				}else {
+					Intent intent = new Intent(getActivity(), Notify_question_result_activity.class);
+					getActivity().startActivity(intent);
+				}
 			}
 		});
 	}
