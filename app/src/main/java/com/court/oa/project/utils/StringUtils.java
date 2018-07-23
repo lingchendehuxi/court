@@ -1,5 +1,8 @@
 package com.court.oa.project.utils;
 
+import android.content.Context;
+import android.text.TextUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,6 +10,32 @@ import java.util.regex.Pattern;
  * 字符串辅助类
  */
 public class StringUtils {
+
+    /**判断手机号*/
+    public static String isMobile(Context context, String string){
+        if(TextUtils.isEmpty(string)){
+            ToastUtil.getShortToastByString(context,"请输入手机号！");
+            return "";
+        }else if(string.length()!=11){
+            ToastUtil.getShortToastByString(context,"请输入正确手机号！");
+            return "";
+        }else{
+            return string;
+        }
+    }
+
+    /**判断验证码*/
+    public static String isCode(Context context,String code,String toCode){
+        if(TextUtils.isEmpty(code)){
+            ToastUtil.getShortToastByString(context,"请输入验证码！");
+            return "";
+        }else if(code.length()!=4 || !code.equals(toCode)){
+            ToastUtil.getShortToastByString(context,"请输入正确验证码！");
+            return "";
+        }else {
+            return code;
+        }
+    }
 
     // 设置字符串null为""
     public static String checkNull(String str) {

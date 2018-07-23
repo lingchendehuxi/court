@@ -7,8 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-
-import com.court.oa.project.contants.HttpNames;
+import com.court.oa.project.contants.Contants;
 
 import org.json.JSONObject;
 
@@ -200,7 +199,7 @@ public class OkHttpManager {
      * @param callBack
      */
     public static void getAsync(String url, DataCallBack callBack,Map<String, String> headersParams,String method) {
-        getInstance().inner_getAsync(url, callBack,headersParams,method);
+        getInstance().inner_getAsync(Contants.SERVER_ADDRESS+url, callBack,headersParams,method);
     }
 
     /**
@@ -343,14 +342,14 @@ public class OkHttpManager {
     	if(callBack instanceof Activity){
     		if(HttpUtil.isCheckNet((Activity)callBack)){
     			DailogShow.showWaitDialog((Activity)callBack);
-    			getInstance().inner_postAsync(HttpNames.SERVER_ADDRESS + url, params, callBack,headersParams,method);
+    			getInstance().inner_postAsync(Contants.SERVER_ADDRESS + url, params, callBack,headersParams,method);
     		}else{
     			HttpUtil.showToast((Activity)callBack, "请检查网络");
     		}
     	}else{
     		if(HttpUtil.isCheckNet(((android.support.v4.app.Fragment) callBack).getActivity())){
     			DailogShow.showWaitDialog(((android.support.v4.app.Fragment)callBack).getActivity());
-    			getInstance().inner_postAsync(HttpNames.SERVER_ADDRESS + url, params, callBack,headersParams,method);
+    			getInstance().inner_postAsync(Contants.SERVER_ADDRESS + url, params, callBack,headersParams,method);
     		}else{
     			HttpUtil.showToast(((android.support.v4.app.Fragment) callBack).getActivity(), "请检查网络");
     		}

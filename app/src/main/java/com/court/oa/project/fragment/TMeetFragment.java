@@ -25,17 +25,30 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.court.oa.project.MainActivity;
 import com.court.oa.project.R;
 import com.court.oa.project.activity.Meet_Detail_activity;
 import com.court.oa.project.activity.MipcaActivityCapture;
+import com.court.oa.project.activity.Register_My_activity;
 import com.court.oa.project.adapter.TMeetAdapter;
+import com.court.oa.project.contants.Contants;
+import com.court.oa.project.okhttp.OkHttpManager;
+import com.court.oa.project.save.ParseUser;
+import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.RefreshLayout;
+import com.court.oa.project.utils.MD5Utils;
+import com.court.oa.project.utils.ToastUtil;
 import com.court.oa.project.utils.Utils;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener ,View.OnClickListener{
+import okhttp3.Request;
+
+public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener ,View.OnClickListener,OkHttpManager.DataCallBack{
     private View view;
     private RefreshLayout swipeLayout;
     private ArrayList list;
@@ -61,7 +74,38 @@ public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListe
         CheckBox cb_set = view.findViewById(R.id.cb_set);
         swipeLayout = (RefreshLayout) view.findViewById(R.id.swipe_container);
         iv_scaner = view.findViewById(R.id.iv_scaner);
+        initMeetDate();
 
+    }
+    private void initMeetDate(){
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("order", "");
+        parameters.put("pageIndex", "1");
+        parameters.put("pageSize", "10");
+        OkHttpManager.postAsync(
+                Contants.MEETING_LIST, parameters,
+                this, null, Contants.MEETING_LIST);
+    }
+    @Override
+    public void requestFailure(Request request, IOException e, String method) {
+        ToastUtil.getShortToastByString(getActivity(),
+                getString(R.string.networkRequst_resultFailed));
+    }
+
+    @Override
+    public void requestSuccess(String result, String method) throws Exception {
+        JSONObject object = new JSONObject(result);
+        switch (method) {
+            case Contants.MEETING_LIST:
+                ToastUtil.show(getContext(),object.getString("msg"));
+                if (object.getInt("code") == 1) {
+                }
+
+                break;
+
+            default:
+                break;
+        }
     }
 
     /**

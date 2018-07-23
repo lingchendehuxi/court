@@ -27,7 +27,7 @@
             android:background="@mipmap/register_edit"
             android:hint="账号"
             android:paddingLeft="20dp"
-            android:maxLength="20"
+            android:maxLength="11"
             android:inputType="phone"
             android:textColorLink="@color/login_blow_white"
             android:textColorHint="@android:color/white" />

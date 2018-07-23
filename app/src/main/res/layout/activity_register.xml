@@ -25,13 +25,16 @@
             android:id="@+id/et_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:background="@mipmap/register_edit"
+            android:gravity="center_vertical"
             android:hint="请输入手机号"
-            android:paddingLeft="20dp"
             android:inputType="phone"
-            android:maxLength="20"
-            android:textColorLink="@color/login_blow_white"
-            android:textColorHint="@android:color/white" />
+            android:maxLength="11"
+            android:paddingLeft="20dp"
+            android:singleLine="true"
+            android:textColorHint="@android:color/white"
+            android:textColorLink="@color/login_blow_white" />
 
         <EditText
             android:id="@+id/et_pass"
@@ -39,12 +42,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
             android:background="@mipmap/register_edit"
-            android:textColorLink="@color/login_blow_white"
             android:hint="输入密码"
-            android:paddingLeft="20dp"
-            android:maxLength="20"
             android:inputType="textPassword"
-            android:textColorHint="@android:color/white" />
+            android:maxLength="20"
+            android:paddingLeft="20dp"
+            android:textColorHint="@android:color/white"
+            android:textColorLink="@color/login_blow_white" />
 
         <EditText
             android:id="@+id/et_passAgain"
@@ -52,12 +55,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
             android:background="@mipmap/register_edit"
-            android:textColorLink="@color/login_blow_white"
             android:hint="确认密码"
-            android:paddingLeft="20dp"
-            android:maxLength="20"
             android:inputType="textPassword"
-            android:textColorHint="@android:color/white" />
+            android:maxLength="20"
+            android:paddingLeft="20dp"
+            android:textColorHint="@android:color/white"
+            android:textColorLink="@color/login_blow_white" />
     </LinearLayout>
 
     <LinearLayout

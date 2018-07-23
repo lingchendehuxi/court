@@ -71,4 +71,55 @@ public class ToastUtil {
 
         mToast.show();
     }
+
+    public static void getShortToast(Context context,int retId){
+        if (mToast == null) {
+            mToast = Toast.makeText(context, retId, Toast.LENGTH_SHORT);
+        } else {
+            mToast.setText(retId);
+            mToast.setDuration(Toast.LENGTH_SHORT);
+        }
+
+
+        mToast.show();
+    }
+
+
+    public static void getShortToastByString(Context context,String hint){
+        if (mToast == null) {
+            mToast = Toast.makeText(context, hint, Toast.LENGTH_SHORT);
+        } else {
+            mToast.setText(hint);
+            mToast.setDuration(Toast.LENGTH_SHORT);
+        }
+
+
+        mToast.show();
+    }
+
+
+    public static void getLongToast(Context context,int retId){
+        if (mToast == null) {
+            mToast = Toast.makeText(context, retId, Toast.LENGTH_LONG);
+        } else {
+            mToast.setText(retId);
+            mToast.setDuration(Toast.LENGTH_LONG);
+        }
+
+
+        mToast.show();
+    }
+
+
+    public static void getLongToastByString(Context context,String hint){
+        if (mToast == null) {
+            mToast = Toast.makeText(context, hint, Toast.LENGTH_LONG);
+        } else {
+            mToast.setText(hint);
+            mToast.setDuration(Toast.LENGTH_LONG);
+        }
+
+
+        mToast.show();
+    }
 }

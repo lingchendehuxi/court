@@ -12,11 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.court.oa.project.MainActivity;
 import com.court.oa.project.R;
 import com.court.oa.project.application.MyApplication;
 import com.court.oa.project.contants.Contants;
-import com.court.oa.project.contants.HttpNames;
 import com.court.oa.project.okhttp.OkHttpManager;
+import com.court.oa.project.save.ParseUser;
+import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.FitStateUI;
 import com.court.oa.project.utils.MD5Utils;
 import com.court.oa.project.utils.StringUtils;
@@ -55,12 +57,11 @@ public class Login_My_activity extends AppCompatActivity implements View.OnClick
     private void initLogin(){
         String mobile = et_account.getText().toString().trim();
         String pass = MD5Utils.encode(et_password.getText().toString().trim());
-        HashMap<String, String> headers = new HashMap<>();
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("userName", mobile);
         parameters.put("pwd", pass);
         OkHttpManager.postAsync(
-                HttpNames.SERVER_NAME_LOGIN, parameters,
+                Contants.LOGIN_FOR_PWD, parameters,
                 Login_My_activity.this, null, Contants.LOGIN_FOR_PWD);
     }
 
@@ -93,20 +94,22 @@ public class Login_My_activity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void requestFailure(Request request, IOException e, String method) {
-
+        ToastUtil.getShortToastByString(Login_My_activity.this,
+                getString(R.string.networkRequst_resultFailed));
     }
 
     @Override
     public void requestSuccess(String result, String method) throws Exception {
         JSONObject object = new JSONObject(result);
-        Log.d("aaa","Register_My_activity : " + object.toString());
         switch (method) {
             case Contants.LOGIN_FOR_PWD:
-                if (object.getInt("code") == 1) {
-                } else if (object.getInt("code") == -1) {
-                }
                 ToastUtil.show(Login_My_activity.this,object.getString("msg"));
-                break;
+                if (object.getInt("code") == 1) {
+                    ParseUser.saveUser(object, this);
+                    SharePreferenceUtils.saveUserString("login", "yes", Login_My_activity.this);
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                }
 
             default:
                 break;
