@@ -29,7 +29,7 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
     private LinearLayout ll_showPop,ll_begin,ll_end;
     private RadioGroup radio1,radio2,radio3;
     private RadioButton rb_b,rb_s,rb_tq,rb_c,rb_hl,rb_h,rb_sang,rb_qt;
-    private TextView tv_begin,tv_end;
+    private TextView tv_begin,tv_end,tv_owner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +57,11 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
         ll_showPop = findViewById(R.id.ll_showPop);
         tv_begin = findViewById(R.id.tv_begin);
         tv_end = findViewById(R.id.tv_end);
+        tv_owner = findViewById(R.id.tv_owner);
         ll_showPop.setOnClickListener(this);
         ll_begin.setOnClickListener(this);
         ll_end.setOnClickListener(this);
+        tv_owner.setOnClickListener(this);
     }
 
     @Override
@@ -137,6 +139,9 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
                     DatePickerDialog dialog=new DatePickerDialog(Mine_leave_addmine_activity.this, 0,listener,year,month,day);//后边三个参数为显示dialog时默认的日期，月份从0开始，0-11对应1-12个月
                     dialog.show();
                 }
+                break;
+            case R.id.tv_owner:
+                startActivity(new Intent(this,Mine_leave_chose_activity.class));
                 break;
         }
     }
