@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.court.oa.project.MainActivity;
 import com.court.oa.project.R;
 import com.court.oa.project.application.MyApplication;
+import com.court.oa.project.bean.UserBean;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.okhttp.OkHttpManager;
 import com.court.oa.project.save.ParseUser;
@@ -24,6 +25,8 @@ import com.court.oa.project.utils.MD5Utils;
 import com.court.oa.project.utils.StringUtils;
 import com.court.oa.project.utils.ToastUtil;
 import com.court.oa.project.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
@@ -101,8 +104,18 @@ public class Login_My_activity extends AppCompatActivity implements View.OnClick
     @Override
     public void requestSuccess(String result, String method) throws Exception {
         JSONObject object = new JSONObject(result);
+        String jsonObj = object.getString("data");
         switch (method) {
             case Contants.LOGIN_FOR_PWD:
+                Gson gson = new Gson();
+                UserBean userBean = gson.fromJson(jsonObj,new TypeToken<UserBean>() {
+                }.getType());
+                Log.d("liuhong","userId : " + userBean.getUserId());
+                Log.d("liuhong","role : " + userBean.getRole());
+                Log.d("liuhong","appToken : " + userBean.getAppToken());
+                Log.d("liuhong","realName : " + userBean.getRealName());
+                Log.d("liuhong","duty : " + userBean.getDuty());
+                Log.d("liuhong","iconUrl : " + userBean.getIconUrl());
                 ToastUtil.show(Login_My_activity.this,object.getString("msg"));
                 if (object.getInt("code") == 1) {
                     ParseUser.saveUser(object, this);
