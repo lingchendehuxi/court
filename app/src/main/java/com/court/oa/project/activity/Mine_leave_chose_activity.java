@@ -22,6 +22,7 @@ import com.court.oa.project.utils.ToastUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -84,7 +85,7 @@ public class Mine_leave_chose_activity extends AppCompatActivity implements View
         if (object.getInt("code") == 1) {
             String jsonObj1 = object.getString("data");
             switch (method) {
-                case Contants.MEETING_DETAIL:
+                case Contants.LEAVE_USERLIST:
                     Gson gson = new Gson();
                     listDept = gson.fromJson(jsonObj1, new TypeToken<List<DeptBean>>() {
                     }.getType());
