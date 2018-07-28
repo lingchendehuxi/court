@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.bean.MeetMainBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,11 +18,11 @@ import java.util.HashMap;
  */
 
 public class TMeetAdapter extends BaseAdapter {
-    public ArrayList<HashMap<String, String>> list;
+    public ArrayList<MeetMainBean> list;
     public Context context;
     public LayoutInflater layoutInflater;
 
-    public TMeetAdapter(Context context, ArrayList<HashMap<String, String>> list) {
+    public TMeetAdapter(Context context, ArrayList<MeetMainBean> list) {
         this.context = context;
         this.list = list;
         layoutInflater = LayoutInflater.from(context);
@@ -49,19 +50,34 @@ public class TMeetAdapter extends BaseAdapter {
         if (convertView == null) {
             view = layoutInflater.inflate(R.layout.fragment_meet_listitem, null);
             holder = new ViewHolder();
-            holder.txt  =(TextView) view.findViewById(R.id.meetList_title);
+            holder.meetList_title  = view.findViewById(R.id.meetList_title);
+            holder.meetList_context  = view.findViewById(R.id.meetList_context);
+            holder.meetList_time  = view.findViewById(R.id.meetList_time);
+            holder.meetList_address  = view.findViewById(R.id.meetList_address);
+            holder.meetList_start  = view.findViewById(R.id.meetList_start);
+            holder.meetList_end  = view.findViewById(R.id.meetList_end);
             view.setTag(holder);
         } else {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
-        holder.txt.setText(list.get(position).get("itemText"));
+        MeetMainBean bean = list.get(position);
+        holder.meetList_title.setText(bean.getTitle());
+        holder.meetList_context.setText(bean.getJoinUsers());
+        holder.meetList_time.setText("时间: "+bean.getStartTime());
+        holder.meetList_address.setText("地点： "+bean.getAddress());
+        holder.meetList_start.setText(bean.getJoinStartTime()+"报名");
+        holder.meetList_end.setText(bean.getJoinEndTime()+"截止");
         return view;
     }
 
-    static class ViewHolder {
-
-        TextView txt;
+    class ViewHolder {
+        TextView meetList_title;
+        TextView meetList_context;
+        TextView meetList_time;
+        TextView meetList_address;
+        TextView meetList_start;
+        TextView meetList_end;
     }
 
 }

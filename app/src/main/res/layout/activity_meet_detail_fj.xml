@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/configuration"
+    android:layout_width="match_parent"
+    android:layout_height="59dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@color/font_lake_blue"
+    android:id="@+id/ll_open_text">
+    <ImageView
+        android:id="@+id/fj_img"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@mipmap/mine"
+        android:layout_marginLeft="12dp"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="12dp">
+        <TextView
+            android:id="@+id/fj_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="关于如何开展相关活动中"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/fj_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="12.5M"
+            android:maxLength="10"
+            android:ellipsize="end"/>
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_openfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="附件"
+        android:layout_marginRight="20dp"/>
+
+</LinearLayout>

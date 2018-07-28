@@ -28,17 +28,17 @@
                 android:paddingTop="23dp">
 
                 <TextView
-                    android:id="@+id/meet_title"
+                    android:id="@+id/leave_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="18dp"
                     android:layout_weight="1"
-                    android:text="群众路线专题会"
+                    android:text="lisiqi"
                     android:textColor="@color/home_title_gray"
                     android:textSize="18dp" />
 
                 <TextView
-                    android:id="@+id/meet_join"
+                    android:id="@+id/leave_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="11dp"
@@ -47,23 +47,17 @@
                     android:textColor="@color/home_title_gray"
                     android:textSize="18dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/leave_time"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="11dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/meet_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="时间： 2019.09.13  15：00"
-                        android:textColor="@color/meet_time_gray"
-                        android:textSize="14dp" />
-                </LinearLayout>
+                    android:text="时间： 2019.09.13  15：00"
+                    android:textColor="@color/meet_time_gray"
+                    android:textSize="14dp" />
 
                 <TextView
-                    android:id="@+id/meet_address"
+                    android:id="@+id/leave_reason"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="时间： 2019.09.13  15：00"
@@ -76,48 +70,43 @@
                     android:layout_marginTop="14dp"
                     android:background="@color/mine_gray" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/leave_apply"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="17dp"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"
-                    android:layout_marginTop="13dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/meet_start"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="03.20报名"
-                        android:textColor="@color/meet_time_gray"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:id="@+id/meet_end"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="03.30截至"
-                        android:textColor="@color/meet_time_gray"
-                        android:textSize="14dp" />
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/listView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@null"
-                    android:scrollbars="none"/>
+                    android:layout_marginBottom="11dp"
+                    android:layout_marginTop="11dp"
+                    android:text="审批人"
+                    android:textColor="@color/meet_time_gray"
+                    android:textSize="14dp" />
 
                 <TextView
-                    android:id="@+id/meet_context"
-                    android:layout_width="match_parent"
+                    android:id="@+id/leave_add"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="中共中央中共中央中共中央中共中央中共中央中共中央中共中央中共中央中共中央"
-                    android:textColor="@color/home_content_gray"
-                    android:textSize="15dp" />
+                    android:layout_marginBottom="20dp"
+                    android:text="抄送人"
+                    android:textColor="@color/meet_time_gray"
+                    android:textSize="14dp" />
+                <EditText
+                    android:id="@+id/leave_and"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/shape_corners_radius_5"
+                    android:gravity="left"
+                    android:maxLines="4"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="5dp"
+                    android:hint="添加批注"
+                    android:textColor="@android:color/black"
+                    android:textSize="13.0dp" />
+
             </LinearLayout>
 
         </ScrollView>
@@ -129,7 +118,7 @@
             android:layout_gravity="bottom"
             android:background="@color/theme_color"
             android:gravity="center"
-            android:text="参加会议"
+            android:text="批准"
             android:textColor="@android:color/white"
             android:textSize="21dp" />
     </FrameLayout>

@@ -40,4 +40,5 @@ dependencies {
     implementation files('libs/core.jar')
     implementation files('libs/gson-2.8.2.jar')
     implementation files('libs/jcore-android-1.2.1.jar')
+    implementation files('libs/picasso-2.5.2.jar')
 }
