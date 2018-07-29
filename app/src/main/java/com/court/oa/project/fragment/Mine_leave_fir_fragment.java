@@ -44,7 +44,7 @@ public class Mine_leave_fir_fragment extends Fragment implements RefreshLayout.O
     private ListView listView;
     private TMine_Question_fir_Adapter adapter;
     private int page = 1;
-    private int type = 0;
+    private int type = 1;
     private ArrayList<LeaveListBean> listLeave;
 
     @Override

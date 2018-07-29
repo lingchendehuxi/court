@@ -89,7 +89,7 @@
                     android:textColor="@color/meet_time_gray"
                     android:textSize="14dp" />
                 <EditText
-                    android:id="@+id/leave_and"
+                    android:id="@+id/leave_edit"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginBottom="6dp"
@@ -112,7 +112,7 @@
         </ScrollView>
 
         <TextView
-            android:id="@+id/tv_take"
+            android:id="@+id/tv_pass"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_gravity="bottom"

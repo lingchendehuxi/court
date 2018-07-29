@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.court.oa.project.R;
 import com.court.oa.project.adapter.TMeeFJAdapter;
 import com.court.oa.project.application.MyApplication;
+import com.court.oa.project.bean.LeaveDetailBean;
+import com.court.oa.project.bean.LeaveListBean;
 import com.court.oa.project.bean.MeetFileBean;
 import com.court.oa.project.bean.MeetMainDetailBean;
 import com.court.oa.project.contants.Contants;
@@ -46,12 +48,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.Request;
 
 public class Leave_apply_activity extends AppCompatActivity implements View.OnClickListener,OkHttpManager.DataCallBack {
-    private TextView leave_name,leave_reason,leave_time,leave_type,leave_apply,leave_add,tv_take;
-    private EditText leave_and;
+    private TextView leave_name,leave_reason,leave_time,leave_type,leave_apply,leave_add,tv_pass;
+    private EditText leave_edit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +63,9 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
         FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_leave_apply);
         initView();
-        initMeetDate();
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
+        leaveDetail(id);
     }
     private void initView(){
         ImageView iv_back = findViewById(R.id.iv_back);
@@ -71,29 +76,30 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
         iv_set.setVisibility(View.INVISIBLE);
-        tv_take = findViewById(R.id.tv_take);
-        tv_take.setOnClickListener(this);
+        tv_pass = findViewById(R.id.tv_pass);
         leave_name = findViewById(R.id.leave_name);
         leave_reason = findViewById(R.id.leave_reason);
         leave_time = findViewById(R.id.leave_time);
         leave_type = findViewById(R.id.leave_type);
         leave_apply = findViewById(R.id.leave_apply);
         leave_add = findViewById(R.id.leave_add);
+        leave_edit = findViewById(R.id.leave_edit);
 
     }
-    private void initMeetDate() {
+    private void leaveDetail(String id) {
         HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("id", id);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
-                Contants.MEETING_DETAIL, parameters,
-                this, null, Contants.MEETING_DETAIL);
+                Contants.LEAVE_DETAIL, parameters,
+                this, null, Contants.LEAVE_DETAIL);
     }
-    private void meetTakePartIn() {
+    private void leavePass() {
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
-                Contants.MEETING_SIGNUP, parameters,
-                this, null, Contants.MEETING_SIGNUP);
+                Contants.LEAVE_APPLYER, parameters,
+                this, null, Contants.LEAVE_APPLYER);
     }
     @Override
     public void requestFailure(Request request, IOException e, String method) {
@@ -107,11 +113,27 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
         if (object.getInt("code") == 1) {
             String jsonObj1 = object.getString("data");
             switch (method) {
-                case Contants.MEETING_DETAIL:
-                    Gson gson = new Gson();
-                    break;
-                case Contants.MEETING_SIGNUP:
+                case Contants.LEAVE_APPLYER:
                     ToastUtil.show(Leave_apply_activity.this,object.getString("msg"));
+                    break;
+                case Contants.LEAVE_DETAIL:
+                    Gson gson = new Gson();
+                    LeaveDetailBean bean = gson.fromJson(jsonObj1, new TypeToken<LeaveDetailBean>() {
+                    }.getType());
+                    leave_name.setText(bean.getApplyUser());
+                    leave_type.setText("原因: "+bean.getType());
+                    leave_time.setText("时间: "+bean.getStartTime() +" - "+bean.getEndTime());
+                    leave_reason.setText("理由: "+bean.getReason());
+                    leave_apply.setText("审批人: "+bean.getAuditUser());
+                    leave_add.setText("抄送人:"+bean.getCopyUsser());
+                    leave_edit.setVisibility(View.INVISIBLE);
+                    if ("0".equals(bean.getStatus())){
+                        tv_pass.setText("待审批");
+                    }else if("1".equals(bean.getStatus())){
+                        tv_pass.setText("审批通过");
+                    }else if("2".equals(bean.getStatus())){
+                        tv_pass.setText("审批不通过");
+                    }
                     break;
 
                 default:
@@ -127,12 +149,6 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
             case R.id.iv_back:
                 this.finish();
             break;
-            /*case R.id.ll_open_text:
-
-                break;*/
-            case R.id.tv_take:
-                meetTakePartIn();
-                break;
         }
     }
 }

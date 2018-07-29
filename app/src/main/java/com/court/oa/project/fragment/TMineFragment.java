@@ -4,6 +4,7 @@ package com.court.oa.project.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,13 @@ import com.court.oa.project.activity.Mine_Menu_activity;
 import com.court.oa.project.activity.Mine_leave_activity;
 import com.court.oa.project.activity.Mine_question_activity;
 import com.court.oa.project.activity.Mine_set_acitivity;
+import com.court.oa.project.save.SharePreferenceUtils;
+import com.squareup.picasso.Picasso;
 
 public class TMineFragment extends Fragment implements View.OnClickListener {
     private View view;
+    private ImageView mine_pic;
+    private TextView mine_name,mine_job;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +51,16 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
         mine_leave.setOnClickListener(this);
         TextView mine_tel = view.findViewById(R.id.mine_tel);
         mine_tel.setOnClickListener(this);
+        mine_name = view.findViewById(R.id.mine_name);
+        mine_job = view.findViewById(R.id.mine_job);
+        mine_pic = view.findViewById(R.id.mine_pic);
+        mine_name.setText(SharePreferenceUtils.readUser("realName",getActivity()));
+        mine_job.setText(SharePreferenceUtils.readUser("duty",getActivity()));
+        if(SharePreferenceUtils.readUser("iconUrl",getActivity())!=null && !TextUtils.isEmpty(SharePreferenceUtils.readUser("iconUrl",getActivity()))){
+            Picasso.with(getActivity()).load(SharePreferenceUtils.readUser("iconUrl",getActivity())).placeholder(R.mipmap.mine)
+                    .error(R.mipmap.mine).into(mine_pic);
+        }
+
     }
 
     @Override

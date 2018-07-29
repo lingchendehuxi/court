@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/configuration"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/meet_padding">
+
+    <CheckBox
+        android:id="@+id/cb_select"
+        style="@style/leaveuser_top"
+        android:drawableLeft="@drawable/leave_user_ico"
+        android:drawablePadding="20dp"
+        android:text="领导"
+        android:textColor="@android:color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/mine_menu_deepgray" />
+</LinearLayout>

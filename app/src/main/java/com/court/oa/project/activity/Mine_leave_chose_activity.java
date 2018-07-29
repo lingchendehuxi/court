@@ -1,10 +1,15 @@
 package com.court.oa.project.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,9 +37,14 @@ import java.util.List;
 
 import okhttp3.Request;
 
-public class Mine_leave_chose_activity extends AppCompatActivity implements View.OnClickListener ,OkHttpManager.DataCallBack{
+public class Mine_leave_chose_activity extends AppCompatActivity implements View.OnClickListener, OkHttpManager.DataCallBack {
     private ListView listView;
     private ArrayList<DeptBean> listDept;
+    private int type;
+    private EditText et_reason;
+    private ArrayList<String> ListUser = new ArrayList<>();
+    private TextView tv_userconfirm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +53,15 @@ public class Mine_leave_chose_activity extends AppCompatActivity implements View
         FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_mine_leave_chose_top);
         initView();
-        initDeptDate();
+        initDeptDate("");
     }
+    public void setListUser(ArrayList<String> list){
+        ListUser = list;
+    }
+
     private void initView() {
+        Intent intent = getIntent();
+        type = intent.getIntExtra("type", 0);
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
@@ -55,10 +71,31 @@ public class Mine_leave_chose_activity extends AppCompatActivity implements View
         ImageView iv_set = findViewById(R.id.iv_set);
         iv_set.setVisibility(View.INVISIBLE);
         listView = findViewById(R.id.listView);
+        et_reason = findViewById(R.id.et_reason);
+        tv_userconfirm = findViewById(R.id.tv_userconfirm);
+        tv_userconfirm.setOnClickListener(this);
+        et_reason.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String seach = et_reason.getText().toString().trim();
+                initDeptDate(seach);
+            }
+        });
     }
-    private void initDeptDate() {
+
+    private void initDeptDate(String seach) {
         HashMap<String, String> parameters = new HashMap<>();
-        parameters.put("key", "");
+        parameters.put("key", seach);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.LEAVE_USERLIST, parameters,
@@ -67,12 +104,19 @@ public class Mine_leave_chose_activity extends AppCompatActivity implements View
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_back:
+                this.finish();
+                break;
+            case R.id.tv_userconfirm:
+                Intent intent = new Intent();
+                intent.putExtra("userList",ListUser);
+                setResult(RESULT_OK,intent);
                 this.finish();
                 break;
         }
     }
+
     @Override
     public void requestFailure(Request request, IOException e, String method) {
         ToastUtil.getShortToastByString(this,
@@ -89,10 +133,10 @@ public class Mine_leave_chose_activity extends AppCompatActivity implements View
                     Gson gson = new Gson();
                     listDept = gson.fromJson(jsonObj1, new TypeToken<List<DeptBean>>() {
                     }.getType());
-                    Leave_DeptAdapter adapter = new Leave_DeptAdapter(this,listDept);
+                    Leave_DeptAdapter adapter = new Leave_DeptAdapter(this, listDept, type);
                     listView.setAdapter(adapter);
                     break;
-                    }
+            }
 
         }
     }

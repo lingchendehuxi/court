@@ -16,5 +16,9 @@ public class Contants {
     public static final String LEAVE_LIST = "vacation/list";//请假记录
     public static final String LEAVE_EDIT = "vacation/edit";//请假编辑
     public static final String LEAVE_USERLIST = "vacation/userlist";//审批人员
+    public static final String HALL_WEEK = "weekmenu/detail";//食堂周菜单
+    public static final String HALL_GOODLIST = "goods/list";//食堂商品列表
+    public static final String LEAVE_APPLYER = "vacation/audit";//请假审核
+    public static final String LEAVE_DETAIL = "vacation/detail";//请假详情
 
 }

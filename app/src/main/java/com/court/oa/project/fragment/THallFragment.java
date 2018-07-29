@@ -16,22 +16,39 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.adapter.Hall_week_dataAdapter;
 import com.court.oa.project.adapter.THall_Leave_Adapter;
+import com.court.oa.project.bean.HallPackageGoodBean;
+import com.court.oa.project.bean.HallWeekBean;
+import com.court.oa.project.bean.HallWeekDetailBean;
+import com.court.oa.project.bean.MeetMainDetailBean;
+import com.court.oa.project.contants.Contants;
+import com.court.oa.project.okhttp.OkHttpManager;
+import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.RefreshLayout;
+import com.court.oa.project.utils.ToastUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Request;
 
-public class THallFragment extends Fragment implements View.OnClickListener, RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener,RadioGroup.OnCheckedChangeListener{
+
+public class THallFragment extends Fragment implements View.OnClickListener, RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener, RadioGroup.OnCheckedChangeListener, OkHttpManager.DataCallBack {
     private View view;
     private LinearLayout hall_date;
     private TextView hall_buy;
-    private String[] date = new String[]{
-            "05.07","05.08","05.09","05.10","05.11","05.12","05.13","05.14"};
-    private String[] workDate = new String[]{"周一","周二","周三","周四","周五"};
+    private List<String> listTime;
+    private String[] workDate = new String[]{"周一", "周二", "周三", "周四", "周五"};
+    private String[] workUpDate = new String[]{"星期一", "星期二", "星期三", "星期四", "星期五"};
     private LinearLayout hall_leave;
     private LinearLayout hall_work;
     private LinearLayout hall_package;
@@ -39,14 +56,42 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     //
     private RefreshLayout swipeLayout;
     private ArrayList list;
-    private ListView listView;
+    private ListView listView, listview_1,listview_2,listview_3;
     private THall_Leave_Adapter adapter;
+    private Hall_week_dataAdapter adapterWeek;
+    private int page = 1;
+    private ArrayList<HallPackageGoodBean> listGood;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (View) inflater.inflate(R.layout.thallfragment, null);
         initView();
         return view;
+    }
+    //获得当前系统时间
+    private String getTime(){
+        Calendar c = Calendar.getInstance();
+        int year  = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day   = c.get(Calendar.DAY_OF_MONTH);
+        return year+"-"+month+"-"+day;
+    }
+    //获得时间列表
+    private List<String> getTimeList(){
+        Calendar c = Calendar.getInstance();
+        int year  = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day   = c.get(Calendar.DAY_OF_MONTH);
+        int daysCountOfMonth = c.getActualMaximum(Calendar.DATE);
+        ArrayList<String > list = new ArrayList<>();
+        for(int i = 0;i<7;i++){
+            day += i;
+            if(day>daysCountOfMonth){
+                month++;
+            }
+            list.add(month+"."+day);
+        }
+        return list;
     }
 
     private void initView() {
@@ -57,27 +102,34 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         hall_package = view.findViewById(R.id.hall_package);
         hall_commit = view.findViewById(R.id.hall_commit);
         swipeLayout = view.findViewById(R.id.swipe_container);
+        listview_1 = view.findViewById(R.id.listview_1);
+        listview_2 = view.findViewById(R.id.listview_2);
+        listview_3 = view.findViewById(R.id.listview_3);
+        listView = (ListView) view.findViewById(R.id.list);
         hall_buy.setOnClickListener(this);
         RadioGroup radio = view.findViewById(R.id.radio);
         radio.setOnCheckedChangeListener(this);
+        listTime = getTimeList();
         setLeaveData();
     }
-    private void goneView(){
+
+    private void goneView() {
         hall_buy.setVisibility(View.GONE);
         hall_leave.setVisibility(View.GONE);
         hall_package.setVisibility(View.GONE);
         hall_work.setVisibility(View.GONE);
         hall_commit.setVisibility(View.GONE);
     }
-    private void setWorkData(){
+    //设置周菜单
+    private void setWorkData() {
         goneView();
         hall_work.setVisibility(View.VISIBLE);
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         final TextView[] textViews = new TextView[workDate.length];
-        for(int i =0 ;i<workDate.length;i++){
+        for (int i = 0; i < workDate.length; i++) {
             final TextView textView = new TextView(getContext());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels/5, LinearLayout.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels / 5, LinearLayout.LayoutParams.MATCH_PARENT);
             textView.setLayoutParams(params);
             textView.setGravity(Gravity.CENTER);
             textView.setBackgroundResource(R.drawable.hall_title_chose);
@@ -87,37 +139,128 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    for(int t =0;t<workDate.length;t++){
+                    for (int t = 0; t < workDate.length; t++) {
                         textViews[t].setSelected(false);
                     }
                     textView.setSelected(true);
+                    initHallWeekDate(workUpDate[j]);
                 }
             });
             hall_date.addView(textView);
         }
+        textViews[0].setSelected(true);
+        initHallWeekDate("星期一");
     }
-    private void setLeaveData(){
+    //周菜单
+    private void initHallWeekDate(String weekDay) {
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("weekDay", weekDay);
+        parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
+        OkHttpManager.postAsync(
+                Contants.HALL_WEEK, parameters,
+                this, null, Contants.HALL_WEEK);
+    }
+    //商品列表
+    private void initHallGoodListDate() {
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("showTime", "2018-7-24");
+        parameters.put("ctgId", SharePreferenceUtils.readUser("userId",getActivity()));
+        parameters.put("pageIndex", ""+1);
+        parameters.put("pageSize", "10");
+        parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
+        OkHttpManager.postAsync(
+                Contants.HALL_GOODLIST, parameters,
+                this, null, Contants.HALL_GOODLIST);
+    }
+    //更多商品列表
+    private void initHallMoreGoodListDate() {
+        page++;
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("showTime", "2018-7-27");
+        parameters.put("ctgId", SharePreferenceUtils.readUser("userId",getActivity()));
+        parameters.put("pageIndex", ""+page);
+        parameters.put("pageSize", "10");
+        parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
+        OkHttpManager.postAsync(
+                Contants.HALL_GOODLIST, parameters,
+                this, null, Contants.MORE);
+    }
+
+    @Override
+    public void requestFailure(Request request, IOException e, String method) {
+        ToastUtil.getShortToastByString(getActivity(),
+                getString(R.string.networkRequst_resultFailed));
+    }
+
+    @Override
+    public void requestSuccess(String result, String method) throws Exception {
+        JSONObject object = new JSONObject(result);
+        if (object.getInt("code") == 1) {
+            String jsonObj1 = object.getString("data");
+            switch (method) {
+                case Contants.HALL_WEEK:
+                    Gson gson = new Gson();
+                    ArrayList<HallWeekBean> listDept = gson.fromJson(jsonObj1, new TypeToken<List<HallWeekBean>>() {
+                    }.getType());
+                    if("早".equals(listDept.get(0).getTimeType())){
+                        adapterWeek =new Hall_week_dataAdapter(getActivity(),listDept.get(0).getMenus());
+                        listview_1.setAdapter(adapterWeek);
+                    }
+                    if("中".equals(listDept.get(1).getTimeType())){
+                        adapterWeek =new Hall_week_dataAdapter(getActivity(),listDept.get(1).getMenus());
+                        listview_2.setAdapter(adapterWeek);
+                    }
+                    if("晚".equals(listDept.get(2).getTimeType())){
+                        adapterWeek =new Hall_week_dataAdapter(getActivity(),listDept.get(2).getMenus());
+                        listview_3.setAdapter(adapterWeek);
+                    }
+                    break;
+                case Contants.HALL_GOODLIST:
+                    Gson gson1 = new Gson();
+                    listGood = gson1.fromJson(jsonObj1, new TypeToken<List<HallPackageGoodBean>>() {
+                    }.getType());
+                    adapter = new THall_Leave_Adapter(getActivity(), listGood);
+                    listView.setAdapter(adapter);
+                    break;
+                case Contants.MORE:
+                    Gson gson2 = new Gson();
+                    ArrayList<HallPackageGoodBean> listGood1 = gson2.fromJson(jsonObj1, new TypeToken<List<HallPackageGoodBean>>() {
+                    }.getType());
+                    if(listGood1.size()>0){
+                        for(int i = 0;i<listGood1.size();i++){
+                            listGood.add(listGood1.get(i));
+                        }
+                        adapter.notifyDataSetChanged();
+                    }else {
+                        swipeLayout.setOnLoadListener(null);
+                    }
+                    break;
+
+            }
+        }
+    }
+    //设置打包
+    private void setLeaveData() {
         goneView();
         hall_buy.setVisibility(View.VISIBLE);
         hall_leave.setVisibility(View.VISIBLE);
-        setData();
         setListener();
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        final TextView[] textViews = new TextView[date.length];
-        for(int i =0 ;i<date.length;i++){
+        final TextView[] textViews = new TextView[listTime.size()];
+        for (int i = 0; i < listTime.size(); i++) {
             final TextView textView = new TextView(getContext());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels/5, LinearLayout.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels / 5, LinearLayout.LayoutParams.MATCH_PARENT);
             textView.setLayoutParams(params);
             textView.setGravity(Gravity.CENTER);
             textView.setBackgroundResource(R.drawable.hall_title_chose);
-            textView.setText(date[i]);
+            textView.setText(listTime.get(i));
             textViews[i] = textView;
             final int j = i;
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    for(int t =0;t<date.length;t++){
+                    for (int t = 0; t < listTime.size(); t++) {
                         textViews[t].setSelected(false);
                     }
                     textView.setSelected(true);
@@ -125,16 +268,19 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             });
             hall_date.addView(textView);
         }
+        initHallGoodListDate();
 
     }
-    private void setPackageDate(){
+
+    private void setPackageDate() {
         goneView();
         hall_buy.setText("提交");
         hall_buy.setVisibility(View.VISIBLE);
         hall_package.setVisibility(View.VISIBLE);
 
     }
-    private void setCommitSucess(){
+
+    private void setCommitSucess() {
         goneView();
         hall_commit.setVisibility(View.VISIBLE);
 
@@ -142,10 +288,10 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        if(hall_date.getChildCount()>0){
+        if (hall_date.getChildCount() > 0) {
             hall_date.removeAllViews();
         }
-        switch (i){
+        switch (i) {
             case R.id.rb_normal:
                 setWorkData();
                 break;
@@ -160,9 +306,9 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.hall_buy:
-                if(hall_package.getVisibility() == View.VISIBLE){
+                if (hall_package.getVisibility() == View.VISIBLE) {
                     setCommitSucess();
                 }
                 break;
@@ -170,21 +316,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     }
 
     //set Leave
-    /**
-     * 添加数据
-     */
-    private void setData() {
-        list = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < 1; i++) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("itemImage", i + "默认");
-            map.put("itemText", i + "默认");
-            list.add(map);
-        }
-        listView = (ListView) view.findViewById(R.id.list);
-        adapter = new THall_Leave_Adapter(getActivity(), list);
-        listView.setAdapter(adapter);
-    }
+
 
     /**
      * 设置监听
@@ -204,14 +336,8 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                list.clear();
-                for (int i = 0; i < 8; i++) {
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("itemImage", i + "刷新");
-                    map.put("itemText", i + "刷新");
-                    list.add(map);
-                }
-                adapter.notifyDataSetChanged();
+                listGood.clear();
+                initHallGoodListDate();
                 swipeLayout.setRefreshing(false);
             }
         }, 2000);
@@ -227,14 +353,8 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
+                initHallMoreGoodListDate();
                 swipeLayout.setLoading(false);
-                for (int i = 1; i < 10; i++) {
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("itemImage", i + "更多");
-                    map.put("itemText", i + "更多");
-                    list.add(map);
-                }
-                adapter.notifyDataSetChanged();
             }
         }, 2000);
     }

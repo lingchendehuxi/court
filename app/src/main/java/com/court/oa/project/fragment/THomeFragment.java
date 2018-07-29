@@ -69,8 +69,8 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
         pointGroups = (LinearLayout) header.findViewById(R.id.point_groups);
         listAdaver = new ArrayList<>();
         Bitmap Imag1 = BitmapFactory.decodeResource(getResources(), R.mipmap.home_top);
-        Bitmap Imag2 = BitmapFactory.decodeResource(getResources(), R.mipmap.homepage_01);
-        Bitmap Imag3 = BitmapFactory.decodeResource(getResources(), R.mipmap.homepage_10);
+        Bitmap Imag2 = BitmapFactory.decodeResource(getResources(), R.mipmap.home1);
+        Bitmap Imag3 = BitmapFactory.decodeResource(getResources(), R.mipmap.home2);
         listAdaver.add(Imag1);
         listAdaver.add(Imag2);
         listAdaver.add(Imag3);
