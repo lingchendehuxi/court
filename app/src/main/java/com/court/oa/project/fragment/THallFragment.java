@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.court.oa.project.okhttp.OkHttpManager;
 import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.RefreshLayout;
 import com.court.oa.project.utils.ToastUtil;
+import com.court.oa.project.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -109,7 +111,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         hall_buy.setOnClickListener(this);
         RadioGroup radio = view.findViewById(R.id.radio);
         radio.setOnCheckedChangeListener(this);
-        listTime = getTimeList();
+        listTime = Utils.test(7);
         setLeaveData();
     }
 
