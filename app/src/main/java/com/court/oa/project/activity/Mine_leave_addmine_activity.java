@@ -194,7 +194,7 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
                 if(TextUtils.isEmpty(leave_type)){
                     ToastUtil.getShortToastByString(this,"请选择请假原因");
                     return;
-                }else if(TextUtils.isEmpty(leave_day.getText().toString())){
+                }else if(TextUtils.isEmpty(leave_day.getText().toString().trim())||TextUtils.isEmpty(tv_begin.getText().toString().trim())||TextUtils.isEmpty(tv_end.getText().toString().trim())){
                     ToastUtil.getShortToastByString(this,"请选择请假时间");
                     return;
                 }else if(TextUtils.isEmpty(et_reason.getText().toString())){
@@ -238,6 +238,7 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
             switch (method) {
                 case Contants.LEAVE_EDIT:
                     ToastUtil.getShortToastByString(this,object.getString("msg"));
+                    this.finish();
                     break;
 
                 default:

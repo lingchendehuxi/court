@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.court.oa.project.activity.Login_My_activity;
 import com.court.oa.project.contants.Contants;
 
 import org.json.JSONObject;
@@ -300,14 +301,14 @@ public class OkHttpManager {
                 if (callBack != null) {
                     try {
                         JSONObject object = new JSONObject(result);
-                        if("3306".equals(JSONCatch.parseString("code", object))){
+                        if("-1".equals(JSONCatch.parseString("code", object))){
                             if(callBack instanceof Activity){
                                 context = (Activity)callBack;
                             }else{
                                 context = ((android.support.v4.app.Fragment) callBack).getActivity();
                             }
-                            /*Intent intent = new Intent(context,Login_loginfastlyActivity.class);
-                            context.startActivity(intent);*/
+                            Intent intent = new Intent(context,Login_My_activity.class);
+                            context.startActivity(intent);
                             return;
                         }
                         callBack.requestSuccess(result,method);

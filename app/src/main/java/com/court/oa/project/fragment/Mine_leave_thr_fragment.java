@@ -115,9 +115,11 @@ public class Mine_leave_thr_fragment extends Fragment implements RefreshLayout.O
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             Intent intent = new Intent(getActivity(), Leave_apply_activity.class);
                             intent.putExtra("id",listLeave.get(i).getId()+"");
+                            intent.putExtra("type",2);
                             getActivity().startActivity(intent);
                         }
                     });
+                    swipeLayout.setOnLoadListener(this);
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();
@@ -128,6 +130,8 @@ public class Mine_leave_thr_fragment extends Fragment implements RefreshLayout.O
                             listLeave.add(listLeave1.get(i));
                         }
                         adapter.notifyDataSetChanged();
+                    }else {
+                        swipeLayout.setOnLoadListener(null);
                     }
                     break;
 
