@@ -49,6 +49,8 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     private LinearLayout hall_date;
     private TextView hall_buy;
     private List<String> listTime;
+    private List<String> newListTime;
+    private String currentTime;
     private String[] workDate = new String[]{"周一", "周二", "周三", "周四", "周五"};
     private String[] workUpDate = new String[]{"星期一", "星期二", "星期三", "星期四", "星期五"};
     private LinearLayout hall_leave;
@@ -112,6 +114,12 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         RadioGroup radio = view.findViewById(R.id.radio);
         radio.setOnCheckedChangeListener(this);
         listTime = Utils.test(7);
+        newListTime = new ArrayList<>();
+        for(int i = 0;i<listTime.size();i++){
+            String string = listTime.get(i);
+            String newString = string.substring(5,string.length());
+            newListTime.add(newString.replace("-","."));
+        }
         setLeaveData();
     }
 
@@ -163,9 +171,9 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                 this, null, Contants.HALL_WEEK);
     }
     //商品列表
-    private void initHallGoodListDate() {
+    private void initHallGoodListDate(String time) {
         HashMap<String, String> parameters = new HashMap<>();
-        parameters.put("showTime", "2018-7-24");
+        parameters.put("showTime", "2018-7-24");//7-24
         parameters.put("ctgId", SharePreferenceUtils.readUser("userId",getActivity()));
         parameters.put("pageIndex", ""+1);
         parameters.put("pageSize", "10");
@@ -175,7 +183,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                 this, null, Contants.HALL_GOODLIST);
     }
     //更多商品列表
-    private void initHallMoreGoodListDate() {
+    private void initHallMoreGoodListDate(String time) {
         page++;
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("showTime", "2018-7-27");
@@ -249,28 +257,30 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         setListener();
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        final TextView[] textViews = new TextView[listTime.size()];
-        for (int i = 0; i < listTime.size(); i++) {
+        final TextView[] textViews = new TextView[newListTime.size()];
+        for (int i = 0; i < newListTime.size(); i++) {
             final TextView textView = new TextView(getContext());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels / 5, LinearLayout.LayoutParams.MATCH_PARENT);
             textView.setLayoutParams(params);
             textView.setGravity(Gravity.CENTER);
             textView.setBackgroundResource(R.drawable.hall_title_chose);
-            textView.setText(listTime.get(i));
+            textView.setText(newListTime.get(i));
             textViews[i] = textView;
             final int j = i;
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    for (int t = 0; t < listTime.size(); t++) {
+                    for (int t = 0; t < newListTime.size(); t++) {
                         textViews[t].setSelected(false);
                     }
                     textView.setSelected(true);
+                    currentTime = listTime.get(j);
                 }
             });
             hall_date.addView(textView);
         }
-        initHallGoodListDate();
+        currentTime = listTime.get(0);
+        initHallGoodListDate(currentTime);
 
     }
 
@@ -339,7 +349,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
                 listGood.clear();
-                initHallGoodListDate();
+                initHallGoodListDate(currentTime);
                 swipeLayout.setRefreshing(false);
             }
         }, 2000);
@@ -355,7 +365,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                initHallMoreGoodListDate();
+                initHallMoreGoodListDate(currentTime);
                 swipeLayout.setLoading(false);
             }
         }, 2000);

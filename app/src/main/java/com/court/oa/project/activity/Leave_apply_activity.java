@@ -53,8 +53,9 @@ import java.util.List;
 import okhttp3.Request;
 
 public class Leave_apply_activity extends AppCompatActivity implements View.OnClickListener,OkHttpManager.DataCallBack {
-    private TextView leave_name,leave_reason,leave_time,leave_type,leave_apply,leave_add,tv_pass;
+    private TextView leave_name,leave_reason,leave_time,leave_type,leave_apply,leave_add,tv_pass,tv_unpass;
     private EditText leave_edit;
+    private int type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,13 +66,18 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
         initView();
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
+        type = intent.getIntExtra("type",0);
         leaveDetail(id);
     }
     private void initView(){
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
-        tv_title.setText("请假批准");
+        if(type ==2){
+            tv_title.setText("请假详情");
+        }else{
+            tv_title.setText("请假批准");
+        }
         TextView tv_sort = findViewById(R.id.tv_sort);
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
@@ -84,6 +90,9 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
         leave_apply = findViewById(R.id.leave_apply);
         leave_add = findViewById(R.id.leave_add);
         leave_edit = findViewById(R.id.leave_edit);
+        tv_unpass = findViewById(R.id.tv_unpass);
+        tv_pass.setOnClickListener(this);
+        tv_unpass.setOnClickListener(this);
 
     }
     private void leaveDetail(String id) {
@@ -126,14 +135,21 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
                     leave_reason.setText("理由: "+bean.getReason());
                     leave_apply.setText("审批人: "+bean.getAuditUser());
                     leave_add.setText("抄送人:"+bean.getCopyUsser());
-                    leave_edit.setVisibility(View.INVISIBLE);
-                    if ("0".equals(bean.getStatus())){
-                        tv_pass.setText("待审批");
-                    }else if("1".equals(bean.getStatus())){
-                        tv_pass.setText("审批通过");
-                    }else if("2".equals(bean.getStatus())){
-                        tv_pass.setText("审批不通过");
+                    if(type ==2){
+                        leave_edit.setVisibility(View.INVISIBLE);
+                        tv_unpass.setVisibility(View.GONE);
+                        if ("0".equals(bean.getStatus())){
+                            tv_pass.setText("待审批");
+                        }else if("1".equals(bean.getStatus())){
+                            tv_pass.setText("审批通过");
+                        }else if("2".equals(bean.getStatus())){
+                            tv_pass.setText("审批不通过");
+                        }else{
+                            tv_pass.setVisibility(View.INVISIBLE);
+                        }
+                        tv_pass.setEnabled(false);
                     }
+
                     break;
 
                 default:
