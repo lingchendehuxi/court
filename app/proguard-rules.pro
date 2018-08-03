@@ -28,3 +28,5 @@
 
 -dontwarn cn.jiguang.**
 -keep class cn.jiguang.** { *; }
+
+-ignorewarnings -keep class * { public private *; }
