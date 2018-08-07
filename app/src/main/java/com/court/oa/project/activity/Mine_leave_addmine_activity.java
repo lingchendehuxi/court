@@ -211,7 +211,7 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
     private void initUploadLeave() {
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
-        parameters.put("vId", "1");
+        parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("type", leave_type);
         parameters.put("startTime", tv_begin.getText().toString());
         parameters.put("endTime", tv_end.getText().toString());

@@ -39,6 +39,7 @@ public class Login_My_activity extends AppCompatActivity implements View.OnClick
     private TextView regist_acount,tv_login;
     private EditText et_account;
     private EditText et_password;
+    private String mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class Login_My_activity extends AppCompatActivity implements View.OnClick
         tv_login.setOnClickListener(this);
     }
     private void initLogin(){
-        String mobile = et_account.getText().toString().trim();
+        mobile = et_account.getText().toString().trim();
         String pass = MD5Utils.encode(et_password.getText().toString().trim());
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("userName", mobile);
@@ -110,16 +111,11 @@ public class Login_My_activity extends AppCompatActivity implements View.OnClick
                 Gson gson = new Gson();
                 UserBean userBean = gson.fromJson(jsonObj,new TypeToken<UserBean>() {
                 }.getType());
-                Log.d("liuhong","userId : " + userBean.getUserId());
-                Log.d("liuhong","role : " + userBean.getRole());
-                Log.d("liuhong","appToken : " + userBean.getAppToken());
-                Log.d("liuhong","realName : " + userBean.getRealName());
-                Log.d("liuhong","duty : " + userBean.getDuty());
-                Log.d("liuhong","iconUrl : " + userBean.getIconUrl());
                 ToastUtil.show(Login_My_activity.this,object.getString("msg"));
                 if (object.getInt("code") == 1) {
                     ParseUser.saveUser(object, this);
                     SharePreferenceUtils.saveUserString("login", "yes", Login_My_activity.this);
+                    SharePreferenceUtils.saveUserString("mobile",mobile,Login_My_activity.this);
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 }

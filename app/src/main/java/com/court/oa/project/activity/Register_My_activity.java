@@ -35,6 +35,7 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
 
     private EditText et_phone,et_pass,et_passAgain;
     private TextView tv_register;
+    private String StrPhone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +79,7 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
     }
 
     private void initRegist(){
-        String StrPhone = et_phone.getText().toString();
+        StrPhone = et_phone.getText().toString();
         String strPass = MD5Utils.encode(et_pass.getText().toString());
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("userName", StrPhone);
@@ -103,6 +104,7 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
                 if (object.getInt("code") == 1) {
                     ParseUser.saveUser(object, this);
                     SharePreferenceUtils.saveUserString("login", "yes", Register_My_activity.this);
+                    SharePreferenceUtils.saveUserString("mobile",StrPhone,Register_My_activity.this);
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 }

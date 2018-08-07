@@ -1,10 +1,12 @@
 package com.court.oa.project.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by MateBook D on 2018/7/28.
  */
 
-public class DeptUserBean {
+public class DeptUserBean implements Serializable{
     private String uid;
     private String userName;
     private String realName;

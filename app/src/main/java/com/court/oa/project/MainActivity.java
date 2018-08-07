@@ -68,6 +68,19 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             FitStateUI.setMiuiStatusBarDarkMode(this, true);
         }*/
     }
+    public void otherSkip(int position){
+        switch (position){
+            case 0:
+                radio.check(R.id.rb_hall);
+                break;
+            case 1:
+                radio.check(R.id.rb_notify);
+                break;
+            case 2:
+                radio.check(R.id.rb_meet);
+                break;
+        }
+    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {

@@ -80,6 +80,8 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.mine_tel:
                 break;
+            case R.id.mine_salary:
+                break;
         }
     }
 }

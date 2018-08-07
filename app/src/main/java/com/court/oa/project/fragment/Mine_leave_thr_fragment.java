@@ -76,6 +76,7 @@ public class Mine_leave_thr_fragment extends Fragment implements RefreshLayout.O
         parameters.put("pageIndex", ""+page);
         parameters.put("type", ""+type);
         parameters.put("pageSize", "10");
+        parameters.put("userId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.LEAVE_LIST, parameters,
@@ -87,6 +88,7 @@ public class Mine_leave_thr_fragment extends Fragment implements RefreshLayout.O
         parameters.put("pageIndex", ""+page);
         parameters.put("type", ""+type);
         parameters.put("pageSize", "10");
+        parameters.put("userId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.LEAVE_LIST, parameters,

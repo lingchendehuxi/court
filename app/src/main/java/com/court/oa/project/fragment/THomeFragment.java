@@ -1,6 +1,7 @@
 package com.court.oa.project.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -13,21 +14,38 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.activity.Leave_apply_activity;
 import com.court.oa.project.adapter.MyPagerAdapter1;
 import com.court.oa.project.adapter.THomeAdapter;
+import com.court.oa.project.adapter.TMine_Question_fir_Adapter;
+import com.court.oa.project.bean.ArticalBean;
+import com.court.oa.project.bean.ArticalListBean;
+import com.court.oa.project.bean.LeaveListBean;
+import com.court.oa.project.contants.Contants;
+import com.court.oa.project.okhttp.OkHttpManager;
+import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.MyViewPagerTransformerAnim;
 import com.court.oa.project.tool.RefreshLayout;
+import com.court.oa.project.utils.ToastUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class THomeFragment extends Fragment implements View.OnClickListener, RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener {
+import okhttp3.Request;
+
+public class THomeFragment extends Fragment implements View.OnClickListener, RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener, OkHttpManager.DataCallBack {
 
     private View view;
     private RefreshLayout swipeLayout;
@@ -40,14 +58,18 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
     private boolean isRunning = false;
     private LinearLayout pointGroups;
     protected int lastPosition;
-
+    private ArrayList<ArticalBean> articalList;
+    private ArrayList<ArticalBean> newList;
+    private ArrayList<ArticalListBean> topList;
+    private ArrayList<ArticalListBean> notifyList;
+    private ArrayList<ArticalListBean> hallList;
+    private ArrayList<ArticalListBean> meetList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = (View) inflater.inflate(R.layout.thomefragment, null);
         initView();
-        setData();
-        setListener();
+
         return view;
     }
 
@@ -77,6 +99,12 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
         isRunning = true;
         handlers.sendEmptyMessageDelayed(0, 5000);
         initviewpager();
+        topList = new ArrayList<>();
+        notifyList = new ArrayList<>();
+        hallList = new ArrayList<>();
+        meetList = new ArrayList<>();
+        newList = new ArrayList<>();
+        initArticalDate();
     }
 
     private Handler handlers = new Handler() {
@@ -93,20 +121,78 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
         ;
     };
 
+    private void initArticalDate() {
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("pageIndex", "" + 1);
+        parameters.put("pageSize", "10");
+        parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
+        OkHttpManager.postAsync(
+                Contants.ARTICLE_LIST, parameters,
+                this, null, Contants.ARTICLE_LIST);
+    }
+
+    @Override
+    public void requestFailure(Request request, IOException e, String method) {
+        ToastUtil.getShortToastByString(getActivity(),
+                getString(R.string.networkRequst_resultFailed));
+    }
+
+    @Override
+    public void requestSuccess(String result, String method) throws Exception {
+        JSONObject object = new JSONObject(result);
+        if (object.getInt("code") == 1) {
+            String jsonObj1 = object.getString("data");
+            switch (method) {
+                case Contants.ARTICLE_LIST:
+                    Gson gson = new Gson();
+                    articalList = gson.fromJson(jsonObj1, new TypeToken<List<ArticalBean>>() {
+                    }.getType());
+                    for (int i = 0; i < articalList.size(); i++) {
+                        if ("614".equals(articalList.get(i).getCtgId())) {
+                            for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
+                                topList.add(articalList.get(i).getInfoList().get(j));
+                            }
+                        } else if ("611".equals(articalList.get(i).getCtgId())) {
+                            for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
+                                meetList.add(articalList.get(i).getInfoList().get(j));
+                            }
+                        } else if ("612".equals(articalList.get(i).getCtgId())) {
+                            for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
+                                notifyList.add(articalList.get(i).getInfoList().get(j));
+                            }
+                        } else if ("613".equals(articalList.get(i).getCtgId())) {
+                            for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
+                                hallList.add(articalList.get(i).getInfoList().get(j));
+                            }
+                        }
+                    }
+                    setData();
+                    setListener();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+    }
+
     /**
      * 添加数据
      */
     private void setData() {
-        list = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < 3; i++) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("itemImage", i + "默认");
-            map.put("itemText", i + "默认");
-            list.add(map);
+        if (articalList.size() >= 4) {
+            for (int i = 1; i < 4; i++) {
+               newList.add(articalList.get(i));
+            }
+            newList.get(0).setInfoList(hallList);
+            newList.get(1).setInfoList(notifyList);
+            newList.get(2).setInfoList(meetList);
         }
+
         listView = (ListView) view.findViewById(R.id.list);
         listView.addHeaderView(header);
-        adapter = new THomeAdapter(getActivity(), list);
+        adapter = new THomeAdapter(getActivity(), newList);
         listView.setAdapter(adapter);
     }
 

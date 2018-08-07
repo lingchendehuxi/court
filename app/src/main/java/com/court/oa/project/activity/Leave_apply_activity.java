@@ -148,6 +148,8 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
                             tv_pass.setVisibility(View.INVISIBLE);
                         }
                         tv_pass.setEnabled(false);
+                    }else if(type == 1){
+
                     }
 
                     break;

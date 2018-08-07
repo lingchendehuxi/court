@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.activity.Leave_apply_activity;
 import com.court.oa.project.activity.Meet_Detail_activity;
 import com.court.oa.project.activity.Notify_Detail_activity;
 import com.court.oa.project.adapter.TMeetAdapter;
@@ -77,6 +78,7 @@ public class Mine_leave_fir_fragment extends Fragment implements RefreshLayout.O
         parameters.put("pageIndex", ""+page);
         parameters.put("type", ""+type);
         parameters.put("pageSize", "10");
+        parameters.put("userId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.LEAVE_LIST, parameters,
@@ -88,6 +90,7 @@ public class Mine_leave_fir_fragment extends Fragment implements RefreshLayout.O
         parameters.put("pageIndex", ""+page);
         parameters.put("type", ""+type);
         parameters.put("pageSize", "10");
+        parameters.put("userId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.LEAVE_LIST, parameters,
@@ -114,7 +117,9 @@ public class Mine_leave_fir_fragment extends Fragment implements RefreshLayout.O
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            Intent intent = new Intent(getActivity(), Meet_Detail_activity.class);
+                            Intent intent = new Intent(getActivity(), Leave_apply_activity.class);
+                            intent.putExtra("id",listLeave.get(i).getId()+"");
+                            intent.putExtra("type",1);
                             getActivity().startActivity(intent);
                         }
                     });

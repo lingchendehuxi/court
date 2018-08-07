@@ -85,6 +85,12 @@
             android:text="考勤记录" />
 
         <View style="@style/mine_menu_gap_4" />
+        <TextView
+            android:id="@+id/mine_salary"
+            style="@style/mine_menu_style"
+            android:text="工资条" />
+
+        <View style="@style/mine_menu_gap_4" />
 
     </LinearLayout>
 

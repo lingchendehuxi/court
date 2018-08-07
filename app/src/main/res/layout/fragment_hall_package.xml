@@ -7,126 +7,325 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="70dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/package_top_shape_cycle"
-            android:gravity="center"
-            android:text="选择日期" />
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
             android:background="@color/mine_gray"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <CheckBox
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/chose_date_normal_bg"
-                android:button="@null"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@mipmap/top_title"
                 android:gravity="center"
-                android:text="周一" />
+                android:text="选择日期" />
 
-            <CheckBox
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/chose_date_normal_bg"
-                android:layout_marginBottom="1dp"
-                android:layout_marginRight="1dp"
-                android:button="@null"
-                android:gravity="center"
-                android:text="周二" />
-            <CheckBox
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/chose_date_normal_bg"
-                android:layout_marginBottom="1dp"
-                android:button="@null"
-                android:gravity="center"
-                android:text="周三" />
-
-            <CheckBox
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:layout_marginRight="1dp"
-                android:layout_marginLeft="1dp"
-                android:background="@drawable/chose_date_normal_bg"
-                android:button="@null"
-                android:gravity="center"
-                android:text="周四" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/chose_date_left_bg"
-                android:button="@null"
-                android:gravity="center"
-                android:text="周五" />
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:id="@+id/ll_week_one"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/mine_gray"
-                android:gravity="center">
-                <CheckBox
-                    android:layout_width="match_parent"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/chose_date_selector"
+                android:focusable="false"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/chose_date_normal_bg"
-                    android:button="@null"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginTop="1dp"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周一" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周一" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_week_two"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/chose_date_selector"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周二" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:id="@+id/tv_2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周二" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_week_thr"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/chose_date_selector"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周三" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周三" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_week_fou"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/chose_date_selector"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周四" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:id="@+id/tv_4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周四" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_week_fiv"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/chose_date_selector"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周五" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:id="@+id/tv_5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周五" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_week_six"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/chose_date_selector"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="周六" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="60dp"
-                android:background="@color/mine_gray"
-                android:gravity="center">
-                <CheckBox
-                    android:layout_width="match_parent"
+
+                <View
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/chose_date_normal_bg"
-                    android:button="@null"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginTop="1dp"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:id="@+id/tv_6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周六" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_week_sev"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/chose_date_selector"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="周日" />
-            </LinearLayout>
-            <CheckBox
-                android:button="@null"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:background="@drawable/chose_date_right_bg"
-                android:clickable="false"
-                android:layout_weight="1"
-                android:gravity="center" />
-        </LinearLayout>
 
-    </LinearLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+
+                <TextView
+                    android:id="@+id/tv_7"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="周日" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mine_gray" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
