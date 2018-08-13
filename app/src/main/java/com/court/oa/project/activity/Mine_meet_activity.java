@@ -1,18 +1,33 @@
 package com.court.oa.project.activity;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.court.oa.project.R;
 import com.court.oa.project.adapter.SalaryListAdapter;
+import com.court.oa.project.adapter.TMeetAdapter;
 import com.court.oa.project.application.MyApplication;
+import com.court.oa.project.bean.MeetMainBean;
 import com.court.oa.project.bean.SalaryListBean;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.okhttp.OkHttpManager;
@@ -20,6 +35,7 @@ import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.FitStateUI;
 import com.court.oa.project.tool.RefreshLayout;
 import com.court.oa.project.utils.ToastUtil;
+import com.court.oa.project.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -32,12 +48,14 @@ import java.util.List;
 
 import okhttp3.Request;
 
-public class MY_Salary_activity extends AppCompatActivity implements View.OnClickListener ,OkHttpManager.DataCallBack,RefreshLayout.OnLoadListener,SwipeRefreshLayout.OnRefreshListener{
+public class Mine_meet_activity extends AppCompatActivity implements View.OnClickListener ,OkHttpManager.DataCallBack,RefreshLayout.OnLoadListener,SwipeRefreshLayout.OnRefreshListener{
     private RefreshLayout swipeLayout;
     private ListView listView;
-    private SalaryListAdapter adapter;
+    private TMeetAdapter adapter;
     private int page = 1;
-    private ArrayList<SalaryListBean> listBeans;
+
+    private ArrayList<MeetMainBean> listMeet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,22 +64,25 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
         FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_salary_list);
         initView();
+        setListener();
     }
-    private void initView(){
+
+    private void initView() {
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
-        tv_title.setText("我的工资条");
+        tv_title.setText("我的会议");
         TextView tv_sort = findViewById(R.id.tv_sort);
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
         iv_set.setVisibility(View.INVISIBLE);
         swipeLayout = findViewById(R.id.swipe_container);
-        listView = findViewById(R.id.list);
-        setListener();
-        initSalaryDate();
+        listView =  findViewById(R.id.list);
+        initMeetDate();
+
     }
-    private void initSalaryDate() {
+
+    private void initMeetDate() {
         page=1;
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
@@ -69,10 +90,10 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
         parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
-                Contants.WAGE_LIST, parameters,
-                this, null, Contants.WAGE_LIST);
+                Contants.MEETING_LIST, parameters,
+                this, null, Contants.MEETING_LIST);
     }
-    private void initMoreSalaryDate() {
+    private void initMoreMeetDate() {
         page++;
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
@@ -80,9 +101,10 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
         parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
-                Contants.WAGE_LIST, parameters,
+                Contants.MEETING_LIST, parameters,
                 this, null, Contants.MORE);
     }
+
     @Override
     public void requestFailure(Request request, IOException e, String method) {
         ToastUtil.getShortToastByString(this,
@@ -95,25 +117,31 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
         if (object.getInt("code") == 1) {
             String jsonObj1 = object.getString("data");
             switch (method) {
-                case Contants.WAGE_LIST:
+                case Contants.MEETING_LIST:
                     Gson gson = new Gson();
-                    listBeans = gson.fromJson(jsonObj1, new TypeToken<List<SalaryListBean>>() {
+                    listMeet = gson.fromJson(jsonObj1, new TypeToken<List<MeetMainBean>>() {
                     }.getType());
-                    adapter = new SalaryListAdapter(this, listBeans);
+                    adapter = new TMeetAdapter(this, listMeet);
                     listView.setAdapter(adapter);
-                    swipeLayout.setOnLoadListener(this);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            Intent intent = new Intent(Mine_meet_activity.this, Meet_Detail_activity.class);
+                            intent.putExtra("meetId",listMeet.get(i).getId());
+                            intent.putExtra("isShow","No");
+                            startActivity(intent);
+                        }
+                    });
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();
-                    ArrayList<SalaryListBean> listSalary1 = gson1.fromJson(jsonObj1, new TypeToken<List<SalaryListBean>>() {
+                    ArrayList<MeetMainBean> listMeet1 = gson1.fromJson(jsonObj1, new TypeToken<List<MeetMainBean>>() {
                     }.getType());
-                    if(listSalary1.size()!=0){
-                        for(int i = 0;i<listSalary1.size();i++){
-                            listBeans.add(listSalary1.get(i));
+                    if(listMeet1.size()!=0){
+                        for(int i = 0;i<listMeet1.size();i++){
+                            listMeet.add(listMeet1.get(i));
                         }
                         adapter.notifyDataSetChanged();
-                    }else {
-                        swipeLayout.setOnLoadListener(null);
                     }
                     break;
 
@@ -142,7 +170,7 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                initSalaryDate();
+                initMeetDate();
                 swipeLayout.setRefreshing(false);
             }
         }, 2000);
@@ -158,7 +186,7 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                initMoreSalaryDate();
+                initMoreMeetDate();
                 swipeLayout.setLoading(false);
             }
         }, 2000);
@@ -166,18 +194,13 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_back:
                 this.finish();
-            break;
+                break;
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(listBeans!=null){
-            listBeans.clear();
-        }
-    }
+
+
 }

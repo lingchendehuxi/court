@@ -12,8 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.activity.MY_Salary_activity;
 import com.court.oa.project.activity.Mine_Menu_activity;
 import com.court.oa.project.activity.Mine_leave_activity;
+import com.court.oa.project.activity.Mine_meet_activity;
 import com.court.oa.project.activity.Mine_question_activity;
 import com.court.oa.project.activity.Mine_set_acitivity;
 import com.court.oa.project.save.SharePreferenceUtils;
@@ -45,12 +47,14 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
         //初始化菜单
         TextView mine_menu = view.findViewById(R.id.mine_menu);
         mine_menu.setOnClickListener(this);
-        TextView mine_question = view.findViewById(R.id.mine_question);
-        mine_question.setOnClickListener(this);
         TextView mine_leave = view.findViewById(R.id.mine_leave);
         mine_leave.setOnClickListener(this);
         TextView mine_tel = view.findViewById(R.id.mine_tel);
         mine_tel.setOnClickListener(this);
+        TextView mine_salary = view.findViewById(R.id.mine_salary);
+        mine_salary.setOnClickListener(this);
+        TextView mine_meet = view.findViewById(R.id.mine_meet);
+        mine_meet.setOnClickListener(this);
         mine_name = view.findViewById(R.id.mine_name);
         mine_job = view.findViewById(R.id.mine_job);
         mine_pic = view.findViewById(R.id.mine_pic);
@@ -70,9 +74,6 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), Mine_set_acitivity.class));
                 break;
             case R.id.mine_menu:
-                startActivity(new Intent(getActivity(), Mine_Menu_activity.class));
-                break;
-            case R.id.mine_question:
                 startActivity(new Intent(getActivity(), Mine_question_activity.class));
                 break;
             case R.id.mine_leave:
@@ -81,6 +82,10 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_tel:
                 break;
             case R.id.mine_salary:
+                startActivity(new Intent(getActivity(), MY_Salary_activity.class));
+                break;
+            case R.id.mine_meet:
+                startActivity(new Intent(getActivity(), Mine_meet_activity.class));
                 break;
         }
     }

@@ -1,32 +1,25 @@
 package com.court.oa.project.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.court.oa.project.R;
-import com.court.oa.project.activity.Leave_apply_activity;
 import com.court.oa.project.adapter.MyPagerAdapter1;
 import com.court.oa.project.adapter.THomeAdapter;
-import com.court.oa.project.adapter.TMine_Question_fir_Adapter;
 import com.court.oa.project.bean.ArticalBean;
 import com.court.oa.project.bean.ArticalListBean;
-import com.court.oa.project.bean.LeaveListBean;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.okhttp.OkHttpManager;
 import com.court.oa.project.save.SharePreferenceUtils;
@@ -104,6 +97,8 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
         hallList = new ArrayList<>();
         meetList = new ArrayList<>();
         newList = new ArrayList<>();
+        listView =  view.findViewById(R.id.list);
+        listView.addHeaderView(header);
         initArticalDate();
     }
 
@@ -150,18 +145,22 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
                     for (int i = 0; i < articalList.size(); i++) {
                         if ("614".equals(articalList.get(i).getCtgId())) {
                             for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
+                                topList.clear();
                                 topList.add(articalList.get(i).getInfoList().get(j));
                             }
                         } else if ("611".equals(articalList.get(i).getCtgId())) {
                             for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
+                                meetList.clear();
                                 meetList.add(articalList.get(i).getInfoList().get(j));
                             }
                         } else if ("612".equals(articalList.get(i).getCtgId())) {
                             for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
+                                notifyList.clear();
                                 notifyList.add(articalList.get(i).getInfoList().get(j));
                             }
                         } else if ("613".equals(articalList.get(i).getCtgId())) {
                             for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
+                                hallList.clear();
                                 hallList.add(articalList.get(i).getInfoList().get(j));
                             }
                         }
@@ -181,6 +180,7 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
      * 添加数据
      */
     private void setData() {
+        newList.clear();
         if (articalList.size() >= 4) {
             for (int i = 1; i < 4; i++) {
                newList.add(articalList.get(i));
@@ -190,8 +190,6 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
             newList.get(2).setInfoList(meetList);
         }
 
-        listView = (ListView) view.findViewById(R.id.list);
-        listView.addHeaderView(header);
         adapter = new THomeAdapter(getActivity(), newList);
         listView.setAdapter(adapter);
     }
@@ -214,14 +212,7 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                list.clear();
-                for (int i = 0; i < 3; i++) {
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("itemImage", i + "刷新");
-                    map.put("itemText", i + "刷新");
-                    list.add(map);
-                }
-                adapter.notifyDataSetChanged();
+                initArticalDate();
                 swipeLayout.setRefreshing(false);
             }
         }, 2000);

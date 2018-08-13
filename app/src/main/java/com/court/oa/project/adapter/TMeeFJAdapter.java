@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.court.oa.project.R;
 import com.court.oa.project.bean.MeetFileBean;
 import com.court.oa.project.bean.MeetMainBean;
+import com.court.oa.project.utils.FileUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class TMeeFJAdapter extends BaseAdapter {
             holder.fj_img  = view.findViewById(R.id.fj_img);
             holder.fj_title  = view.findViewById(R.id.fj_title);
             holder.fj_size  = view.findViewById(R.id.fj_size);
+            holder.tv_openfile  = view.findViewById(R.id.tv_openfile);
             view.setTag(holder);
         } else {
             view = convertView;
@@ -68,6 +70,18 @@ public class TMeeFJAdapter extends BaseAdapter {
         }
         holder.fj_title.setText(bean.getFileName());
         holder.fj_size.setText(bean.getFileType());
+        String url = list.get(position).getFileUrl();
+        int position2 = url.lastIndexOf("/");
+        String file = url.substring(position2+1,url.length());
+        FileUtils fileUtils = new FileUtils();
+        if(fileUtils.isFileExist(file,"WJ_count")){
+            holder.tv_openfile.setText("打开附件");
+        }else {
+            holder.tv_openfile.setText("附件");
+        }
+        /*if(fileUtils.isFileExist("足音.mp3","BoBoMusic")){
+            tv_openfile.setText("打开附件");
+        }*/
         return view;
     }
 
@@ -75,6 +89,7 @@ public class TMeeFJAdapter extends BaseAdapter {
         ImageView fj_img;
         TextView fj_title;
         TextView fj_size;
+        TextView tv_openfile;
     }
 
 }

@@ -253,7 +253,7 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 100 && requestCode == 1){
             tv_owner.setText(data.getStringExtra("user"));
-        }else if(requestCode ==2){
+        }else if(requestCode ==2 && data != null){
             copyUser = "";
             userList = data.getStringArrayListExtra("userList");
             for (int i = 0;i<userList.size();i++){

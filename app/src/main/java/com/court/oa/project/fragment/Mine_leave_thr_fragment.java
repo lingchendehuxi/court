@@ -13,9 +13,8 @@ import android.widget.ListView;
 
 import com.court.oa.project.R;
 import com.court.oa.project.activity.Leave_apply_activity;
-import com.court.oa.project.activity.Meet_Detail_activity;
 import com.court.oa.project.activity.Notify_Detail_activity;
-import com.court.oa.project.adapter.TMine_Question_fir_Adapter;
+import com.court.oa.project.adapter.TMine_Leave_fir_Adapter;
 import com.court.oa.project.bean.LeaveListBean;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.okhttp.OkHttpManager;
@@ -41,7 +40,7 @@ public class Mine_leave_thr_fragment extends Fragment implements RefreshLayout.O
     private View view;
     private RefreshLayout swipeLayout;
     private ListView listView;
-    private TMine_Question_fir_Adapter adapter;
+    private TMine_Leave_fir_Adapter adapter;
     private int page = 1;
     private int type = 0;
     private ArrayList<LeaveListBean> listLeave;
@@ -110,7 +109,7 @@ public class Mine_leave_thr_fragment extends Fragment implements RefreshLayout.O
                     Gson gson = new Gson();
                     listLeave = gson.fromJson(jsonObj1, new TypeToken<List<LeaveListBean>>() {
                     }.getType());
-                    adapter = new TMine_Question_fir_Adapter(getActivity(), listLeave);
+                    adapter = new TMine_Leave_fir_Adapter(getActivity(), listLeave);
                     listView.setAdapter(adapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override

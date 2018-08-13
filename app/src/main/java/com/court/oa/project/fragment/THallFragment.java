@@ -16,6 +16,7 @@ import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -57,8 +58,8 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     private List<String> listTime;
     private List<String> newListTime;
     private String currentTime,newPackageData;
-    private String[] workDate = new String[]{"周一", "周二", "周三", "周四", "周五"};
-    private String[] workUpDate = new String[]{"星期一", "星期二", "星期三", "星期四", "星期五"};
+    private String[] workDate = new String[]{"周一", "周二", "周三", "周四", "周五","周六","周日"};
+    private String[] workUpDate = new String[]{"星期一", "星期二", "星期三", "星期四", "星期五","星期六","星期日"};
     private LinearLayout hall_leave;
     private LinearLayout hall_work;
     private LinearLayout hall_package;
@@ -74,7 +75,8 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     private double allPrice;
     private Object[] newObject = new Object[4];
     private ArrayList<HallPackageGoodBean> newList;
-    private String[] newWeekData;
+    private String[] newWeekData = new String [7];
+    private RadioButton rb_normal;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -120,6 +122,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         ll_week_sev = view.findViewById(R.id.ll_week_sev);
         ll_week_sev.setOnClickListener(this);
         radio.setOnCheckedChangeListener(this);
+        rb_normal = view.findViewById(R.id.rb_normal);
         newList = new ArrayList<>();
         listTime = Utils.test(7);
         newListTime = new ArrayList<>();
@@ -130,13 +133,10 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             newListTime.add(newString.replace("-", "."));
             textViews[i].setText(newListTime.get(i));
         }
-        if (newListTime.size() > 5) {
-            newWeekData = new String[5];
-            for (int j = 0; j < 5; j++) {
-                newWeekData[j] = newListTime.get(j);
-            }
+        for (int j = 0; j < newListTime.size(); j++) {
+            newWeekData[j] = newListTime.get(j);
         }
-        setLeaveData();
+        rb_normal.setChecked(true);
     }
 
     private void goneView() {
@@ -153,6 +153,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         goneView();
         hs.setVisibility(View.VISIBLE);
         hall_work.setVisibility(View.VISIBLE);
+        hall_date.removeAllViews();
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         final TextView[] textViews = new TextView[workDate.length];
@@ -172,7 +173,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             textView.setBackgroundResource(R.drawable.hall_title_chose);
             textViewlow.setBackgroundResource(R.drawable.hall_title_chose);
             textView.setText(workDate[i]);
-            if (newWeekData != null) {
+            if (newListTime.size()>0) {
                 textViewlow.setText(newWeekData[i]);
             } else {
                 textViewlow.setText(workDate[i]);
@@ -180,7 +181,9 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             textViews[i] = textView;
             textViewslow[i] = textViewlow;
             final int j = i;
-            textView.setOnClickListener(new View.OnClickListener() {
+            ll.addView(textView);
+            ll.addView(textViewlow);
+            ll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     for (int t = 0; t < workDate.length; t++) {
@@ -192,15 +195,68 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     initHallWeekDate(workUpDate[j]);
                 }
             });
-            ll.addView(textView);
-            ll.addView(textViewlow);
             hall_date.addView(ll);
         }
         textViews[0].setSelected(true);
         textViewslow[0].setSelected(true);
         initHallWeekDate("星期一");
     }
-
+    //设置打包
+    private void setLeaveData() {
+        goneView();
+        hs.setVisibility(View.VISIBLE);
+        hall_buy.setVisibility(View.VISIBLE);
+        hall_leave.setVisibility(View.VISIBLE);
+        setListener();
+        hall_date.removeAllViews();
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        final TextView[] textViews = new TextView[workDate.length];
+        final TextView[] textViewslow = new TextView[workDate.length];
+        for (int i = 0; i < workDate.length; i++) {
+            final LinearLayout ll = new LinearLayout(getContext());
+            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            ll.setLayoutParams(params1);
+            ll.setOrientation(LinearLayout.VERTICAL);
+            final TextView textView = new TextView(getContext());
+            final TextView textViewlow = new TextView(getContext());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels / 5, 25 * 3);
+            textView.setLayoutParams(params);
+            textViewlow.setLayoutParams(params);
+            textView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
+            textViewlow.setGravity(Gravity.CENTER);
+            textView.setBackgroundResource(R.drawable.hall_title_chose);
+            textViewlow.setBackgroundResource(R.drawable.hall_title_chose);
+            textView.setText(workDate[i]);
+            if (newListTime.size()>0) {
+                textViewlow.setText(newWeekData[i]);
+            } else {
+                textViewlow.setText(workDate[i]);
+            }
+            textViews[i] = textView;
+            textViewslow[i] = textViewlow;
+            final int j = i;
+            ll.addView(textView);
+            ll.addView(textViewlow);
+            ll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    for (int t = 0; t < newListTime.size(); t++) {
+                        textViews[t].setSelected(false);
+                        textViewslow[t].setSelected(false);
+                    }
+                    textView.setSelected(true);
+                    textViewlow.setSelected(true);
+                    currentTime = listTime.get(j);
+                }
+            });
+            hall_date.addView(ll);
+        }
+        currentTime = listTime.get(0);
+        textViews[0].setSelected(true);
+        textViewslow[0].setSelected(true);
+        initHallGoodListDate(currentTime);
+    }
     //周菜单
     private void initHallWeekDate(String weekDay) {
         HashMap<String, String> parameters = new HashMap<>();
@@ -214,7 +270,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     //商品列表
     private void initHallGoodListDate(String time) {
         HashMap<String, String> parameters = new HashMap<>();
-        parameters.put("showTime", "2018-7-24");//7-24
+        parameters.put("showTime", time);//7-24
         parameters.put("ctgId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("pageIndex", "" + 1);
         parameters.put("pageSize", "10");
@@ -228,7 +284,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     private void initHallMoreGoodListDate(String time) {
         page++;
         HashMap<String, String> parameters = new HashMap<>();
-        parameters.put("showTime", "2018-7-27");
+        parameters.put("showTime", time);
         parameters.put("ctgId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("pageIndex", "" + page);
         parameters.put("pageSize", "10");
@@ -280,6 +336,15 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     Gson gson = new Gson();
                     ArrayList<HallWeekBean> listDept = gson.fromJson(jsonObj1, new TypeToken<List<HallWeekBean>>() {
                     }.getType());
+                    if(listDept.size()<=0){
+                        listview_1.setVisibility(View.INVISIBLE);
+                        listview_2.setVisibility(View.INVISIBLE);
+                        listview_3.setVisibility(View.INVISIBLE);
+                    }else {
+                        listview_1.setVisibility(View.VISIBLE);
+                        listview_2.setVisibility(View.VISIBLE);
+                        listview_3.setVisibility(View.VISIBLE);
+                    }
                     if ("早".equals(listDept.get(0).getTimeType())) {
                         adapterWeek = new Hall_week_dataAdapter(getActivity(), listDept.get(0).getMenus());
                         listview_1.setAdapter(adapterWeek);
@@ -378,43 +443,6 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
 
         }
         return newObject;
-    }
-
-    //设置打包
-    private void setLeaveData() {
-        goneView();
-        hs.setVisibility(View.VISIBLE);
-        hall_buy.setVisibility(View.VISIBLE);
-        hall_leave.setVisibility(View.VISIBLE);
-        setListener();
-        DisplayMetrics dm = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        final TextView[] textViews = new TextView[newListTime.size()];
-        for (int i = 0; i < newListTime.size(); i++) {
-            final TextView textView = new TextView(getContext());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels / 5, LinearLayout.LayoutParams.MATCH_PARENT);
-            textView.setLayoutParams(params);
-            textView.setGravity(Gravity.CENTER);
-            textView.setBackgroundResource(R.drawable.hall_title_chose);
-            textView.setText(newListTime.get(i));
-            textViews[i] = textView;
-            final int j = i;
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    for (int t = 0; t < newListTime.size(); t++) {
-                        textViews[t].setSelected(false);
-                    }
-                    textView.setSelected(true);
-                    currentTime = listTime.get(j);
-                }
-            });
-            hall_date.addView(textView);
-        }
-        currentTime = listTime.get(0);
-        textViews[0].setSelected(true);
-        initHallGoodListDate(currentTime);
-
     }
 
     private void setPackageDate() {

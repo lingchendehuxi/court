@@ -4,65 +4,21 @@
     style="@style/configuration"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="vertical">
 
-    >
-
-    <include layout="@layout/title_bar_first" />
-
-    <ScrollView
+    <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="25dp">
-
-            <TextView
-                android:id="@+id/notifyList_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="假期调休通知"
-                android:textColor="@color/home_title_gray"
-                android:textSize="15dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="李嘉诚"
-                    android:textColor="@color/home_title_gray"
-                    android:textSize="13dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="16：45"
-                    android:textColor="@color/notify_context_gray"
-                    android:textSize="13dp" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="27dp"
-                android:text="领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察领导人视察"
-                android:textColor="@color/home_content_gray"
-                android:textSize="13dp" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-
+        android:layout_height="80dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="25dp"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"
+        android:text="我的工资条"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/mine_gray" />
 </LinearLayout>

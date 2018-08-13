@@ -66,13 +66,6 @@
         <View style="@style/mine_menu_gap_4" />
 
         <TextView
-            android:id="@+id/mine_question"
-            style="@style/mine_menu_style"
-            android:text="问卷调查" />
-
-        <View style="@style/mine_menu_gap_4" />
-
-        <TextView
             android:id="@+id/mine_leave"
             style="@style/mine_menu_style"
             android:text="请假记录" />
@@ -86,9 +79,15 @@
 
         <View style="@style/mine_menu_gap_4" />
         <TextView
+            android:id="@+id/mine_meet"
+            style="@style/mine_menu_style"
+            android:text="我的会议" />
+
+        <View style="@style/mine_menu_gap_4" />
+        <TextView
             android:id="@+id/mine_salary"
             style="@style/mine_menu_style"
-            android:text="工资条" />
+            android:text="我的工资条" />
 
         <View style="@style/mine_menu_gap_4" />
 

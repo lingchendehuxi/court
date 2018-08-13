@@ -66,13 +66,16 @@ public class Mine_leave_chose_activity extends AppCompatActivity implements View
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
         tv_title.setText("选择联系人");
-        TextView tv_sort = findViewById(R.id.tv_sort);
-        tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
-        iv_set.setVisibility(View.INVISIBLE);
+        iv_set.setVisibility(View.GONE);
         listView = findViewById(R.id.listView);
         et_reason = findViewById(R.id.et_reason);
-        tv_userconfirm = findViewById(R.id.tv_userconfirm);
+        tv_userconfirm = findViewById(R.id.tv_sort);
+        if(type == 2){
+            tv_userconfirm.setText("确定");
+        }else if(type == 1){
+            tv_userconfirm.setVisibility(View.INVISIBLE);
+        }
         tv_userconfirm.setOnClickListener(this);
         et_reason.addTextChangedListener(new TextWatcher() {
             @Override
@@ -108,7 +111,7 @@ public class Mine_leave_chose_activity extends AppCompatActivity implements View
             case R.id.iv_back:
                 this.finish();
                 break;
-            case R.id.tv_userconfirm:
+            case R.id.tv_sort:
                 Intent intent = new Intent();
                 intent.putExtra("userList",ListUser);
                 setResult(RESULT_OK,intent);

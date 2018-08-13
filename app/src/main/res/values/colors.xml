@@ -30,4 +30,5 @@
     <color name="result_view">#b0000000</color>
     <color name="font_lake_blue">#06c1ae</color>
     <color name="red">#ff0000</color>
+    <color name="lighter_gray">#80ffffff</color>
 </resources>

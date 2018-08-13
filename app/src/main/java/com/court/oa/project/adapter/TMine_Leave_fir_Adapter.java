@@ -17,12 +17,12 @@ import java.util.HashMap;
  * Created by MateBook D on 2018/5/15.
  */
 
-public class TMine_Question_fir_Adapter extends BaseAdapter {
+public class TMine_Leave_fir_Adapter extends BaseAdapter {
     public ArrayList<LeaveListBean> list;
     public Context context;
     public LayoutInflater layoutInflater;
 
-    public TMine_Question_fir_Adapter(Context context, ArrayList<LeaveListBean> list) {
+    public TMine_Leave_fir_Adapter(Context context, ArrayList<LeaveListBean> list) {
         this.context = context;
         this.list = list;
         layoutInflater = LayoutInflater.from(context);

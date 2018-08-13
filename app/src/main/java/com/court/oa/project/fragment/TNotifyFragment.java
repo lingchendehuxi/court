@@ -18,6 +18,7 @@ import com.court.oa.project.R;
 import com.court.oa.project.activity.Meet_Detail_activity;
 import com.court.oa.project.activity.Notify_Detail_activity;
 import com.court.oa.project.activity.Notify_question_result_activity;
+import com.court.oa.project.activity.Question_activity;
 import com.court.oa.project.adapter.TMeetAdapter;
 import com.court.oa.project.adapter.TNotifyAdapter;
 import com.court.oa.project.tool.RefreshLayout;
@@ -82,7 +83,7 @@ public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadLis
 					Intent intent = new Intent(getActivity(), Notify_Detail_activity.class);
 					getActivity().startActivity(intent);
 				}else {
-					Intent intent = new Intent(getActivity(), Notify_question_result_activity.class);
+					Intent intent = new Intent(getActivity(), Question_activity.class); //Notify_question_result_activity
 					getActivity().startActivity(intent);
 				}
 			}

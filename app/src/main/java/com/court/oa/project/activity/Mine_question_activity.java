@@ -32,7 +32,7 @@ public class Mine_question_activity extends AppCompatActivity implements View.On
         FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_mine_question_activity);
         initView();
-        RadioButton rb_question = findViewById(R.id.rb_question);
+        RadioButton rb_question = findViewById(R.id.rb_get);
         rb_question.setChecked(true);
     }
 
@@ -42,7 +42,7 @@ public class Mine_question_activity extends AppCompatActivity implements View.On
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
-        tv_title.setText("问卷调查");
+        tv_title.setText("我的食堂");
         TextView tv_sort = findViewById(R.id.tv_sort);
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
@@ -79,7 +79,7 @@ public class Mine_question_activity extends AppCompatActivity implements View.On
         transaction = manager.beginTransaction();
         hideFragments(transaction);
         switch (checkedId) {
-            case R.id.rb_question:
+            case R.id.rb_get:
                 if (mine_question_fir_fragment == null) {
                     mine_question_fir_fragment = new Mine_question_fir_fragment();
                     transaction.add(R.id.framelayout_question, mine_question_fir_fragment);
@@ -87,7 +87,7 @@ public class Mine_question_activity extends AppCompatActivity implements View.On
                     transaction.show(mine_question_fir_fragment);
                 }
                 break;
-            case R.id.rb_my_question:
+            case R.id.rb_package:
                 if (mine_question_sec_fragment == null) {
                     mine_question_sec_fragment = new Mine_question_sec_fragment();
                     transaction.add(R.id.framelayout_question, mine_question_sec_fragment);

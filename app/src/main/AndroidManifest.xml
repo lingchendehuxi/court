@@ -277,6 +277,18 @@
         <activity android:name=".activity.Notify_question_result_activity"
             android:theme="@style/AppTheme.Main"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MY_Salary_activity"
+            android:theme="@style/AppTheme.Main"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MY_Salary_activity_ListDetail"
+            android:theme="@style/AppTheme.Main"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.Mine_meet_activity"
+            android:theme="@style/AppTheme.Main"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.Question_activity"
+            android:theme="@style/AppTheme.Main"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MipcaActivityCapture"
             android:configChanges="orientation|keyboardHidden"

@@ -8,6 +8,9 @@ public class Contants {
     public static final String SERVER_ADDRESS = "http://114.55.248.239:8089/api/";// 接口地址
     public static final String MORE = "more";//更多
     public static final String REGIST_FOR_USER = "regist";// 用户注册
+    public static final String WAGE_LIST = "wages/list";// 工资条列表
+    public static final String WAGE_DETAIL = "wages/detail";// 工资条详情
+
     public static final String LOGIN_FOR_PWD = "login";// 密码登录
     public static final String ARTICLE_LIST = "article/list";// 信息列表
     public static final String ARTICLE_DETAIL = "article/detail";// 信息详情
@@ -19,6 +22,7 @@ public class Contants {
     public static final String LEAVE_USERLIST = "vacation/userlist";//审批人员
     public static final String HALL_WEEK = "weekmenu/detail";//食堂周菜单
     public static final String HALL_GOODLIST = "goods/list";//食堂商品列表
+    public static final String ORDER_GOODLIST = "order/list";//我的食堂订单列表
     public static final String ORDER_CREATE = "order/create";//食堂创建订单
     public static final String ORDER_DINNER = "order/dinner";//食堂打包创建订单
 

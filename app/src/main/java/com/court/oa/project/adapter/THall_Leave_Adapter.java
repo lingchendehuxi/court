@@ -123,7 +123,7 @@ public class THall_Leave_Adapter extends BaseAdapter {
             }else if(v.getId() == R.id.iv_reduce){
                 int number = Integer.valueOf(tv_showcount.getText().toString());
                 number--;
-                if(count<=0){
+                if(number<=0){
                     iv_reduce.setVisibility(View.INVISIBLE);
                     tv_showcount.setVisibility(View.INVISIBLE);
                 }

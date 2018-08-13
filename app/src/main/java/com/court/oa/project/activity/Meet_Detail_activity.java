@@ -55,6 +55,7 @@ import okhttp3.Request;
 public class Meet_Detail_activity extends AppCompatActivity implements View.OnClickListener,OkHttpManager.DataCallBack {
     private TextView tv_openfile,meet_title,meet_join,meet_time,meet_address,meet_start,meet_end,meet_context,tv_take;
     private ListView listView;
+    private String isShow,fileUrl;
 
     FileUtils fileUtils;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -82,7 +83,6 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
         iv_set.setVisibility(View.INVISIBLE);
-        tv_openfile = findViewById(R.id.tv_openfile);
         meet_title = findViewById(R.id.meet_title);
         meet_join = findViewById(R.id.meet_join);
         meet_time = findViewById(R.id.meet_time);
@@ -95,12 +95,11 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
         listView = findViewById(R.id.listView);
         Intent intent = getIntent();
         meetId = intent.getIntExtra("meetId",0);
-
+        isShow = intent.getStringExtra("isShow");
         fileUtils=new FileUtils();
-        /*if(fileUtils.isFileExist("足音.mp3","BoBoMusic")){
-            tv_openfile.setText("打开附件");
-        }*/
-
+        if("No".equals(isShow)){
+            tv_take.setVisibility(View.GONE);
+        }
     }
     private void initMeetDate() {
         HashMap<String, String> parameters = new HashMap<>();
@@ -142,18 +141,22 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
                     meet_start.setText(meetMainDetailBean.getJoinStartTime()+"报名");
                     meet_end.setText(meetMainDetailBean.getJoinEndTime()+"截止");
                     meet_context.setText(meetMainDetailBean.getContent());
-                    ArrayList<MeetFileBean> listFiles = meetMainDetailBean.getFiles();
+                    final ArrayList<MeetFileBean> listFiles = meetMainDetailBean.getFiles();
                     TMeeFJAdapter adapter = new TMeeFJAdapter(this,listFiles);
                     listView.setAdapter(adapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            tv_openfile = view.findViewById(R.id.tv_openfile);
+                            String url = listFiles.get(i).getFileUrl();
+                            int position2 = url.lastIndexOf("/");
+                            fileUrl = "/sdcard/WJ_count/"+url.substring(position2+1,url.length());
                             if ("打开附件".equals(tv_openfile.getText().toString().trim())){
-                                FileUtils.getTextFileIntent("/sdcard/zer.txt",false);
+                                FileUtils.getTextFileIntent(fileUrl,false);
                                 return;
                             }
                             verifyStoragePermissions(Meet_Detail_activity.this);
-                            new MyAsyncTask(Meet_Detail_activity.this).execute("http://fengkui.bj.bcebos.com/%E8%B6%B3%E9%9F%B3.mp3");
+                            new MyAsyncTask(Meet_Detail_activity.this).execute(listFiles.get(i).getFileUrl());
                         }
                     });
                     break;
@@ -245,7 +248,7 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
 
                 if(connection.getResponseCode() == 200){
                     is = connection.getInputStream();
-                    os = new FileOutputStream("/sdcard/zer.txt");
+                    os = new FileOutputStream(fileUrl);
                     byte [] buf = new byte[1024];
                     int len;
                     int pro1=0;
