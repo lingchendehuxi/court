@@ -25,4 +25,5 @@ public class Contants {
     public static final String LEAVE_APPLYER = "vacation/audit";//请假审核
     public static final String LEAVE_DETAIL = "vacation/detail";//请假详情
 
+    public static final String MEETING_SINGIN = "meeting/signin";//扫描二维码签到
 }
