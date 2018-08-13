@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.court.oa.project.R;
+import com.court.oa.project.activity.Login_My_activity;
 import com.court.oa.project.activity.Meet_Detail_activity;
 import com.court.oa.project.activity.MipcaActivityCapture;
 import com.court.oa.project.adapter.TMeetAdapter;
@@ -28,6 +30,7 @@ import com.court.oa.project.contants.Contants;
 import com.court.oa.project.okhttp.OkHttpManager;
 import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.RefreshLayout;
+import com.court.oa.project.utils.StringUtils;
 import com.court.oa.project.utils.ToastUtil;
 import com.court.oa.project.utils.Utils;
 import com.google.gson.Gson;
@@ -131,7 +134,9 @@ public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListe
                         adapter.notifyDataSetChanged();
                     }
                     break;
-
+                case Contants.MEETING_SINGIN:
+                    ToastUtil.show(getActivity(),"签到成功！");
+                    break;
                 default:
                     break;
             }
@@ -220,11 +225,23 @@ public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListe
                     Bundle bundle = data.getExtras();
                     //显示扫描到的内容
                     //textView.setText(bundle.getString("result"));
-                    Toast.makeText(contextActivity, bundle.getString("result"), Toast.LENGTH_SHORT).show();
+//                    YWN0aXZpdHktMQ==
+//                    Log.d("liuhong",bundle.getString("result"));
+                    String code = bundle.getString("result");
+                    if(StringUtils.isEmpty(code)){
+                        ToastUtil.show(getActivity(),"二维码无效");
+                        break;
+                    }
                     //显示
 //                    byte[] b = bundle.getByteArray("bitmap");
 //                    Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
 //                    mImageView.setImageBitmap(bitmap);
+                    HashMap<String, String> parameters = new HashMap<>();
+                    parameters.put("uid", SharePreferenceUtils.readUser("userId",getActivity()));
+                    parameters.put("code", code);
+                    OkHttpManager.postAsync(
+                            Contants.MEETING_SINGIN, parameters,
+                            this, null, Contants.MEETING_SINGIN);
                 }
                 break;
         }
