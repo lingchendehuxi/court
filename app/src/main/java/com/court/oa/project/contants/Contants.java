@@ -30,4 +30,9 @@ public class Contants {
     public static final String LEAVE_DETAIL = "vacation/detail";//请假详情
 
     public static final String MEETING_SINGIN = "meeting/signin";//扫描二维码签到
+    public static final String MESSAGE_LIST = "message/list";//通知列表
+    public static final String EXAM_DETAIL = "exam/detail";//问卷详情
+
+    //传参
+    public static final String QUESTION_ID = "question";
 }

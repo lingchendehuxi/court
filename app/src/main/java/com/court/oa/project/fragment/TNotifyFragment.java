@@ -21,73 +21,113 @@ import com.court.oa.project.activity.Notify_question_result_activity;
 import com.court.oa.project.activity.Question_activity;
 import com.court.oa.project.adapter.TMeetAdapter;
 import com.court.oa.project.adapter.TNotifyAdapter;
+import com.court.oa.project.bean.MeetMainBean;
+import com.court.oa.project.bean.MessageBean;
+import com.court.oa.project.contants.Contants;
+import com.court.oa.project.okhttp.OkHttpManager;
+import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.RefreshLayout;
+import com.court.oa.project.utils.ToastUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import okhttp3.Request;
 
 
-public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener{
+public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener,OkHttpManager.DataCallBack{
 	private View view;
-	private CheckBox cb_set;
 	private RefreshLayout swipeLayout;
-	private ArrayList list;
 	private ListView listView;
 	private TNotifyAdapter adapter;
+	private ArrayList<MessageBean> listMessage;
+	private int page = 0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = (View) inflater.inflate(R.layout.tnotifyfragment, null);
 		initView();
-		setData();
 		setListener();
 		return view;
 	}
 	private void initView() {
-		cb_set = view.findViewById(R.id.cb_set);
 		swipeLayout = view.findViewById(R.id.swipe_container);
-		cb_set.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-				if (isChecked) {
-
-				}
-			}
-		});
-	}
-	/**
-	 * 添加数据
-	 */
-	private void setData() {
-		list = new ArrayList<HashMap<String, String>>();
-		for (int i = 0; i < 1; i++) {
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("itemImage", i + "默认");
-			map.put("itemText", i + "默认");
-			map.put("isQustion", "0");
-			list.add(map);
-		}
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("itemImage", "默认");
-		map.put("itemText", "默认");
-		map.put("isQustion", "1");
-		list.add(map);
-
-		listView = (ListView) view.findViewById(R.id.list);
-		adapter = new TNotifyAdapter(getActivity(), list);
-		listView.setAdapter(adapter);
+		listView =  view.findViewById(R.id.list);
+		initMessageData();
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				HashMap<String,String> hashMap = (HashMap<String, String>) list.get(i);
-				if("0".equals(hashMap.get("isQustion"))){
-					Intent intent = new Intent(getActivity(), Notify_Detail_activity.class);
-					getActivity().startActivity(intent);
-				}else {
-					Intent intent = new Intent(getActivity(), Question_activity.class); //Notify_question_result_activity
-					getActivity().startActivity(intent);
-				}
+				Intent intent = new Intent(getActivity(),Question_activity.class);
+				intent.putExtra("exId",listMessage.get(i).getMsgCtgId());
+				getActivity().startActivity(intent);
 			}
 		});
+	}
+	private void initMessageData() {
+		page=1;
+		HashMap<String, String> parameters = new HashMap<>();
+		parameters.put("pageIndex", ""+page);
+		parameters.put("pageSize", "10");
+		parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
+		parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
+		OkHttpManager.postAsync(
+				Contants.MESSAGE_LIST, parameters,
+				this, null, Contants.MESSAGE_LIST);
+	}
+	private void initMoreMessageData() {
+		page++;
+		HashMap<String, String> parameters = new HashMap<>();
+		parameters.put("pageIndex", ""+page);
+		parameters.put("pageSize", "10");
+		parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
+		parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
+		OkHttpManager.postAsync(
+				Contants.MESSAGE_LIST, parameters,
+				this, null, Contants.MORE);
+	}
+	@Override
+	public void requestFailure(Request request, IOException e, String method) {
+		ToastUtil.getShortToastByString(getActivity(),
+				getString(R.string.networkRequst_resultFailed));
+	}
+
+	@Override
+	public void requestSuccess(String result, String method) throws Exception {
+		JSONObject object = new JSONObject(result);
+		if (object.getInt("code") == 1) {
+			String jsonObj1 = object.getString("data");
+			switch (method) {
+				case Contants.MESSAGE_LIST:
+					Gson gson = new Gson();
+					listMessage = gson.fromJson(jsonObj1, new TypeToken<List<MessageBean>>() {
+					}.getType());
+					adapter = new TNotifyAdapter(getActivity(), listMessage);
+					listView.setAdapter(adapter);
+					swipeLayout.setOnLoadListener(this);
+					break;
+				case Contants.MORE:
+					Gson gson1 = new Gson();
+					ArrayList<MessageBean> listMeet1 = gson1.fromJson(jsonObj1, new TypeToken<List<MessageBean>>() {
+					}.getType());
+					if(listMeet1.size()>0){
+						for(int i = 0;i<listMeet1.size();i++){
+							listMessage.add(listMeet1.get(i));
+						}
+						adapter.notifyDataSetChanged();
+					}else {
+						swipeLayout.setOnLoadListener(null);
+					}
+					break;
+				default:
+					break;
+			}
+		}
+
 	}
 
 	/**
@@ -108,14 +148,8 @@ public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadLis
 			@Override
 			public void run() {
 				// 更新数据  更新完后调用该方法结束刷新
-				list.clear();
-				for (int i = 0; i < 8; i++) {
-					HashMap<String, String> map = new HashMap<String, String>();
-					map.put("itemImage", i + "刷新");
-					map.put("itemText", i + "刷新");
-					list.add(map);
-				}
-				adapter.notifyDataSetChanged();
+				listMessage.clear();
+				initMessageData();
 				swipeLayout.setRefreshing(false);
 			}
 		}, 2000);
@@ -132,13 +166,7 @@ public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadLis
 			public void run() {
 				// 更新数据  更新完后调用该方法结束刷新
 				swipeLayout.setLoading(false);
-				for (int i = 1; i < 10; i++) {
-					HashMap<String, String> map = new HashMap<String, String>();
-					map.put("itemImage", i + "更多");
-					map.put("itemText", i + "更多");
-					list.add(map);
-				}
-				adapter.notifyDataSetChanged();
+				initMoreMessageData();
 			}
 		}, 2000);
 	}

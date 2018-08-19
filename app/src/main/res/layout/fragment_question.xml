@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
@@ -20,26 +21,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:paddingLeft="20dp"
         android:paddingTop="6dp">
 
         <RadioButton
             android:id="@+id/rb_one"
             style="@style/question_style"
+            android:visibility="gone"
             android:text="A 有利于1" />
 
         <RadioButton
             android:id="@+id/rb_two"
             style="@style/question_style"
+            android:visibility="gone"
             android:text="B 有利于2" />
 
         <RadioButton
             android:id="@+id/rb_thr"
             style="@style/question_style"
+            android:visibility="gone"
             android:text="C 有利于3有利于3有利于3有利于3有利于3有利于3有利于3有利于3有利于3有利于3有利于3567" />
 
         <RadioButton
             android:id="@+id/rb_four"
             style="@style/question_style"
+            android:visibility="gone"
             android:text="D 有利于4" />
 
     </RadioGroup>

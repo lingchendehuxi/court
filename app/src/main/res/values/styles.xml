@@ -110,11 +110,11 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">16dp</item>
-        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginBottom">40dp</item>
         <item name="android:layout_marginLeft">25dp</item>
-        <item name="android:paddingLeft">5dp</item>
-        <item name="android:paddingRight">5dp</item>
         <item name="android:drawableLeft">@drawable/leave_type_ico</item>
+        <item name="android:background">@null</item>
+        <item name="android:drawablePadding">20dp</item>
         <item name="android:textColor">@color/home_title_gray</item>
 
     </style>
