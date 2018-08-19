@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.court.oa.project.application.MyApplication;
+import com.court.oa.project.contants.Contants;
 import com.court.oa.project.fragment.TCardFragment;
 import com.court.oa.project.fragment.THallFragment;
 import com.court.oa.project.fragment.TMeetFragment;
@@ -24,6 +25,8 @@ import com.court.oa.project.fragment.TNotifyFragment;
 import com.court.oa.project.fragment.TMineFragment;
 import com.court.oa.project.fragment.THomeFragment;
 import com.court.oa.project.tool.FitStateUI;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.List;
 
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private TCardFragment tCardFragment;
     private LinearLayout ll_bg;
     private int themeColor;
+    public IWXAPI wxApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         MyApplication.getInstance().addActivity(this);
         FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_main);
+        wxApi = WXAPIFactory.createWXAPI(this, Contants.APPID);
+        wxApi.registerApp(Contants.APPID);
         initView();
         RadioButton rb_home = findViewById(R.id.rb_home);
         rb_home.setChecked(true);

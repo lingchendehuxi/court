@@ -1,5 +1,7 @@
 package com.court.oa.project.contants;
 
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+
 /**
  * Created by MateBook D on 2018/6/10.
  */
@@ -35,4 +37,9 @@ public class Contants {
 
     //传参
     public static final String QUESTION_ID = "question";
+
+    //微信支付
+    // 微信appId
+    public static final String APPID = "wxcec03c638755a612";
+    public static IWXAPI wxApi;
 }

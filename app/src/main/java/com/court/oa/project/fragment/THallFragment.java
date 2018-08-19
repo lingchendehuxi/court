@@ -37,7 +37,9 @@ import com.court.oa.project.utils.ToastUtil;
 import com.court.oa.project.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -270,7 +272,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     //商品列表
     private void initHallGoodListDate(String time) {
         HashMap<String, String> parameters = new HashMap<>();
-        parameters.put("showTime", time);//7-24
+        parameters.put("showTime", "2018-7-24");//7-24
         parameters.put("ctgId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("pageIndex", "" + 1);
         parameters.put("pageSize", "10");
@@ -359,6 +361,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     }
                     break;
                 case Contants.ORDER_CREATE:
+
                     break;
                 case Contants.HALL_GOODLIST:
                     Gson gson1 = new Gson();
@@ -612,6 +615,34 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                 swipeLayout.setLoading(false);
             }
         }, 2000);
+    }
+
+
+    //微信支付
+    /**获取用微信支付的信息*/
+    private void getWeChatMsg(String result) {
+        try {
+            JSONObject object = new JSONObject(result);
+            if (object.getInt("code") == 1) {
+                JSONObject object2 = object.getJSONObject("data");
+                JSONObject object3 = object2.getJSONObject("data");
+
+                PayReq req = new PayReq();
+                req.appId = object3.getString("appid");
+                req.partnerId = object3.getString("partnerid");
+                req.prepayId = object3.getString("prepayid");
+                req.nonceStr = object3.getString("noncestr");
+                req.timeStamp = object3.getString("timestamp");
+                req.packageValue = object3.getString("package");
+                req.sign = object3.getString("sign");
+                Contants.wxApi.sendReq(req);
+            } else {
+                return;
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }
