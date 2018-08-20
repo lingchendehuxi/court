@@ -41,6 +41,8 @@ public class Contants {
     //微信支付
     // 微信appId
     public static final String APPID = "wxcec03c638755a612";
+    public static final String MCHID = "1511930091";
+    public static final String KEY = "wujiangfayuan20180819fayuan12345";
     public static IWXAPI wxApi;
     public static final String WX_POST = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 }

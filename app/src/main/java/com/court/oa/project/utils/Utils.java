@@ -458,4 +458,8 @@ public class Utils {
         }
         return null;
     }
+
+    public static long genTimeStamp() {
+        return System.currentTimeMillis() / 1000;
+    }
 }

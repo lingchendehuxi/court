@@ -1,6 +1,5 @@
 package com.court.oa.project.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,23 +12,18 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
 import com.court.oa.project.adapter.Hall_week_dataAdapter;
 import com.court.oa.project.adapter.THall_Leave_Adapter;
-import com.court.oa.project.bean.ArticalBean;
 import com.court.oa.project.bean.HallPackageGoodBean;
 import com.court.oa.project.bean.HallWeekBean;
-import com.court.oa.project.bean.HallWeekDetailBean;
-import com.court.oa.project.bean.MeetMainDetailBean;
 import com.court.oa.project.bean.WXPrePost;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.okhttp.DailogShow;
@@ -42,6 +36,7 @@ import com.court.oa.project.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -50,7 +45,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -93,6 +87,28 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     private ArrayList<HallPackageGoodBean> newList;
     private String[] newWeekData = new String [7];
     private RadioButton rb_normal;
+
+    Handler mHandler = new Handler(){
+        /**
+         * handleMessage接收消息后进行相应的处理
+         * @param msg
+         */
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    WXPrePost wxPrePost = (WXPrePost)msg.obj;
+//                    ToastUtil.show(getActivity(),"SUCCESS"+wxPrePost.nonce_str+wxPrePost.prepayid);
+                    getWeChatPlay(wxPrePost.prepayid,wxPrePost.nonce_str);
+                    break;
+                case 2:
+                    ToastUtil.show(getActivity(),"获取订单失败！");
+                    break;
+            }
+
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -643,8 +659,8 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             // 统一下单
             String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
             WXPrePost post = new WXPrePost();
-            post.appid = "wxcec03c638755a612";
-            post.mch_id = "1511930091";
+            post.appid = Contants.APPID;
+            post.mch_id = Contants.MCHID;
             post.nonce_str = genNonceStr();//随机字符串  **1
             post.body = object.getString("title");
             post.detail = object.getString("desc");
@@ -706,7 +722,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             sb.append('&');
         }
         sb.append("key=");
-        sb.append("wujiangfayuan20180819fayuan12345");//key设置路径：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
+        sb.append(Contants.KEY);//key设置路径：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
         //这里又用到了从实例代码复制的MD5 可以去上面copy
         String packageSign = MD5Utils.getMessageDigest(sb.toString().getBytes()).toUpperCase();
         return packageSign;
@@ -774,6 +790,19 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                 }
                 DailogShow.dismissWaitDialog();
 
+                if("SUCCESS".equals(return_code)&&"SUCCESS".equals(result_code)){
+                    Message message = Message.obtain();
+                    message.what = 1;
+                    WXPrePost wxPrePost = new WXPrePost();
+                    wxPrePost.prepayid = prepayId;
+                    wxPrePost.nonce_str = nonceStr;
+                    message.obj = wxPrePost;
+                    mHandler.sendMessage(message);
+                } else{
+                    Message message = Message.obtain();
+                    message.what = 2;
+                    mHandler.sendMessage(message);
+                }
                 Log.d("liuhong","return_code = "+return_code);
                 Log.d("liuhong","result_code = "+result_code);
                 Log.d("liuhong","appId = "+appId);
@@ -781,5 +810,57 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                 Log.d("liuhong","nonceStr = "+nonceStr);
             }
         });
+    }
+//*************************************上面都是获取订单的逻辑（第一次签名），下面是调支付（第二次签名）****************************************
+    //调起支付
+    private void getWeChatPlay(String prepayId, String nonceStr){
+        String timeStamp = String.valueOf(Utils.genTimeStamp());
+        List<NameValuePair> list = getSecondSignParams(prepayId,nonceStr,timeStamp);
+        try {
+            //一下所有的参数上面均获取到了
+            PayReq req = new PayReq();
+            req.appId = Contants.APPID;
+            req.partnerId = Contants.MCHID;
+            req.prepayId = prepayId;
+            req.nonceStr = nonceStr;
+            req.timeStamp = timeStamp;
+            req.packageValue = "Sign=WXPay";
+            req.sign = genSecondPackageSign(list);
+            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+            Contants.wxApi = WXAPIFactory.createWXAPI(getActivity(),null);
+            Contants.wxApi.registerApp(Contants.APPID);
+            Contants.wxApi.sendReq(req);
+
+        } catch (Exception e) {
+            Log.e("PAY_GET", "异常：" + e.getMessage());
+        }
+    }
+    //获取参数列表
+    private List<NameValuePair> getSecondSignParams(String prepayId, String nonceStr, String timeStamp) {
+        //appId，partnerId，prepayId，nonceStr，timeStamp，package
+        List<NameValuePair> packageParams = new LinkedList<>();
+        packageParams.add(new BasicNameValuePair("appid", Contants.APPID));
+        packageParams.add(new BasicNameValuePair("noncestr", nonceStr));
+        packageParams.add(new BasicNameValuePair("package", "Sign=WXPay"));
+        packageParams.add(new BasicNameValuePair("partnerid", Contants.MCHID));
+        packageParams.add(new BasicNameValuePair("prepayid", prepayId));
+        packageParams.add(new BasicNameValuePair("timestamp", timeStamp));
+        return packageParams;
+    }
+    //第二次签名
+    private String genSecondPackageSign(List<NameValuePair> params) {
+        //拼接排序list
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < params.size(); i++) {
+            sb.append(params.get(i).getName());
+            sb.append('=');
+            sb.append(params.get(i).getValue());
+            sb.append('&');
+        }
+        sb.append("key=");
+        sb.append(Contants.KEY);//上面已经获取
+        String packageSign = MD5Utils.getMessageDigest(sb.toString().getBytes()).toUpperCase();
+        return packageSign;
     }
 }

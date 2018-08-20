@@ -26,4 +26,6 @@ public class WXPrePost {
     public String time_expire;//订单失效时间，格式为yyyyMMddHHmmss，如2009年12月27日9点10分10秒表示为20091227091010。其他详见时间规则 注意：最短失效时间间隔必须大于5分钟
     public String goods_tag;//商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
     public String limit_pay;//no_credit--指定不能使用信用卡支付
+
+    public String prepayid;//预支付交易会话ID
 }
