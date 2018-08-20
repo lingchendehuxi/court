@@ -42,4 +42,5 @@ public class Contants {
     // 微信appId
     public static final String APPID = "wxcec03c638755a612";
     public static IWXAPI wxApi;
+    public static final String WX_POST = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 }

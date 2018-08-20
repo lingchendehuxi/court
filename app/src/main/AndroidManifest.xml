@@ -234,6 +234,12 @@
         <!-- Required. AppKey copied from Portal -->
         <meta-data android:name="JPUSH_APPKEY" android:value="1de28831ad85c4c35f7cc7b0"/>
 
+        <!-- 微信支付回调 -->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+
         <activity
             android:name=".activity.Mine_set_acitivity"
             android:theme="@style/AppTheme.Main"

@@ -1,5 +1,6 @@
 package com.court.oa.project.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,16 +30,21 @@ import com.court.oa.project.bean.HallPackageGoodBean;
 import com.court.oa.project.bean.HallWeekBean;
 import com.court.oa.project.bean.HallWeekDetailBean;
 import com.court.oa.project.bean.MeetMainDetailBean;
+import com.court.oa.project.bean.WXPrePost;
 import com.court.oa.project.contants.Contants;
+import com.court.oa.project.okhttp.DailogShow;
 import com.court.oa.project.okhttp.OkHttpManager;
 import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.RefreshLayout;
+import com.court.oa.project.utils.MD5Utils;
 import com.court.oa.project.utils.ToastUtil;
 import com.court.oa.project.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,10 +52,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class THallFragment extends Fragment implements View.OnClickListener, RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener, RadioGroup.OnCheckedChangeListener, OkHttpManager.DataCallBack {
@@ -361,7 +375,10 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     }
                     break;
                 case Contants.ORDER_CREATE:
-
+                    getWeChatMsg(jsonObj1);
+                    break;
+                case Contants.WX_POST:
+                    getWeChatMsg(jsonObj1);
                     break;
                 case Contants.HALL_GOODLIST:
                     Gson gson1 = new Gson();
@@ -623,26 +640,146 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     private void getWeChatMsg(String result) {
         try {
             JSONObject object = new JSONObject(result);
-            if (object.getInt("code") == 1) {
-                JSONObject object2 = object.getJSONObject("data");
-                JSONObject object3 = object2.getJSONObject("data");
+            // 统一下单
+            String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+            WXPrePost post = new WXPrePost();
+            post.appid = "wxcec03c638755a612";
+            post.mch_id = "1511930091";
+            post.nonce_str = genNonceStr();//随机字符串  **1
+            post.body = object.getString("title");
+            post.detail = object.getString("desc");
+            post.out_trade_no = object.getString("orderNum"); //商户订单号 **2
+            post.total_fee = 1;//单位是分
+            post.spbill_create_ip = Utils.getLocalIpAddress();//ip地址  **3
+            post.notify_url = object.getString("payNotifyUrl");//这里是后台接受支付结果通知的url地址
+            post.trade_type = "APP";
+            post.sign = genPackageSign(post);//签名  **4
 
-                PayReq req = new PayReq();
-                req.appId = object3.getString("appid");
-                req.partnerId = object3.getString("partnerid");
-                req.prepayId = object3.getString("prepayid");
-                req.nonceStr = object3.getString("noncestr");
-                req.timeStamp = object3.getString("timestamp");
-                req.packageValue = object3.getString("package");
-                req.sign = object3.getString("sign");
-                Contants.wxApi.sendReq(req);
-            } else {
-                return;
-            }
+            play(Utils.toXml(getFirstSignParams(post)));
+//                PayReq req = new PayReq();
+//                req.appId = object3.getString("appid");
+//                req.partnerId = object3.getString("partnerid");
+//                req.prepayId = object3.getString("prepayid");
+//                req.nonceStr = object3.getString("noncestr");
+//                req.timeStamp = object3.getString("timestamp");
+//                req.packageValue = object3.getString("package");
+//                req.sign = object3.getString("sign");
+//                Contants.wxApi.sendReq(req);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private String genNonceStr() {
+        Random random = new Random();
+        //这里就用到了微信实例代码中的MD5那个类
+        return MD5Utils.getMessageDigest(String.valueOf(random.nextInt(10000)).getBytes());
+    }
+
+    /**
+     * 生成签名
+     *
+     * @param params
+     */
+    private String genPackageSign(WXPrePost params) {
+        //拼接排序list
+        List<NameValuePair> packageParams = new LinkedList<>();
+        packageParams.add(new BasicNameValuePair("appid", params.appid));
+        packageParams.add(new BasicNameValuePair("body", params.body));
+        packageParams.add(new BasicNameValuePair("detail", params.detail));
+        packageParams.add(new BasicNameValuePair("mch_id", params.mch_id));
+        packageParams.add(new BasicNameValuePair("nonce_str", params.nonce_str));
+        packageParams.add(new BasicNameValuePair("notify_url", params.notify_url));
+        packageParams.add(new BasicNameValuePair("out_trade_no", params.out_trade_no));
+        packageParams.add(new BasicNameValuePair("spbill_create_ip", params.spbill_create_ip));
+        packageParams.add(new BasicNameValuePair("total_fee", params.total_fee + ""));
+        packageParams.add(new BasicNameValuePair("trade_type", params.trade_type));
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < packageParams.size(); i++) {
+            sb.append(packageParams.get(i).getName());
+            sb.append('=');
+            sb.append(packageParams.get(i).getValue());
+            sb.append('&');
+        }
+        sb.append("key=");
+        sb.append("wujiangfayuan20180819fayuan12345");//key设置路径：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
+        //这里又用到了从实例代码复制的MD5 可以去上面copy
+        String packageSign = MD5Utils.getMessageDigest(sb.toString().getBytes()).toUpperCase();
+        return packageSign;
+    }
+
+    private List<NameValuePair> getFirstSignParams(WXPrePost params) {
+        List<NameValuePair> packageParams = new LinkedList<>();
+        packageParams.add(new BasicNameValuePair("appid", params.appid));
+        packageParams.add(new BasicNameValuePair("body", params.body));
+        packageParams.add(new BasicNameValuePair("detail", params.detail));
+        packageParams.add(new BasicNameValuePair("mch_id", params.mch_id));
+        packageParams.add(new BasicNameValuePair("nonce_str", params.nonce_str));
+        packageParams.add(new BasicNameValuePair("notify_url", params.notify_url));
+        packageParams.add(new BasicNameValuePair("out_trade_no", params.out_trade_no));
+        packageParams.add(new BasicNameValuePair("spbill_create_ip", params.spbill_create_ip));
+        packageParams.add(new BasicNameValuePair("total_fee", params.total_fee + ""));
+        packageParams.add(new BasicNameValuePair("trade_type", params.trade_type));
+        packageParams.add(new BasicNameValuePair("sign", params.sign));
+        return packageParams;
+    }
+
+    private void play(String xml) throws IOException {
+        DailogShow.showWaitDialog(getActivity());
+        RequestBody body = RequestBody.create(MediaType.parse("application/xml"),xml);
+        Request request = new Request.Builder()
+                .url(Contants.WX_POST)
+                .post(body)
+                .build();
+        OkHttpClient client = new OkHttpClient();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            Log.d("liuhong","onFailure");
+            DailogShow.dismissWaitDialog();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d("liuhong","onResponse");
+                String result = response.body().string();
+                Log.d("liuhong","result = "+result);
+                response.body().close();
+                //判断是否成功
+                //...
+                //再次签名(参与签名的字段有 :Appid partnerId prepayId nonceStr TimeStamp package)
+                Map<String ,String> stringMap = Utils.decodeXml(result);
+                String return_code = "";
+                String result_code = "";
+                String appId = "";
+                String prepayId = "";
+                String nonceStr = "";
+                for (Map.Entry<String, String> entry : stringMap.entrySet()) {
+                    if ("appid".equals(entry.getKey())) {
+                        appId = entry.getValue();
+                    } else if ("prepay_id".equals(entry.getKey())) {
+                        prepayId = entry.getValue();
+                    } else if ("nonce_str".equals(entry.getKey())) {
+                        nonceStr = entry.getValue();
+                    } else if ("return_code".equals(entry.getKey())) {
+                        return_code = entry.getValue();
+                    } else if ("result_code".equals(entry.getKey())) {
+                        result_code = entry.getValue();
+                    }
+                }
+                DailogShow.dismissWaitDialog();
+
+                Log.d("liuhong","return_code = "+return_code);
+                Log.d("liuhong","result_code = "+result_code);
+                Log.d("liuhong","appId = "+appId);
+                Log.d("liuhong","prepayId = "+prepayId);
+                Log.d("liuhong","nonceStr = "+nonceStr);
+            }
+        });
+    }
 }

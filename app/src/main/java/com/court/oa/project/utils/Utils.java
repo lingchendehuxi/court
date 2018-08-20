@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.util.Xml;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
@@ -14,16 +15,25 @@ import android.widget.EditText;
 
 import com.google.gson.Gson;
 
+import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
 
+import java.io.StringReader;
 import java.lang.reflect.Field;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -376,5 +386,76 @@ public class Utils {
         String result = format.format(today);
         Log.e("text", result);
         return result;
+    }
+
+    public static String getLocalIpAddress() {
+        StringBuilder IFCONFIG = new StringBuilder();
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress() && inetAddress.isSiteLocalAddress()) {
+                        IFCONFIG.append(inetAddress.getHostAddress().toString() + ",");
+                        break;
+                    }
+
+                }
+            }
+            String[] split = IFCONFIG.toString().split(",");
+            if (split != null && split.length > 0) {
+                String ip = split[0];
+                if (ip != null && ip.length() > 0) {
+                    return ip;
+                } else {
+                    return "127.0.0.1";
+                }
+            } else {
+                return "127.0.0.1";
+            }
+        } catch (SocketException ex) {
+            return "127.0.0.1";
+
+        }
+    }
+
+    public static String toXml(List<NameValuePair> params) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<xml>");
+        for (int i = 0; i < params.size(); i++) {
+            sb.append("<" + params.get(i).getName() + ">");
+            sb.append(params.get(i).getValue());
+            sb.append("</" + params.get(i).getName() + ">");
+        }
+        sb.append("</xml>");
+        return sb.toString();
+    }
+
+    public static Map<String, String> decodeXml(String content) {
+
+        try {
+            Map<String, String> xml = new HashMap<>();
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setInput(new StringReader(content));
+            int event = parser.getEventType();
+            while (event != XmlPullParser.END_DOCUMENT) {
+                String nodeName = parser.getName();
+                switch (event) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        if (!"xml".equals(nodeName)) {
+                            xml.put(nodeName, parser.nextText());
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                }
+                event = parser.next();
+            }
+            return xml;
+        } catch (Exception e) {
+        }
+        return null;
     }
 }
