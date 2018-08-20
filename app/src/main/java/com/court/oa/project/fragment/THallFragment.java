@@ -393,9 +393,6 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                 case Contants.ORDER_CREATE:
                     getWeChatMsg(jsonObj1);
                     break;
-                case Contants.WX_POST:
-                    getWeChatMsg(jsonObj1);
-                    break;
                 case Contants.HALL_GOODLIST:
                     Gson gson1 = new Gson();
                     listGood = gson1.fromJson(jsonObj1, new TypeToken<List<HallPackageGoodBean>>() {
