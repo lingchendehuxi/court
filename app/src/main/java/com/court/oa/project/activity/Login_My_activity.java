@@ -106,6 +106,7 @@ public class Login_My_activity extends AppCompatActivity implements View.OnClick
     public void requestSuccess(String result, String method) throws Exception {
         JSONObject object = new JSONObject(result);
         String jsonObj = object.getString("data");
+//        Log.d("liuhong","login : " + jsonObj);
         switch (method) {
             case Contants.LOGIN_FOR_PWD:
                 Gson gson = new Gson();

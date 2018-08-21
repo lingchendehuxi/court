@@ -11,19 +11,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.court.oa.project.MainActivity;
 import com.court.oa.project.R;
+import com.court.oa.project.activity.Login_My_activity;
 import com.court.oa.project.activity.MY_Salary_activity;
 import com.court.oa.project.activity.Mine_Menu_activity;
 import com.court.oa.project.activity.Mine_leave_activity;
 import com.court.oa.project.activity.Mine_meet_activity;
 import com.court.oa.project.activity.Mine_question_activity;
 import com.court.oa.project.activity.Mine_set_acitivity;
+import com.court.oa.project.activity.StartActivity;
 import com.court.oa.project.save.SharePreferenceUtils;
 import com.squareup.picasso.Picasso;
 
 public class TMineFragment extends Fragment implements View.OnClickListener {
     private View view;
-    private ImageView mine_pic;
+    private ImageView mine_pic,mine_info_go;
     private TextView mine_name,mine_job;
 
     @Override
@@ -41,6 +44,8 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
         TextView tv_sort = view.findViewById(R.id.tv_sort);
         tv_sort.setText("设置");
         tv_sort.setOnClickListener(this);
+        ImageView mine_info_go = view.findViewById(R.id.mine_info_go);
+        mine_info_go.setOnClickListener(this);
         ImageView iv_set = view.findViewById(R.id.iv_set);
         iv_set.setVisibility(View.GONE);
 
@@ -71,6 +76,7 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_sort:
+            case R.id.mine_info_go:
                 startActivity(new Intent(getActivity(), Mine_set_acitivity.class));
                 break;
             case R.id.mine_menu:
@@ -87,6 +93,18 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_meet:
                 startActivity(new Intent(getActivity(), Mine_meet_activity.class));
                 break;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!"yes".equals(SharePreferenceUtils.readUser("login",getActivity()))){
+            SharePreferenceUtils.cleanUser(getActivity());
+            SharePreferenceUtils.saveUserString("Skip","true",getActivity());
+            Intent intent2 = new Intent(getActivity(),Login_My_activity.class);
+            startActivity(intent2);
+            getActivity().finish();
         }
     }
 }

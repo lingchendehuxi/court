@@ -13,6 +13,7 @@ import com.court.oa.project.R;
 import com.court.oa.project.application.MyApplication;
 import com.court.oa.project.fragment.GuideFragment1;
 import com.court.oa.project.fragment.GuideFragment2;
+import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.FitStateUI;
 
 import java.io.IOException;
@@ -35,8 +36,14 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    if("yes".equals(SharePreferenceUtils.readUser("login",StartActivity.this))){
+                        Intent intent  = new Intent(StartActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else{
+                        Intent intent = new Intent(StartActivity.this, Login_My_activity.class);
+                        startActivity(intent);
+                    }
+                    finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

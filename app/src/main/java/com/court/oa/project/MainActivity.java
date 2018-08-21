@@ -1,5 +1,6 @@
 package com.court.oa.project;
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -16,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.court.oa.project.activity.Login_My_activity;
 import com.court.oa.project.application.MyApplication;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.fragment.TCardFragment;
@@ -24,6 +27,7 @@ import com.court.oa.project.fragment.TMeetFragment;
 import com.court.oa.project.fragment.TNotifyFragment;
 import com.court.oa.project.fragment.TMineFragment;
 import com.court.oa.project.fragment.THomeFragment;
+import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.FitStateUI;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -215,6 +219,18 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 // 这里就会调用我们Fragment中的onRequestPermissionsResult方法
                 fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if("no".equals(SharePreferenceUtils.readUser("login",this))){
+            SharePreferenceUtils.cleanUser(this);
+            SharePreferenceUtils.saveUserString("Skip","true",this);
+            Intent intent2 = new Intent(this,Login_My_activity.class);
+            startActivity(intent2);
+            this.finish();
         }
     }
 }

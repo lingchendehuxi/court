@@ -75,9 +75,11 @@
         <TextView
             android:id="@+id/mine_tel"
             style="@style/mine_menu_style"
-            android:text="考勤记录" />
+            android:text="考勤记录"
+            android:visibility="gone"/>
 
-        <View style="@style/mine_menu_gap_4" />
+        <View style="@style/mine_menu_gap_4"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/mine_meet"
             style="@style/mine_menu_style"

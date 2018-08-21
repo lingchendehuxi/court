@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import com.court.oa.project.R;
 import com.court.oa.project.application.MyApplication;
+import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.FitStateUI;
+import com.court.oa.project.utils.ToastUtil;
 
 public class Mine_set_acitivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView mine_set_info;
+    private TextView mine_set_info,mine_set_update,mine_set_logout,mine_set_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,12 @@ public class Mine_set_acitivity extends AppCompatActivity implements View.OnClic
         //
         mine_set_info = findViewById(R.id.mine_set_info);
         mine_set_info.setOnClickListener(this);
+        mine_set_update = findViewById(R.id.mine_set_update);
+        mine_set_update.setOnClickListener(this);
+        mine_set_logout = findViewById(R.id.mine_set_logout);
+        mine_set_logout.setOnClickListener(this);
+        mine_set_password = findViewById(R.id.mine_set_password);
+        mine_set_password.setOnClickListener(this);
     }
 
     @Override
@@ -45,8 +53,19 @@ public class Mine_set_acitivity extends AppCompatActivity implements View.OnClic
                 this.finish();
             break;
             case R.id.mine_set_info:
-                Intent intent = new Intent(Mine_set_acitivity.this,Login_My_activity.class);
+                Intent intent = new Intent(Mine_set_acitivity.this,UserInfoActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.mine_set_update:
+                ToastUtil.show(Mine_set_acitivity.this,"暂无更新");
+                break;
+            case R.id.mine_set_logout:
+                SharePreferenceUtils.saveUserString("login", "no", Mine_set_acitivity.this);
+                this.finish();
+                break;
+            case R.id.mine_set_password:
+                Intent intent1 = new Intent(Mine_set_acitivity.this,Set_Password_activity.class);
+                startActivity(intent1);
                 break;
         }
     }

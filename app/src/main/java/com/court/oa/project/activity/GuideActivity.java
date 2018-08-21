@@ -28,8 +28,10 @@ public class GuideActivity extends AppCompatActivity {
         if("true".equals(SharePreferenceUtils.readUser("Skip",GuideActivity.this))){
             Intent intent  = new Intent(GuideActivity.this, StartActivity.class);
             startActivity(intent);
+            finish();
+        } else{
+            SharePreferenceUtils.saveUserString("Skip","true",GuideActivity.this);
         }
-        SharePreferenceUtils.saveUserString("Skip","true",GuideActivity.this);
 
         ViewPager viewPager = findViewById(R.id.id_viewpager);
         viewPager.setAdapter(new FragmentPagerAdapter(
