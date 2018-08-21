@@ -120,6 +120,7 @@ public class Mine_leave_sec_fragment extends Fragment implements RefreshLayout.O
                             getActivity().startActivity(intent);
                         }
                     });
+                    swipeLayout.setOnLoadListener(this);
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();
@@ -130,6 +131,8 @@ public class Mine_leave_sec_fragment extends Fragment implements RefreshLayout.O
                             listLeave.add(listLeave1.get(i));
                         }
                         adapter.notifyDataSetChanged();
+                    }else {
+                        swipeLayout.setOnLoadListener(null);
                     }
                     break;
 

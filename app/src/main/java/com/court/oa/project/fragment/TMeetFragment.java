@@ -122,6 +122,7 @@ public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListe
                             getActivity().startActivity(intent);
                         }
                     });
+                    swipeLayout.setOnLoadListener(this);
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();
@@ -132,6 +133,8 @@ public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListe
                             listMeet.add(listMeet1.get(i));
                         }
                         adapter.notifyDataSetChanged();
+                    }else {
+                        swipeLayout.setOnLoadListener(null);
                     }
                     break;
                 case Contants.MEETING_SINGIN:

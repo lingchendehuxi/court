@@ -102,6 +102,7 @@ public class Mine_menu_fir_fragment extends Fragment implements RefreshLayout.On
                     }.getType());
                     adapter = new TMine_MenuAdapter(getActivity(), listBean);
                     listView.setAdapter(adapter);
+                    swipeLayout.setOnLoadListener(this);
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();
@@ -112,6 +113,8 @@ public class Mine_menu_fir_fragment extends Fragment implements RefreshLayout.On
                             listBean.add(listMeet1.get(i));
                         }
                         adapter.notifyDataSetChanged();
+                    }else {
+                        swipeLayout.setOnLoadListener(null);
                     }
                     break;
 
