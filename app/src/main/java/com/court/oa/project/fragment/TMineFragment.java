@@ -18,7 +18,6 @@ import com.court.oa.project.activity.MY_Salary_activity;
 import com.court.oa.project.activity.Mine_Menu_activity;
 import com.court.oa.project.activity.Mine_leave_activity;
 import com.court.oa.project.activity.Mine_meet_activity;
-import com.court.oa.project.activity.Mine_question_activity;
 import com.court.oa.project.activity.Mine_set_acitivity;
 import com.court.oa.project.activity.StartActivity;
 import com.court.oa.project.save.SharePreferenceUtils;
@@ -80,7 +79,7 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), Mine_set_acitivity.class));
                 break;
             case R.id.mine_menu:
-                startActivity(new Intent(getActivity(), Mine_question_activity.class));
+                startActivity(new Intent(getActivity(), Mine_Menu_activity.class));
                 break;
             case R.id.mine_leave:
                 startActivity(new Intent(getActivity(), Mine_leave_activity.class));

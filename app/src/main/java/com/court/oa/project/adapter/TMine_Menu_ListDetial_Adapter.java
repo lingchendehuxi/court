@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.bean.MyMenuDetailChildren;
+import com.court.oa.project.bean.MyMenuDetailParent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,11 +19,11 @@ import java.util.HashMap;
  */
 
 public class TMine_Menu_ListDetial_Adapter extends BaseAdapter {
-    public ArrayList<HashMap<String, String>> list;
+    public ArrayList<MyMenuDetailChildren> list;
     public Context context;
     public LayoutInflater layoutInflater;
 
-    public TMine_Menu_ListDetial_Adapter(Context context, ArrayList<HashMap<String, String>> list) {
+    public TMine_Menu_ListDetial_Adapter(Context context, ArrayList<MyMenuDetailChildren> list) {
         this.context = context;
         this.list = list;
         layoutInflater = LayoutInflater.from(context);
@@ -49,19 +51,25 @@ public class TMine_Menu_ListDetial_Adapter extends BaseAdapter {
         if (convertView == null) {
             view = layoutInflater.inflate(R.layout.activity_mine_menu_list_listdetail, null);
             holder = new ViewHolder();
-            holder.txt  =(TextView) view.findViewById(R.id.menu_title);
+            holder.menu_title  = view.findViewById(R.id.menu_title);
+            holder.menu_mount  = view.findViewById(R.id.menu_mount);
+            holder.menu_price  = view.findViewById(R.id.menu_price);
             view.setTag(holder);
         } else {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
-        holder.txt.setText(list.get(position).get("itemText"));
+        holder.menu_title.setText(list.get(position).getGoodsName());
+        holder.menu_mount.setText("x"+list.get(position).getSubCount());
+        holder.menu_price.setText("￥"+list.get(position).getSubCurrentPrice());
         return view;
     }
 
     static class ViewHolder {
 
-        TextView txt;
+        TextView menu_title;
+        TextView menu_mount;
+        TextView menu_price;
     }
 
 }

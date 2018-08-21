@@ -131,6 +131,7 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
         }
         FragmentManager manager = getSupportFragmentManager();
         ViewPagerAdapter adapter = new ViewPagerAdapter(manager, list);
+        vp.setNoScroll(true);
         vp.setAdapter(adapter);
     }
     @Override

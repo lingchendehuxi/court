@@ -611,7 +611,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
      */
     private void setListener() {
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setOnLoadListener(this);
+        swipeLayout.setOnLoadListener(null);
     }
 
     /**

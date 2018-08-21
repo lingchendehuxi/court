@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.bean.MyMenuSendBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,11 +18,11 @@ import java.util.HashMap;
  */
 
 public class TMine_MenuAdapter extends BaseAdapter {
-    public ArrayList<HashMap<String, String>> list;
+    public ArrayList<MyMenuSendBean> list;
     public Context context;
     public LayoutInflater layoutInflater;
 
-    public TMine_MenuAdapter(Context context, ArrayList<HashMap<String, String>> list) {
+    public TMine_MenuAdapter(Context context, ArrayList<MyMenuSendBean> list) {
         this.context = context;
         this.list = list;
         layoutInflater = LayoutInflater.from(context);
@@ -49,19 +50,25 @@ public class TMine_MenuAdapter extends BaseAdapter {
         if (convertView == null) {
             view = layoutInflater.inflate(R.layout.activity_mine_menu_listitem, null);
             holder = new ViewHolder();
-            holder.txt  =(TextView) view.findViewById(R.id.tmine_menu_Listtitle);
+            holder.tmine_menu_Listtitle  =(TextView) view.findViewById(R.id.tmine_menu_Listtitle);
+            holder.tmine_menu_Listname  =(TextView) view.findViewById(R.id.tmine_menu_Listname);
+            holder.tmine_menu_Listtime  =(TextView) view.findViewById(R.id.tmine_menu_Listtime);
             view.setTag(holder);
         } else {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
-        holder.txt.setText(list.get(position).get("itemText"));
+        holder.tmine_menu_Listtitle.setText(list.get(position).getDesc());
+        holder.tmine_menu_Listname.setText(list.get(position).getTakeUser());
+        holder.tmine_menu_Listtime.setText(list.get(position).getTakeTime());
         return view;
     }
 
     static class ViewHolder {
 
-        TextView txt;
+        TextView tmine_menu_Listtitle;
+        TextView tmine_menu_Listname;
+        TextView tmine_menu_Listtime;
     }
 
 }
