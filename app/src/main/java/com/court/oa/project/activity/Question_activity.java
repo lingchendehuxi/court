@@ -20,6 +20,9 @@ import com.court.oa.project.bean.MeetMainBean;
 import com.court.oa.project.bean.QuestionDetailBean;
 import com.court.oa.project.bean.QuestionOptionBean;
 import com.court.oa.project.bean.QuestionOptionValueBean;
+import com.court.oa.project.bean.SubmitQuestionChildren;
+import com.court.oa.project.bean.SubmitQuestionParent;
+import com.court.oa.project.bean.SumbitBean;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.fragment.GuideFragment1;
 import com.court.oa.project.fragment.QuestionFragment;
@@ -51,6 +54,8 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
     private ArrayList<QuestionOptionBean> listOption;
     private TextView tv_next;
     private int currentPosition;
+    public ArrayList<SubmitQuestionParent> listparent;
+    private SumbitBean submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,9 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
         tv_next.setOnClickListener(this);
         Intent intent = getIntent();
         exId = intent.getStringExtra("exId");
+        if(listparent == null){
+            listparent = new ArrayList<>();
+        }
         initQuestionData();
     }
 
@@ -100,6 +108,8 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
                         initFragment();
                    // }
                     break;
+                case ORDER_CREATE:
+                    break;
 
                 default:
                     break;
@@ -121,10 +131,14 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
         list = new ArrayList<>();
         listOption = (ArrayList<QuestionOptionBean>) qustion.getQuestions();
         for (int i = 0; i < listOption.size(); i++) {
+            SubmitQuestionParent parent = new SubmitQuestionParent();
+            parent.setQusId(listOption.get(i).getQusId());
+            listparent.add(parent);
             QuestionFragment fragment = new QuestionFragment();
             Bundle bundle = new Bundle();
             ArrayList<QuestionOptionValueBean> optionValueBeans = (ArrayList<QuestionOptionValueBean>) listOption.get(i).getOptions();
             bundle.putSerializable(Contants.QUESTION_ID, optionValueBeans);
+            bundle.putInt(Contants.QUESTION_GOBACK,i);
             bundle.putString("question_title", listOption.get(i).getTitle());
             fragment.setArguments(bundle);
             list.add(fragment);
@@ -134,6 +148,25 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
         vp.setNoScroll(true);
         vp.setAdapter(adapter);
     }
+    //接口函数写值
+    public void setQustionValue(ArrayList<SubmitQuestionChildren> childrens,int currentPosition){
+        listparent.get(currentPosition).setChoseOptions(childrens);
+    }
+    //提交调查表
+    private void sumbitQuestion() {
+        if(submit == null){
+            submit = new SumbitBean();
+            submit.setQuestions(listparent);
+        }
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("exId", exId);
+        parameters.put("questions", new Gson().toJson(submit));
+        parameters.put("uId", SharePreferenceUtils.readUser("userId", this));
+        parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
+        OkHttpManager.postAsync(
+                ORDER_CREATE, parameters,
+                this, null, ORDER_CREATE);
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -141,12 +174,21 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
                 this.finish();
                 break;
             case R.id.tv_next:
+                if(listparent.get(currentPosition).getChoseOptions()== null){
+                    ToastUtil.getShortToastByString(this,"请先选中答案");
+                    return;
+                }
+                if("提交".equals(tv_next.getText().toString().trim())){
+                    sumbitQuestion();
+                }
                 currentPosition++;
-                if(currentPosition>=listOption.size()-1){
+                if(currentPosition == listOption.size()-1){
                     vp.setCurrentItem(currentPosition);
                     tv_next.setText("提交");
-                }else {
+                }else if(currentPosition<listOption.size()-1){
                     vp.setCurrentItem(currentPosition);
+                }else {
+                    currentPosition--;
                 }
 
                 break;

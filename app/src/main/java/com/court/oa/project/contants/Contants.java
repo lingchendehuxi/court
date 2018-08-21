@@ -39,6 +39,7 @@ public class Contants {
 
     //传参
     public static final String QUESTION_ID = "question";
+    public static final String QUESTION_GOBACK = "goback";
 
     //微信支付
     // 微信appId
