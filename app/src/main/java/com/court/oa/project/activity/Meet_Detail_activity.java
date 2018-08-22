@@ -3,6 +3,7 @@ package com.court.oa.project.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,11 +13,14 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -33,6 +37,7 @@ import com.court.oa.project.bean.MeetFileBean;
 import com.court.oa.project.bean.MeetMainBean;
 import com.court.oa.project.bean.MeetMainDetailBean;
 import com.court.oa.project.contants.Contants;
+import com.court.oa.project.okhttp.DownloadUtil;
 import com.court.oa.project.okhttp.OkHttpManager;
 import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.FitStateUI;
@@ -61,6 +66,7 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
     private TextView tv_openfile,meet_title,meet_join,meet_time,meet_address,meet_start,meet_end,meet_context,tv_take;
     private ListView listView;
     private String isShow,fileUrl;
+    private ProgressDialog progressDialog;
 
     FileUtils fileUtils;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -168,7 +174,8 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
                                 return;
                             }
                             verifyStoragePermissions(Meet_Detail_activity.this);
-                            new MyAsyncTask(Meet_Detail_activity.this).execute(listFiles.get(i).getFileUrl());
+                            //new MyAsyncTask(Meet_Detail_activity.this).execute(listFiles.get(i).getFileUrl());
+                            downFile(listFiles.get(i).getFileUrl(),path,url.substring(position2+1,url.length()));
                         }
                     });
                     break;
@@ -325,5 +332,55 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
             }
         }
     }
+    private Handler myHandler = new Handler(){
+        @Override
+        public void dispatchMessage(Message msg) {
+            super.dispatchMessage(msg);
+            switch (msg.what){
+                case 100:
+                    tv_openfile.setText("打开附件");
+                    break;
+                case 101:
+                    ToastUtil.getShortToastByString(Meet_Detail_activity.this,"下载异常，请联系客服反馈");
+                    break;
+            }
+        }
+    };
+    /**
+     * 文件下载
+     *
+     * @param url
+     */
+    public void downFile(String url,String destFileDir,String destFileName) {
+        progressDialog = new ProgressDialog(Meet_Detail_activity.this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setTitle("正在下载");
+        progressDialog.setMessage("请稍后...");
+        progressDialog.setProgress(0);
+        progressDialog.setMax(100);
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        DownloadUtil.get().download(url, destFileDir, destFileName, new DownloadUtil.OnDownloadListener() {
+            @Override
+            public void onDownloadSuccess(File file) {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                //下载完成进行相关逻辑操作
+                myHandler.sendEmptyMessage(100);
 
+            }
+
+            @Override
+            public void onDownloading(int progress) {
+                progressDialog.setProgress(progress);
+            }
+
+            @Override
+            public void onDownloadFailed(Exception e) {
+                //下载异常进行相关提示操作
+                myHandler.sendEmptyMessage(101);
+            }
+        });
+    }
 }

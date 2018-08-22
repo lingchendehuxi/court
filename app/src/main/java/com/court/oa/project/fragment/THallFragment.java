@@ -24,6 +24,8 @@ import com.court.oa.project.adapter.Hall_week_dataAdapter;
 import com.court.oa.project.adapter.THall_Leave_Adapter;
 import com.court.oa.project.bean.HallPackageGoodBean;
 import com.court.oa.project.bean.HallWeekBean;
+import com.court.oa.project.bean.SubmitHallBean;
+import com.court.oa.project.bean.SubmitHallParentBean;
 import com.court.oa.project.bean.WXPrePost;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.okhttp.DailogShow;
@@ -64,12 +66,12 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     private HorizontalScrollView hs;
     private View view;
     private LinearLayout hall_date, ll_week_one, ll_week_two, ll_week_thr, ll_week_fou, ll_week_fiv, ll_week_six, ll_week_sev;
-    private TextView hall_buy,tv_1,tv_2,tv_3,tv_4,tv_5,tv_6,tv_7;
+    private TextView hall_buy, tv_1, tv_2, tv_3, tv_4, tv_5, tv_6, tv_7;
     private List<String> listTime;
     private List<String> newListTime;
-    private String currentTime,newPackageData;
-    private String[] workDate = new String[]{"周一", "周二", "周三", "周四", "周五","周六","周日"};
-    private String[] workUpDate = new String[]{"星期一", "星期二", "星期三", "星期四", "星期五","星期六","星期日"};
+    private String currentTime, newPackageData;
+    private String[] workDate = new String[]{"周一", "周二", "周三", "周四", "周五", "周六", "周日"};
+    private String[] workUpDate = new String[]{"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
     private LinearLayout hall_leave;
     private LinearLayout hall_work;
     private LinearLayout hall_package;
@@ -84,11 +86,11 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     private ArrayList<HallPackageGoodBean> listGood;
     private double allPrice;
     private Object[] newObject = new Object[4];
-    private ArrayList<HallPackageGoodBean> newList;
-    private String[] newWeekData = new String [7];
+    private ArrayList<SubmitHallBean> newList;
+    private String[] newWeekData = new String[7];
     private RadioButton rb_normal;
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         /**
          * handleMessage接收消息后进行相应的处理
          * @param msg
@@ -96,14 +98,14 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
-                    WXPrePost wxPrePost = (WXPrePost)msg.obj;
+                    WXPrePost wxPrePost = (WXPrePost) msg.obj;
 //                    ToastUtil.show(getActivity(),"SUCCESS"+wxPrePost.nonce_str+wxPrePost.prepayid);
-                    getWeChatPlay(wxPrePost.prepayid,wxPrePost.nonce_str);
+                    getWeChatPlay(wxPrePost.prepayid, wxPrePost.nonce_str);
                     break;
                 case 2:
-                    ToastUtil.show(getActivity(),"获取订单失败！");
+                    ToastUtil.show(getActivity(), "获取订单失败！");
                     break;
             }
 
@@ -158,7 +160,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         newList = new ArrayList<>();
         listTime = Utils.test(7);
         newListTime = new ArrayList<>();
-        TextView[] textViews = new TextView[]{tv_1,tv_2,tv_3,tv_4,tv_5,tv_6,tv_7};
+        TextView[] textViews = new TextView[]{tv_1, tv_2, tv_3, tv_4, tv_5, tv_6, tv_7};
         for (int i = 0; i < listTime.size(); i++) {
             String string = listTime.get(i);
             String newString = string.substring(5, string.length());
@@ -205,7 +207,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             textView.setBackgroundResource(R.drawable.hall_title_chose);
             textViewlow.setBackgroundResource(R.drawable.hall_title_chose);
             textView.setText(workDate[i]);
-            if (newListTime.size()>0) {
+            if (newListTime.size() > 0) {
                 textViewlow.setText(newWeekData[i]);
             } else {
                 textViewlow.setText(workDate[i]);
@@ -233,6 +235,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         textViewslow[0].setSelected(true);
         initHallWeekDate("星期一");
     }
+
     //设置打包
     private void setLeaveData() {
         goneView();
@@ -260,7 +263,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             textView.setBackgroundResource(R.drawable.hall_title_chose);
             textViewlow.setBackgroundResource(R.drawable.hall_title_chose);
             textView.setText(workDate[i]);
-            if (newListTime.size()>0) {
+            if (newListTime.size() > 0) {
                 textViewlow.setText(newWeekData[i]);
             } else {
                 textViewlow.setText(workDate[i]);
@@ -289,6 +292,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         textViewslow[0].setSelected(true);
         initHallGoodListDate(currentTime);
     }
+
     //周菜单
     private void initHallWeekDate(String weekDay) {
         HashMap<String, String> parameters = new HashMap<>();
@@ -326,27 +330,28 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                 this, null, Contants.MORE);
     }
 
-    //商品订单
-    private void initHallGoodOrder() {
+    //外卖商品订单
+    private void initHallGoodOrder(SubmitHallParentBean bean) {
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("originalPrice", "" + allPrice);//原价相同
         parameters.put("sumPrice", "" + allPrice);
-        parameters.put("uid", "" + SharePreferenceUtils.readUser("userId", getActivity()));
+        parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("takeUser", SharePreferenceUtils.readUser("realName", getActivity()));
         parameters.put("takeMobile", SharePreferenceUtils.readUser("mobile", getActivity()));
         parameters.put("takeTime", "2018-7-27");
-        parameters.put("subOrders", getNewObject().toString());
+        parameters.put("subOrders", new Gson().toJson(bean));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.ORDER_CREATE, parameters,
                 this, null, Contants.ORDER_CREATE);
     }
-    //商品订单
+
+    //打包商品订单
     private void initHallPackageOrder(String data) {
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("takeTime", data);
-        parameters.put("subCount", ""+1);
+        parameters.put("subCount", "" + 1);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.ORDER_DINNER, parameters,
@@ -369,11 +374,11 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     Gson gson = new Gson();
                     ArrayList<HallWeekBean> listDept = gson.fromJson(jsonObj1, new TypeToken<List<HallWeekBean>>() {
                     }.getType());
-                    if(listDept.size()<=0){
+                    if (listDept.size() <= 0) {
                         listview_1.setVisibility(View.INVISIBLE);
                         listview_2.setVisibility(View.INVISIBLE);
                         listview_3.setVisibility(View.INVISIBLE);
-                    }else {
+                    } else {
                         listview_1.setVisibility(View.VISIBLE);
                         listview_2.setVisibility(View.VISIBLE);
                         listview_3.setVisibility(View.VISIBLE);
@@ -434,7 +439,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         @Override
         public void dispatchMessage(Message msg) {
             super.dispatchMessage(msg);
-            HallPackageGoodBean bean = (HallPackageGoodBean) msg.obj;
+            SubmitHallBean bean = (SubmitHallBean) msg.obj;
             //添加
             if (msg.what == 100) {
                 addNewList(bean);
@@ -444,46 +449,25 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         }
     };
 
-    private void addNewList(HallPackageGoodBean bean) {
-        if (newList.size() == 0) {
-            newList.add(bean);
-        } else {
-            for (int i = 0; i < newList.size(); i++) {
-                if (newList.get(i).getId() == bean.getId()) {
-                    if (bean.getCount() == 0) {
-                        newList.remove(i);
-                        break;
-                    }
-                    newList.get(i).setCount(bean.getCount());
-                    newList.get(i).setUnit(bean.getUnit());
-                } else {
-                    newList.add(bean);
-                }
-            }
-        }
-
-    }
-
-    private Object[] getNewObject() {
-        String[] newObject = new String[]{"", "", "", "", ""};
+    private void addNewList(SubmitHallBean bean) {
         for (int i = 0; i < newList.size(); i++) {
-            if (i != newList.size() - 1) {
-                newObject[0] += newList.get(i).getId() + ",";
-                newObject[1] += newList.get(i).getPrice() + ",";
-                newObject[2] += newList.get(i).getPrice() + ",";
-                newObject[3] += newList.get(i).getUnit() + ",";
-                newObject[4] += newList.get(i).getCount() + ",";
-            } else {
-                newObject[0] += newList.get(i).getId();
-                newObject[1] += newList.get(i).getPrice();
-                newObject[2] += newList.get(i).getPrice();
-                newObject[3] += newList.get(i).getUnit();
-                newObject[4] += newList.get(i).getCount();
+            if (newList.get(i).getGid() == bean.getGid()) {
+                newList.remove(i);
             }
-
         }
-        return newObject;
+        if(bean.getSubCount()!=0){
+            newList.add(bean);
+        }
     }
+
+    //获取总价
+    private void setAllPrice(ArrayList<SubmitHallBean> list) {
+        allPrice = 0.0;
+        for (int i = 0; i < list.size(); i++) {
+            allPrice += Double.valueOf(list.get(i).getSubSumPrice());
+        }
+    }
+
 
     private void setPackageDate() {
         goneView();
@@ -523,8 +507,8 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             case R.id.hall_buy:
                 if (hall_package.getVisibility() == View.VISIBLE) {
                     selectData();
-                    if(TextUtils.isEmpty(newPackageData)){
-                        ToastUtil.getShortToastByString(getActivity(),"请先选择日期！");
+                    if (TextUtils.isEmpty(newPackageData)) {
+                        ToastUtil.getShortToastByString(getActivity(), "请先选择日期！");
                         return;
                     }
                     initHallPackageOrder(newPackageData);
@@ -534,7 +518,10 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     ToastUtil.getShortToastByString(getActivity(), "请先添加商品");
                     return;
                 }
-                initHallGoodOrder();
+                SubmitHallParentBean bean = new SubmitHallParentBean();
+                bean.setSubOrders(newList);
+                setAllPrice(newList);
+                initHallGoodOrder(bean);
                 break;
             case R.id.ll_week_one:
                 if (ll_week_one.isSelected()) {
@@ -587,25 +574,27 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                 break;
         }
     }
+
     //判断是否被选中
-    private void selectData(){
-        LinearLayout[] lls = new LinearLayout[]{ll_week_one,ll_week_two,ll_week_thr,ll_week_fou,ll_week_fiv,ll_week_six,ll_week_sev};
+    private void selectData() {
+        LinearLayout[] lls = new LinearLayout[]{ll_week_one, ll_week_two, ll_week_thr, ll_week_fou, ll_week_fiv, ll_week_six, ll_week_sev};
         newPackageData = "";
-        for (int i =0;i<lls.length;i++){
-            if(lls[i].isSelected()){
-                if(i == lls.length-1){
+        for (int i = 0; i < lls.length; i++) {
+            if (lls[i].isSelected()) {
+                if (i == lls.length - 1) {
                     newPackageData += listTime.get(i);
-                }else{
-                    newPackageData += listTime.get(i)+",";
+                } else {
+                    newPackageData += listTime.get(i) + ",";
                 }
 
             }
         }
     }
+
     //设置全为未选中
-    private void initSelect(){
-        LinearLayout[] lls = new LinearLayout[]{ll_week_one,ll_week_two,ll_week_thr,ll_week_fou,ll_week_fiv,ll_week_six,ll_week_sev};
-        for(int i = 0;i<lls.length;i++){
+    private void initSelect() {
+        LinearLayout[] lls = new LinearLayout[]{ll_week_one, ll_week_two, ll_week_thr, ll_week_fou, ll_week_fiv, ll_week_six, ll_week_sev};
+        for (int i = 0; i < lls.length; i++) {
             lls[i].setSelected(false);
         }
     }
@@ -656,12 +645,14 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
 
 
     //微信支付
-    /**获取用微信支付的信息*/
+
+    /**
+     * 获取用微信支付的信息
+     */
     private void getWeChatMsg(String result) {
         try {
             JSONObject object = new JSONObject(result);
             // 统一下单
-            String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
             WXPrePost post = new WXPrePost();
             post.appid = Contants.APPID;
             post.mch_id = Contants.MCHID;
@@ -669,7 +660,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             post.body = object.getString("title");
             post.detail = object.getString("desc");
             post.out_trade_no = object.getString("orderNum"); //商户订单号 **2
-            post.total_fee = 1;//单位是分
+            post.total_fee = Integer.valueOf(object.getString("sumPrice"))*100;//单位是分
             post.spbill_create_ip = Utils.getLocalIpAddress();//ip地址  **3
             post.notify_url = object.getString("payNotifyUrl");//这里是后台接受支付结果通知的url地址
             post.trade_type = "APP";
@@ -741,7 +732,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
 
     private void play(String xml) throws IOException {
         DailogShow.showWaitDialog(getActivity());
-        RequestBody body = RequestBody.create(MediaType.parse("application/xml"),xml);
+        RequestBody body = RequestBody.create(MediaType.parse("application/xml"), xml);
         Request request = new Request.Builder()
                 .url(Contants.WX_POST)
                 .post(body)
@@ -751,20 +742,17 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-            Log.d("liuhong","onFailure");
-            DailogShow.dismissWaitDialog();
+                DailogShow.dismissWaitDialog();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("liuhong","onResponse");
                 String result = response.body().string();
-                Log.d("liuhong","result = "+result);
                 response.body().close();
                 //判断是否成功
                 //...
                 //再次签名(参与签名的字段有 :Appid partnerId prepayId nonceStr TimeStamp package)
-                Map<String ,String> stringMap = Utils.decodeXml(result);
+                Map<String, String> stringMap = Utils.decodeXml(result);
                 String return_code = "";
                 String result_code = "";
                 String appId = "";
@@ -785,7 +773,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                 }
                 DailogShow.dismissWaitDialog();
 
-                if("SUCCESS".equals(return_code)&&"SUCCESS".equals(result_code)){
+                if ("SUCCESS".equals(return_code) && "SUCCESS".equals(result_code)) {
                     Message message = Message.obtain();
                     message.what = 1;
                     WXPrePost wxPrePost = new WXPrePost();
@@ -793,7 +781,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     wxPrePost.nonce_str = nonceStr;
                     message.obj = wxPrePost;
                     mHandler.sendMessage(message);
-                } else{
+                } else {
                     Message message = Message.obtain();
                     message.what = 2;
                     mHandler.sendMessage(message);
@@ -801,11 +789,12 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             }
         });
     }
-//*************************************上面都是获取订单的逻辑（第一次签名），下面是调支付（第二次签名）****************************************
+
+    //*************************************上面都是获取订单的逻辑（第一次签名），下面是调支付（第二次签名）****************************************
     //调起支付
-    private void getWeChatPlay(String prepayId, String nonceStr){
+    private void getWeChatPlay(String prepayId, String nonceStr) {
         String timeStamp = String.valueOf(Utils.genTimeStamp());
-        List<NameValuePair> list = getSecondSignParams(prepayId,nonceStr,timeStamp);
+        List<NameValuePair> list = getSecondSignParams(prepayId, nonceStr, timeStamp);
         try {
             //一下所有的参数上面均获取到了
             PayReq req = new PayReq();
@@ -817,7 +806,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             req.packageValue = "Sign=WXPay";
             req.sign = genSecondPackageSign(list);
             // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-            Contants.wxApi = WXAPIFactory.createWXAPI(getActivity(),null);
+            Contants.wxApi = WXAPIFactory.createWXAPI(getActivity(), null);
             Contants.wxApi.registerApp(Contants.APPID);
             Contants.wxApi.sendReq(req);
 
@@ -825,6 +814,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             Log.e("PAY_GET", "异常：" + e.getMessage());
         }
     }
+
     //获取参数列表
     private List<NameValuePair> getSecondSignParams(String prepayId, String nonceStr, String timeStamp) {
         //appId，partnerId，prepayId，nonceStr，timeStamp，package
@@ -837,6 +827,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         packageParams.add(new BasicNameValuePair("timestamp", timeStamp));
         return packageParams;
     }
+
     //第二次签名
     private String genSecondPackageSign(List<NameValuePair> params) {
         //拼接排序list

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.court.oa.project.R;
 import com.court.oa.project.bean.HallPackageGoodBean;
+import com.court.oa.project.bean.SubmitHallBean;
 import com.court.oa.project.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -114,11 +115,16 @@ public class THall_Leave_Adapter extends BaseAdapter {
                         return;
                     }
                     tv_showcount.setText(number+"");
+                    SubmitHallBean newBean = new SubmitHallBean();
                     HallPackageGoodBean bean = list.get((int)v.getTag());
-                    price = number * price;
-                    bean.setCount(number);
-                    bean.setUnit(""+price);
-                    myHandler.sendMessage(myHandler.obtainMessage(100, bean));
+                    newBean.setGid(bean.getId());
+                    newBean.setSubCount(number);
+                    newBean.setSubCurrentPrice(bean.getPrice());
+                    newBean.setSubGoodsName(bean.getName());
+                    newBean.setSubOriginalPrice(bean.getPrice());
+                    price = number * Double.valueOf(bean.getPrice());
+                    newBean.setSubSumPrice(""+price);
+                    myHandler.sendMessage(myHandler.obtainMessage(100, newBean));
                 }
             }else if(v.getId() == R.id.iv_reduce){
                 int number = Integer.valueOf(tv_showcount.getText().toString());
@@ -128,11 +134,16 @@ public class THall_Leave_Adapter extends BaseAdapter {
                     tv_showcount.setVisibility(View.INVISIBLE);
                 }
                 tv_showcount.setText(number+"");
+                SubmitHallBean newBean = new SubmitHallBean();
                 HallPackageGoodBean bean = list.get((int)v.getTag());
-                price = number * price;
-                bean.setCount(number);
-                bean.setUnit(""+price);
-                myHandler.sendMessage(myHandler.obtainMessage(101, bean));
+                newBean.setGid(bean.getId());
+                newBean.setSubCount(number);
+                newBean.setSubCurrentPrice(bean.getPrice());
+                newBean.setSubGoodsName(bean.getName());
+                newBean.setSubOriginalPrice(bean.getPrice());
+                price = number * Double.valueOf(bean.getPrice());
+                newBean.setSubSumPrice(""+price);
+                myHandler.sendMessage(myHandler.obtainMessage(101, newBean));
             }
         }
     }

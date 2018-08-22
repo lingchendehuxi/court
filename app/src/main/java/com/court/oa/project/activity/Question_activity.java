@@ -108,7 +108,7 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
                         initFragment();
                    // }
                     break;
-                case ORDER_CREATE:
+                case EXAM_CREATE:
                     break;
 
                 default:
@@ -164,8 +164,8 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
         parameters.put("uId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
-                ORDER_CREATE, parameters,
-                this, null, ORDER_CREATE);
+                EXAM_CREATE, parameters,
+                this, null, EXAM_CREATE);
     }
     @Override
     public void onClick(View view) {
