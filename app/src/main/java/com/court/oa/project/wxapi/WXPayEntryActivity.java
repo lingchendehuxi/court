@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.court.oa.project.utils.ToastUtil;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -40,30 +41,17 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp resp) {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        intent.setAction("payment_complete");
         if (resp.errCode == 0) {
-            bundle.putBoolean("IsSuccess", true);
-            intent.putExtras(bundle);
-            sendBroadcast(intent);
+            ToastUtil.getLongToastByString(this,"支付成功");
             this.finish();
-            return;
         }
         // 用户取消支付
-        if (resp.errCode == -2) {
-            bundle.putBoolean("IsSuccess", false);
-            intent.putExtras(bundle);
-            sendBroadcast(intent);
+        else if (resp.errCode == -2) {
+            ToastUtil.getLongToastByString(this,"支付取消");
             this.finish();
-            return;
         }
-        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            String errorMsg = MessageFormat.format("微信支付结果：{0};错误代码：{1}", resp.errStr, String.valueOf(resp.errCode));
-            bundle.putBoolean("IsSuccess", false);
-            bundle.putString("ErrorMsg", errorMsg);
-            intent.putExtras(bundle);
-            sendBroadcast(intent);
+        else if (resp.errCode == -1) {
+            ToastUtil.getLongToastByString(this,"支付错误");
             this.finish();
         }
     }

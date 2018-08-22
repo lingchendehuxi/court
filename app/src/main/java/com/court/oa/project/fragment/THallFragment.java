@@ -618,7 +618,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
      */
     private void setListener() {
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setOnLoadListener(this);
+        swipeLayout.setOnLoadListener(null);
     }
 
     /**
@@ -676,15 +676,6 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             post.sign = genPackageSign(post);//签名  **4
 
             play(Utils.toXml(getFirstSignParams(post)));
-//                PayReq req = new PayReq();
-//                req.appId = object3.getString("appid");
-//                req.partnerId = object3.getString("partnerid");
-//                req.prepayId = object3.getString("prepayid");
-//                req.nonceStr = object3.getString("noncestr");
-//                req.timeStamp = object3.getString("timestamp");
-//                req.packageValue = object3.getString("package");
-//                req.sign = object3.getString("sign");
-//                Contants.wxApi.sendReq(req);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -807,11 +798,6 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     message.what = 2;
                     mHandler.sendMessage(message);
                 }
-                Log.d("liuhong","return_code = "+return_code);
-                Log.d("liuhong","result_code = "+result_code);
-                Log.d("liuhong","appId = "+appId);
-                Log.d("liuhong","prepayId = "+prepayId);
-                Log.d("liuhong","nonceStr = "+nonceStr);
             }
         });
     }

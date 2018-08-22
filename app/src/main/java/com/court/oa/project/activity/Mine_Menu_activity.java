@@ -1,53 +1,47 @@
 package com.court.oa.project.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
-import com.court.oa.project.adapter.TMine_MenuAdapter;
-import com.court.oa.project.adapter.TNotifyAdapter;
 import com.court.oa.project.application.MyApplication;
+import com.court.oa.project.fragment.Mine_menu_fir_fragment;
+import com.court.oa.project.fragment.Mine_menu_sec_fragment;
 import com.court.oa.project.tool.FitStateUI;
-import com.court.oa.project.tool.RefreshLayout;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+public class Mine_Menu_activity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+    private Mine_menu_fir_fragment mine_question_fir_fragment;
+    private Mine_menu_sec_fragment mine_question_sec_fragment;
+    private FragmentManager manager = getSupportFragmentManager();
+    private RadioGroup radio;
 
-public class Mine_Menu_activity extends AppCompatActivity implements View.OnClickListener ,RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener{
-    private RefreshLayout swipeLayout;
-    private ArrayList list;
-    private ListView listView;
-    private TMine_MenuAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); // 设置无标题栏
         MyApplication.getInstance().addActivity(this);
         FitStateUI.setImmersionStateMode(this);
-        setContentView(R.layout.activity_mine__menu_activity);
+        setContentView(R.layout.activity_mine_question_activity);
         initView();
-        setData();
-        setListener();
+        RadioButton rb_question = findViewById(R.id.rb_get);
+        rb_question.setChecked(true);
     }
-    private void initView(){
-        swipeLayout = findViewById(R.id.swipe_container);
+
+    private void initView() {
+        radio = findViewById(R.id.radio);
+        radio.setOnCheckedChangeListener(this);
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
-        tv_title.setText("我的菜单");
+        tv_title.setText("我的食堂");
         TextView tv_sort = findViewById(R.id.tv_sort);
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
@@ -56,86 +50,51 @@ public class Mine_Menu_activity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_back:
                 this.finish();
                 break;
         }
     }
+
     /**
-     * 添加数据
+     * 将所有的Fragment都置为隐藏状态。
+     *
+     * @param transaction 用于对Fragment执行操作的事务
      */
-    private void setData() {
-        list = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < 1; i++) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("itemImage", i + "默认");
-            map.put("itemText", i + "默认");
-            list.add(map);
+    private void hideFragments(FragmentTransaction transaction) {
+
+        if (mine_question_fir_fragment != null) {
+            transaction.hide(mine_question_fir_fragment);
         }
-        listView =  findViewById(R.id.list);
-        adapter = new TMine_MenuAdapter(this, list);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(Mine_Menu_activity.this, Mine_Menu_Detial_activity.class);
-                startActivity(intent);
-            }
-        });
+        if (mine_question_sec_fragment != null) {
+            transaction.hide(mine_question_sec_fragment);
+        }
     }
 
-    /**
-     * 设置监听
-     */
-    private void setListener() {
-        swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setOnLoadListener(this);
-    }
-
-    /**
-     * 上拉刷新
-     */
     @Override
-    public void onRefresh() {
-        swipeLayout.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                // 更新数据  更新完后调用该方法结束刷新
-                list.clear();
-                for (int i = 0; i < 8; i++) {
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("itemImage", i + "刷新");
-                    map.put("itemText", i + "刷新");
-                    list.add(map);
+    public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+        FragmentTransaction transaction;
+        transaction = manager.beginTransaction();
+        hideFragments(transaction);
+        switch (checkedId) {
+            case R.id.rb_get:
+                if (mine_question_fir_fragment == null) {
+                    mine_question_fir_fragment = new Mine_menu_fir_fragment();
+                    transaction.add(R.id.framelayout_question, mine_question_fir_fragment);
+                } else {
+                    transaction.show(mine_question_fir_fragment);
                 }
-                adapter.notifyDataSetChanged();
-                swipeLayout.setRefreshing(false);
-            }
-        }, 2000);
-
-    }
-
-    /**
-     * 加载更多
-     */
-    @Override
-    public void onLoad() {
-        swipeLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // 更新数据  更新完后调用该方法结束刷新
-                swipeLayout.setLoading(false);
-                for (int i = 1; i < 10; i++) {
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("itemImage", i + "更多");
-                    map.put("itemText", i + "更多");
-                    list.add(map);
+                break;
+            case R.id.rb_package:
+                if (mine_question_sec_fragment == null) {
+                    mine_question_sec_fragment = new Mine_menu_sec_fragment();
+                    transaction.add(R.id.framelayout_question, mine_question_sec_fragment);
+                } else {
+                    transaction.show(mine_question_sec_fragment);
                 }
-                adapter.notifyDataSetChanged();
-            }
-        }, 2000);
+                break;
+        }
+        transaction.commit();
     }
-
 }

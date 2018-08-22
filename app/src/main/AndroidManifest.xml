@@ -260,11 +260,6 @@
             android:theme="@style/AppTheme.Main"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.Mine_question_activity"
-            android:label="@string/title_activity_mine_question_activity"
-            android:theme="@style/AppTheme.Main"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".activity.Mine_leave_activity"
             android:label="@string/title_activity_mine_leave_activity"
             android:theme="@style/AppTheme.Main"
@@ -318,6 +313,15 @@
         <activity android:name=".activity.Set_Password_activity"
             android:theme="@style/AppTheme.Main"
             android:screenOrientation="portrait"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.court.oa.project.provider"
+            android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/provider_paths" />
+    </provider>
 
     </application>
 

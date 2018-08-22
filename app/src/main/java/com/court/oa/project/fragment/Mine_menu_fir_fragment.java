@@ -12,10 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.court.oa.project.R;
-import com.court.oa.project.activity.Leave_apply_activity;
+import com.court.oa.project.activity.Meet_Detail_activity;
+import com.court.oa.project.activity.Mine_Menu_Detial_activity;
 import com.court.oa.project.activity.Notify_Detail_activity;
+import com.court.oa.project.adapter.TMeetAdapter;
 import com.court.oa.project.adapter.TMine_Leave_fir_Adapter;
-import com.court.oa.project.bean.LeaveListBean;
+import com.court.oa.project.adapter.TMine_MenuAdapter;
+import com.court.oa.project.bean.MeetMainBean;
+import com.court.oa.project.bean.MyMenuSendBean;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.okhttp.OkHttpManager;
 import com.court.oa.project.save.SharePreferenceUtils;
@@ -36,63 +40,50 @@ import okhttp3.Request;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Mine_leave_sec_fragment extends Fragment implements RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener ,OkHttpManager.DataCallBack{
+public class Mine_menu_fir_fragment extends Fragment implements RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener,OkHttpManager.DataCallBack{
     private View view;
     private RefreshLayout swipeLayout;
+    private ArrayList<MyMenuSendBean> listBean;
     private ListView listView;
-    private TMine_Leave_fir_Adapter adapter;
+    private TMine_MenuAdapter adapter;
     private int page = 1;
-    private int type = 2;
-    private ArrayList<LeaveListBean> listLeave;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_mine_leave_fir_fragment, container, false);
-        setData();
-        initLeaveDate();
+        view =  inflater.inflate(R.layout.fragment_mine_question_fir_fragment, container, false);
+        initView();
         setListener();
+        initMyHallDate();
         return view;
     }
-    /**
-     * 添加数据
-     */
-    private void setData() {
-        swipeLayout = view.findViewById(R.id.swipe_container);
-        listView =  view.findViewById(R.id.list);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), Notify_Detail_activity.class);
-                getActivity().startActivity(intent);
-            }
-        });
-    }
-    private void initLeaveDate() {
+    //请求数据
+    private void initMyHallDate() {
         page=1;
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
-        parameters.put("type", ""+type);
-        parameters.put("userId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("pageSize", "10");
+        parameters.put("orderType", "1");
+        parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
-                Contants.LEAVE_LIST, parameters,
-                this, null, Contants.LEAVE_LIST);
+                Contants.ORDER_GOODLIST, parameters,
+                this, null, Contants.ORDER_GOODLIST);
     }
-    private void initMoreLeaveDate() {
+    private void initMoreMyHallDate() {
         page++;
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
-        parameters.put("type", ""+type);
         parameters.put("pageSize", "10");
-        parameters.put("userId", SharePreferenceUtils.readUser("userId", getActivity()));
+        parameters.put("orderType", "1");
+        parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
-                Contants.LEAVE_LIST, parameters,
+                Contants.ORDER_GOODLIST, parameters,
                 this, null, Contants.MORE);
     }
+
     @Override
     public void requestFailure(Request request, IOException e, String method) {
         ToastUtil.getShortToastByString(getActivity(),
@@ -105,30 +96,21 @@ public class Mine_leave_sec_fragment extends Fragment implements RefreshLayout.O
         if (object.getInt("code") == 1) {
             String jsonObj1 = object.getString("data");
             switch (method) {
-                case Contants.LEAVE_LIST:
+                case Contants.ORDER_GOODLIST:
                     Gson gson = new Gson();
-                    listLeave = gson.fromJson(jsonObj1, new TypeToken<List<LeaveListBean>>() {
+                    listBean = gson.fromJson(jsonObj1, new TypeToken<List<MyMenuSendBean>>() {
                     }.getType());
-                    adapter = new TMine_Leave_fir_Adapter(getActivity(), listLeave);
+                    adapter = new TMine_MenuAdapter(getActivity(), listBean);
                     listView.setAdapter(adapter);
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            Intent intent = new Intent(getActivity(), Leave_apply_activity.class);
-                            intent.putExtra("id",listLeave.get(i).getId()+"");
-                            intent.putExtra("type",2);
-                            getActivity().startActivity(intent);
-                        }
-                    });
                     swipeLayout.setOnLoadListener(this);
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();
-                    ArrayList<LeaveListBean> listLeave1 = gson1.fromJson(jsonObj1, new TypeToken<List<LeaveListBean>>() {
+                    ArrayList<MyMenuSendBean> listMeet1 = gson1.fromJson(jsonObj1, new TypeToken<List<MyMenuSendBean>>() {
                     }.getType());
-                    if(listLeave1.size()!=0){
-                        for(int i = 0;i<listLeave1.size();i++){
-                            listLeave.add(listLeave1.get(i));
+                    if(listMeet1.size()!=0){
+                        for(int i = 0;i<listMeet1.size();i++){
+                            listBean.add(listMeet1.get(i));
                         }
                         adapter.notifyDataSetChanged();
                     }else {
@@ -142,6 +124,22 @@ public class Mine_leave_sec_fragment extends Fragment implements RefreshLayout.O
         }
 
     }
+    /**
+     * 添加数据
+     */
+    private void initView() {
+        swipeLayout = view.findViewById(R.id.swipe_container);
+        listView =  view.findViewById(R.id.list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), Mine_Menu_Detial_activity.class);
+                intent.putExtra("oid",listBean.get(position).getId());
+                startActivity(intent);
+            }
+        });
+    }
+
     /**
      * 设置监听
      */
@@ -160,7 +158,7 @@ public class Mine_leave_sec_fragment extends Fragment implements RefreshLayout.O
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                initLeaveDate();
+                initMyHallDate();
                 swipeLayout.setRefreshing(false);
             }
         }, 2000);
@@ -176,10 +174,15 @@ public class Mine_leave_sec_fragment extends Fragment implements RefreshLayout.O
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                initMoreLeaveDate();
+                initMoreMyHallDate();
                 swipeLayout.setLoading(false);
             }
         }, 2000);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        listBean.clear();
+    }
 }

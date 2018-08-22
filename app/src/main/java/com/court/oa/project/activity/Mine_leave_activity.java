@@ -17,8 +17,6 @@ import com.court.oa.project.application.MyApplication;
 import com.court.oa.project.fragment.Mine_leave_fir_fragment;
 import com.court.oa.project.fragment.Mine_leave_sec_fragment;
 import com.court.oa.project.fragment.Mine_leave_thr_fragment;
-import com.court.oa.project.fragment.Mine_question_fir_fragment;
-import com.court.oa.project.fragment.Mine_question_sec_fragment;
 import com.court.oa.project.tool.FitStateUI;
 
 public class Mine_leave_activity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {

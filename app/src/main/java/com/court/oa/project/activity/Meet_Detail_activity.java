@@ -6,12 +6,16 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -39,6 +43,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -150,9 +155,16 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
                             tv_openfile = view.findViewById(R.id.tv_openfile);
                             String url = listFiles.get(i).getFileUrl();
                             int position2 = url.lastIndexOf("/");
-                            fileUrl = "/sdcard/WJ_count/"+url.substring(position2+1,url.length());
+                            File sd= Environment.getExternalStorageDirectory();
+                            String path=sd.getPath()+"/WJ_count";
+                            File file = new File(path);
+                            if(!file.exists()){
+                                file.mkdir();
+                            }
+                            fileUrl = path+"/"+url.substring(position2+1,url.length());
                             if ("打开附件".equals(tv_openfile.getText().toString().trim())){
-                                FileUtils.getTextFileIntent(fileUrl,false);
+                                File file1 = new File(fileUrl);
+                                FileUtils.openFile(Meet_Detail_activity.this,file1);
                                 return;
                             }
                             verifyStoragePermissions(Meet_Detail_activity.this);
@@ -169,17 +181,6 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
             }
         }
 
-    }
-    //设备API大于6.0时，主动申请权限
-    private void requestPermission(Activity context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-
-            }
-        }
     }
 
     @Override
@@ -255,6 +256,10 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
                     int pro2=0;
                     // 获取文件流大小，用于更新进度
                     long file_length = connection.getContentLength();
+                    if(file_length == 0){
+                        publishProgress(pro2=pro1);
+                        return total_length;
+                    }
                     while((len = is.read(buf))!=-1){
                         total_length += len;
                         if(file_length>0) {
@@ -320,4 +325,5 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
             }
         }
     }
+
 }
