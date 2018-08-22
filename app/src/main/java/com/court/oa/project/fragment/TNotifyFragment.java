@@ -46,7 +46,7 @@ public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadLis
 	private RefreshLayout swipeLayout;
 	private ListView listView;
 	private TNotifyAdapter adapter;
-	private ArrayList<MessageBean> listMessage;
+	private ArrayList<MessageBean> listMessage = new ArrayList<>();
 	private int page = 0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -148,7 +148,9 @@ public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadLis
 			@Override
 			public void run() {
 				// 更新数据  更新完后调用该方法结束刷新
-				listMessage.clear();
+				if(listMessage != null){
+					listMessage.clear();
+				}
 				initMessageData();
 				swipeLayout.setRefreshing(false);
 			}

@@ -331,6 +331,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("originalPrice", "" + allPrice);//原价相同
         parameters.put("sumPrice", "" + allPrice);
+        parameters.put("uid", "" + SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("takeUser", SharePreferenceUtils.readUser("realName", getActivity()));
         parameters.put("takeMobile", SharePreferenceUtils.readUser("mobile", getActivity()));
         parameters.put("takeTime", "2018-7-27");
@@ -418,6 +419,12 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     initSelect();
                     break;
 
+            }
+        } else{
+            switch (method){
+                case Contants.ORDER_CREATE:
+                    ToastUtil.show(getActivity(),"后台获取订单失败");
+                    break;
             }
         }
     }
