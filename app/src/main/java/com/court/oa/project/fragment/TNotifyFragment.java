@@ -70,25 +70,25 @@ public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadLis
 	}
 	private void initMessageData() {
 		page=1;
-		HashMap<String, String> parameters = new HashMap<>();
+		HashMap<String, Object> parameters = new HashMap<>();
 		parameters.put("pageIndex", ""+page);
 		parameters.put("pageSize", "10");
 		parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
 		parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
 		OkHttpManager.postAsync(
 				Contants.MESSAGE_LIST, parameters,
-				this, null, Contants.MESSAGE_LIST);
+				this, Contants.MESSAGE_LIST);
 	}
 	private void initMoreMessageData() {
 		page++;
-		HashMap<String, String> parameters = new HashMap<>();
+		HashMap<String, Object> parameters = new HashMap<>();
 		parameters.put("pageIndex", ""+page);
 		parameters.put("pageSize", "10");
 		parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
 		parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
 		OkHttpManager.postAsync(
 				Contants.MESSAGE_LIST, parameters,
-				this, null, Contants.MORE);
+				this, Contants.MORE);
 	}
 	@Override
 	public void requestFailure(Request request, IOException e, String method) {
@@ -108,7 +108,11 @@ public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadLis
 					}.getType());
 					adapter = new TNotifyAdapter(getActivity(), listMessage);
 					listView.setAdapter(adapter);
-					swipeLayout.setOnLoadListener(this);
+					if(listMessage.size()<=10){
+						swipeLayout.setOnLoadListener(null);
+					}else {
+						swipeLayout.setOnLoadListener(this);
+					}
 					break;
 				case Contants.MORE:
 					Gson gson1 = new Gson();

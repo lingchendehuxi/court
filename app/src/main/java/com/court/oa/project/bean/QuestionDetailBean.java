@@ -14,7 +14,25 @@ public class QuestionDetailBean implements Serializable {
     private String desc;
     private String content;
     private String publishTime;
-    private String imgUrl;
+    private String submitTime;
+    private int status;
+
+    public String getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(String submitTime) {
+        this.submitTime = submitTime;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     private List<QuestionOptionBean> questions;
 
     public String getTitle() {
@@ -66,11 +84,4 @@ public class QuestionDetailBean implements Serializable {
         this.id = id;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
 }

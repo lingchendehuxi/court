@@ -96,19 +96,19 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
 
     }
     private void leaveDetail(String id) {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("id", id);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.LEAVE_DETAIL, parameters,
-                this, null, Contants.LEAVE_DETAIL);
+                this, Contants.LEAVE_DETAIL);
     }
     private void leavePass() {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.LEAVE_APPLYER, parameters,
-                this, null, Contants.LEAVE_APPLYER);
+                this, Contants.LEAVE_APPLYER);
     }
     @Override
     public void requestFailure(Request request, IOException e, String method) {

@@ -81,12 +81,12 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
     private void initRegist(){
         StrPhone = et_phone.getText().toString();
         String strPass = MD5Utils.encode(et_pass.getText().toString());
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("userName", StrPhone);
         parameters.put("pwd", strPass);
         OkHttpManager.postAsync(
                 Contants.REGIST_FOR_USER, parameters,
-                Register_My_activity.this, null, Contants.REGIST_FOR_USER);
+                Register_My_activity.this, Contants.REGIST_FOR_USER);
     }
 
     @Override

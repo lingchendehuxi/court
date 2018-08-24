@@ -209,7 +209,7 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
         }
     }
     private void initUploadLeave() {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("type", leave_type);
@@ -222,7 +222,7 @@ public class Mine_leave_addmine_activity extends AppCompatActivity implements Vi
 
         OkHttpManager.postAsync(
                 Contants.LEAVE_EDIT, parameters,
-                this, null, Contants.LEAVE_EDIT);
+                this, Contants.LEAVE_EDIT);
     }
     @Override
     public void requestFailure(Request request, IOException e, String method) {

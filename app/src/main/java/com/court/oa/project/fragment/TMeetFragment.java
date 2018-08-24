@@ -70,30 +70,31 @@ public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListe
     private void initView() {
         swipeLayout = view.findViewById(R.id.swipe_container);
         iv_scaner = view.findViewById(R.id.iv_scaner);
-        listView =  view.findViewById(R.id.list);
+        listView = view.findViewById(R.id.list);
         initMeetDate();
 
     }
 
     private void initMeetDate() {
-        page=1;
-        HashMap<String, String> parameters = new HashMap<>();
-        parameters.put("pageIndex", ""+page);
+        page = 1;
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("pageIndex", "" + page);
         parameters.put("pageSize", "10");
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.MEETING_LIST, parameters,
-                this, null, Contants.MEETING_LIST);
+                this, Contants.MEETING_LIST);
     }
+
     private void initMoreMeetDate() {
         page++;
-        HashMap<String, String> parameters = new HashMap<>();
-        parameters.put("pageIndex", ""+page);
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("pageIndex", "" + page);
         parameters.put("pageSize", "10");
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.MEETING_LIST, parameters,
-                this, null, Contants.MORE);
+                this, Contants.MORE);
     }
 
     @Override
@@ -118,27 +119,31 @@ public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListe
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             Intent intent = new Intent(getActivity(), Meet_Detail_activity.class);
-                            intent.putExtra("meetId",listMeet.get(i).getId());
+                            intent.putExtra("meetId", listMeet.get(i).getId());
                             getActivity().startActivity(intent);
                         }
                     });
-                    swipeLayout.setOnLoadListener(this);
+                    if (listMeet.size() <= 10) {
+                        swipeLayout.setOnLoadListener(null);
+                    } else {
+                        swipeLayout.setOnLoadListener(this);
+                    }
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();
                     ArrayList<MeetMainBean> listMeet1 = gson1.fromJson(jsonObj1, new TypeToken<List<MeetMainBean>>() {
                     }.getType());
-                    if(listMeet1.size()!=0){
-                        for(int i = 0;i<listMeet1.size();i++){
+                    if (listMeet1.size() != 0) {
+                        for (int i = 0; i < listMeet1.size(); i++) {
                             listMeet.add(listMeet1.get(i));
                         }
                         adapter.notifyDataSetChanged();
-                    }else {
+                    } else {
                         swipeLayout.setOnLoadListener(null);
                     }
                     break;
                 case Contants.MEETING_SINGIN:
-                    ToastUtil.show(getActivity(),"签到成功！");
+                    ToastUtil.show(getActivity(), "签到成功！");
                     break;
                 default:
                     break;
@@ -231,20 +236,20 @@ public class TMeetFragment extends Fragment implements RefreshLayout.OnLoadListe
 //                    YWN0aXZpdHktMQ==
 //                    Log.d("liuhong",bundle.getString("result"));
                     String code = bundle.getString("result");
-                    if(StringUtils.isEmpty(code)){
-                        ToastUtil.show(getActivity(),"二维码无效");
+                    if (StringUtils.isEmpty(code)) {
+                        ToastUtil.show(getActivity(), "二维码无效");
                         break;
                     }
                     //显示
 //                    byte[] b = bundle.getByteArray("bitmap");
 //                    Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
 //                    mImageView.setImageBitmap(bitmap);
-                    HashMap<String, String> parameters = new HashMap<>();
-                    parameters.put("uid", SharePreferenceUtils.readUser("userId",getActivity()));
+                    HashMap<String, Object> parameters = new HashMap<>();
+                    parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
                     parameters.put("code", code);
                     OkHttpManager.postAsync(
                             Contants.MEETING_SINGIN, parameters,
-                            this, null, Contants.MEETING_SINGIN);
+                            this, Contants.MEETING_SINGIN);
                 }
                 break;
         }

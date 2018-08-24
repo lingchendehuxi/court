@@ -61,7 +61,7 @@ public class Mine_menu_fir_fragment extends Fragment implements RefreshLayout.On
     //请求数据
     private void initMyHallDate() {
         page=1;
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
         parameters.put("pageSize", "10");
         parameters.put("orderType", "1");
@@ -69,11 +69,11 @@ public class Mine_menu_fir_fragment extends Fragment implements RefreshLayout.On
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.ORDER_GOODLIST, parameters,
-                this, null, Contants.ORDER_GOODLIST);
+                this, Contants.ORDER_GOODLIST);
     }
     private void initMoreMyHallDate() {
         page++;
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
         parameters.put("pageSize", "10");
         parameters.put("orderType", "1");
@@ -81,7 +81,7 @@ public class Mine_menu_fir_fragment extends Fragment implements RefreshLayout.On
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.ORDER_GOODLIST, parameters,
-                this, null, Contants.MORE);
+                this, Contants.MORE);
     }
 
     @Override
@@ -102,7 +102,11 @@ public class Mine_menu_fir_fragment extends Fragment implements RefreshLayout.On
                     }.getType());
                     adapter = new TMine_MenuAdapter(getActivity(), listBean);
                     listView.setAdapter(adapter);
-                    swipeLayout.setOnLoadListener(this);
+                    if(listBean.size()<=10){
+                        swipeLayout.setOnLoadListener(null);
+                    }else {
+                        swipeLayout.setOnLoadListener(this);
+                    }
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();

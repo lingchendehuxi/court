@@ -97,12 +97,12 @@ public class Mine_leave_chose_activity extends AppCompatActivity implements View
     }
 
     private void initDeptDate(String seach) {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("key", seach);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.LEAVE_USERLIST, parameters,
-                this, null, Contants.LEAVE_USERLIST);
+                this, Contants.LEAVE_USERLIST);
     }
 
     @Override

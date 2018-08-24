@@ -52,9 +52,10 @@
 
             <ImageView
                 android:id="@+id/mine_info_go"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/into_next" />
         </LinearLayout>
 
@@ -76,16 +77,19 @@
             android:id="@+id/mine_tel"
             style="@style/mine_menu_style"
             android:text="考勤记录"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
-        <View style="@style/mine_menu_gap_4"
-            android:visibility="gone"/>
+        <View
+            style="@style/mine_menu_gap_4"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/mine_meet"
             style="@style/mine_menu_style"
             android:text="我的会议" />
 
         <View style="@style/mine_menu_gap_4" />
+
         <TextView
             android:id="@+id/mine_salary"
             style="@style/mine_menu_style"

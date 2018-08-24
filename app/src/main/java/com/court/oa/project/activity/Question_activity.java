@@ -4,27 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
-import com.court.oa.project.adapter.TMeetAdapter;
 import com.court.oa.project.adapter.ViewPagerAdapter;
 import com.court.oa.project.application.MyApplication;
-import com.court.oa.project.bean.MeetMainBean;
 import com.court.oa.project.bean.QuestionDetailBean;
 import com.court.oa.project.bean.QuestionOptionBean;
 import com.court.oa.project.bean.QuestionOptionValueBean;
 import com.court.oa.project.bean.SubmitQuestionChildren;
 import com.court.oa.project.bean.SubmitQuestionParent;
-import com.court.oa.project.bean.SumbitBean;
 import com.court.oa.project.contants.Contants;
-import com.court.oa.project.fragment.GuideFragment1;
 import com.court.oa.project.fragment.QuestionFragment;
 import com.court.oa.project.okhttp.OkHttpManager;
 import com.court.oa.project.save.SharePreferenceUtils;
@@ -39,11 +33,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import okhttp3.Request;
 
-import static com.court.oa.project.contants.Contants.*;
+import static com.court.oa.project.contants.Contants.EXAM_CREATE;
+import static com.court.oa.project.contants.Contants.EXAM_DETAIL;
 
 public class Question_activity extends AppCompatActivity implements View.OnClickListener, OkHttpManager.DataCallBack {
 
@@ -55,7 +49,6 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
     private TextView tv_next;
     private int currentPosition;
     public ArrayList<SubmitQuestionParent> listparent;
-    private SumbitBean submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,20 +61,20 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
         tv_next.setOnClickListener(this);
         Intent intent = getIntent();
         exId = intent.getStringExtra("exId");
-        if(listparent == null){
+        if (listparent == null) {
             listparent = new ArrayList<>();
         }
         initQuestionData();
     }
 
     private void initQuestionData() {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("exId", exId);
         parameters.put("uid", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 EXAM_DETAIL, parameters,
-                this, null, EXAM_DETAIL);
+                this, EXAM_DETAIL);
     }
 
     @Override
@@ -100,15 +93,16 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
                     Gson gson = new Gson();
                     qustion = gson.fromJson(jsonObj1, new TypeToken<QuestionDetailBean>() {
                     }.getType());
-                    //if(qustion.getStatus()==1){
-                      //  Intent intent = new Intent(Question_activity.this,Notify_question_result_activity.class);
-                      //  startActivity(intent);
-                      //  this.finish();
-                    //}else {
+                    if (qustion.getStatus() == 1) {
+                        Intent intent = new Intent(Question_activity.this, Notify_question_result_activity.class);
+                        startActivity(intent);
+                        this.finish();
+                    } else {
                         initFragment();
-                   // }
+                    }
                     break;
                 case EXAM_CREATE:
+                    
                     break;
 
                 default:
@@ -130,6 +124,9 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
         vp = findViewById(R.id.app_viewpage);
         list = new ArrayList<>();
         listOption = (ArrayList<QuestionOptionBean>) qustion.getQuestions();
+        if(listOption.size()==1){
+            tv_next.setText("提交");
+        }
         for (int i = 0; i < listOption.size(); i++) {
             SubmitQuestionParent parent = new SubmitQuestionParent();
             parent.setQusId(listOption.get(i).getQusId());
@@ -138,7 +135,7 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
             Bundle bundle = new Bundle();
             ArrayList<QuestionOptionValueBean> optionValueBeans = (ArrayList<QuestionOptionValueBean>) listOption.get(i).getOptions();
             bundle.putSerializable(Contants.QUESTION_ID, optionValueBeans);
-            bundle.putInt(Contants.QUESTION_GOBACK,i);
+            bundle.putInt(Contants.QUESTION_GOBACK, i);
             bundle.putString("question_title", listOption.get(i).getTitle());
             fragment.setArguments(bundle);
             list.add(fragment);
@@ -148,25 +145,24 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
         vp.setNoScroll(true);
         vp.setAdapter(adapter);
     }
+
     //接口函数写值
-    public void setQustionValue(ArrayList<SubmitQuestionChildren> childrens,int currentPosition){
+    public void setQustionValue(ArrayList<SubmitQuestionChildren> childrens, int currentPosition) {
         listparent.get(currentPosition).setChoseOptions(childrens);
     }
+
     //提交调查表
     private void sumbitQuestion() {
-        if(submit == null){
-            submit = new SumbitBean();
-            submit.setQuestions(listparent);
-        }
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("exId", exId);
-        parameters.put("questions", new Gson().toJson(submit));
+        parameters.put("questions", listparent);
         parameters.put("uId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
-                EXAM_CREATE, parameters,
-                this, null, EXAM_CREATE);
+               EXAM_CREATE, parameters,
+                this, EXAM_CREATE);
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -174,20 +170,20 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
                 this.finish();
                 break;
             case R.id.tv_next:
-                if(listparent.get(currentPosition).getChoseOptions()== null){
-                    ToastUtil.getShortToastByString(this,"请先选中答案");
+                if (listparent.get(currentPosition).getChoseOptions() == null) {
+                    ToastUtil.getShortToastByString(this, "请先选中答案");
                     return;
                 }
-                if("提交".equals(tv_next.getText().toString().trim())){
+                if ("提交".equals(tv_next.getText().toString().trim())) {
                     sumbitQuestion();
                 }
                 currentPosition++;
-                if(currentPosition == listOption.size()-1){
+                if (currentPosition == listOption.size() - 1) {
                     vp.setCurrentItem(currentPosition);
                     tv_next.setText("提交");
-                }else if(currentPosition<listOption.size()-1){
+                } else if (currentPosition < listOption.size() - 1) {
                     vp.setCurrentItem(currentPosition);
-                }else {
+                } else {
                     currentPosition--;
                 }
 

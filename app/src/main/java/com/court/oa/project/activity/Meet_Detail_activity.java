@@ -113,21 +113,21 @@ public class Meet_Detail_activity extends AppCompatActivity implements View.OnCl
         }
     }
     private void initMeetDate() {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("mid", ""+meetId);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.MEETING_DETAIL, parameters,
-                this, null, Contants.MEETING_DETAIL);
+                this, Contants.MEETING_DETAIL);
     }
     private void meetTakePartIn() {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("mid", ""+meetId);
         parameters.put("uid", ""+meetId);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.MEETING_SIGNUP, parameters,
-                this, null, Contants.MEETING_SIGNUP);
+                this, Contants.MEETING_SIGNUP);
     }
     @Override
     public void requestFailure(Request request, IOException e, String method) {

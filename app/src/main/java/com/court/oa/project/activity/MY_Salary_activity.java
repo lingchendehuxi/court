@@ -63,25 +63,25 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
     }
     private void initSalaryDate() {
         page=1;
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
         parameters.put("pageSize", "10");
         parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.WAGE_LIST, parameters,
-                this, null, Contants.WAGE_LIST);
+                this, Contants.WAGE_LIST);
     }
     private void initMoreSalaryDate() {
         page++;
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
         parameters.put("pageSize", "10");
         parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.WAGE_LIST, parameters,
-                this, null, Contants.MORE);
+                this, Contants.MORE);
     }
     @Override
     public void requestFailure(Request request, IOException e, String method) {
@@ -101,7 +101,11 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
                     }.getType());
                     adapter = new SalaryListAdapter(this, listBeans);
                     listView.setAdapter(adapter);
-                    swipeLayout.setOnLoadListener(this);
+                    if(listBeans.size()<=10){
+                        swipeLayout.setOnLoadListener(null);
+                    }else {
+                        swipeLayout.setOnLoadListener(this);
+                    }
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();

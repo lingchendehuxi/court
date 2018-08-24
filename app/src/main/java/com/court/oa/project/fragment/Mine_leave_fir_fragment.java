@@ -71,7 +71,7 @@ public class Mine_leave_fir_fragment extends Fragment implements RefreshLayout.O
     }
     private void initLeaveDate() {
         page=1;
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
         parameters.put("type", ""+type);
         parameters.put("pageSize", "10");
@@ -79,11 +79,11 @@ public class Mine_leave_fir_fragment extends Fragment implements RefreshLayout.O
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.LEAVE_LIST, parameters,
-                this, null, Contants.LEAVE_LIST);
+                this, Contants.LEAVE_LIST);
     }
     private void initMoreLeaveDate() {
         page++;
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
         parameters.put("type", ""+type);
         parameters.put("pageSize", "10");
@@ -91,7 +91,7 @@ public class Mine_leave_fir_fragment extends Fragment implements RefreshLayout.O
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.LEAVE_LIST, parameters,
-                this, null, Contants.MORE);
+                this, Contants.MORE);
     }
     @Override
     public void requestFailure(Request request, IOException e, String method) {
@@ -120,7 +120,11 @@ public class Mine_leave_fir_fragment extends Fragment implements RefreshLayout.O
                             getActivity().startActivity(intent);
                         }
                     });
-                    swipeLayout.setOnLoadListener(this);
+                    if(listLeave.size()<=10){
+                        swipeLayout.setOnLoadListener(null);
+                    }else {
+                        swipeLayout.setOnLoadListener(this);
+                    }
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();

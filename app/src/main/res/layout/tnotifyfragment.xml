@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_bright"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:background="@mipmap/title_bar_bg"
         android:gravity="center"
-        android:paddingTop="20dp"
-        >
+        android:paddingTop="20dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -19,12 +19,12 @@
             android:gravity="center_vertical">
 
             <TextView
+                style="@style/title_context"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center_vertical"
-                android:text="通知"
-                style="@style/title_context" />
+                android:text="通知" />
 
             <CheckBox
                 android:id="@+id/cb_set"
@@ -33,22 +33,24 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:button="@null"
-                android:visibility="invisible"
                 android:drawableLeft="@drawable/fragment_meet_ico"
                 android:paddingLeft="13dp"
                 android:paddingRight="17dp"
-                android:paddingTop="4dp" />
+                android:paddingTop="4dp"
+                android:visibility="invisible" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_toLeftOf="@id/cb_set"
                 android:gravity="center_vertical"
-                android:visibility="invisible"
                 android:text="时间"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:visibility="invisible" />
         </RelativeLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
     <com.court.oa.project.tool.RefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
@@ -58,10 +60,10 @@
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
     </com.court.oa.project.tool.RefreshLayout>
-
 
 
 </LinearLayout>

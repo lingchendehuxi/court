@@ -68,12 +68,12 @@ public class Mine_Menu_Detial_activity extends AppCompatActivity implements View
 
     }
     private void setData(){
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("oid", oid);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.ORDER_DETAIL, parameters,
-                this, null, Contants.ORDER_DETAIL);
+                this, Contants.ORDER_DETAIL);
     }
     @Override
     public void requestFailure(Request request, IOException e, String method) {

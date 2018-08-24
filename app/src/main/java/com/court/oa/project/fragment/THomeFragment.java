@@ -117,13 +117,13 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
     };
 
     private void initArticalDate() {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("pageIndex", "" + 1);
         parameters.put("pageSize", "10");
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.ARTICLE_LIST, parameters,
-                this, null, Contants.ARTICLE_LIST);
+                this, Contants.ARTICLE_LIST);
     }
 
     @Override

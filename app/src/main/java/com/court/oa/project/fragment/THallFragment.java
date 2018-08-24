@@ -25,7 +25,6 @@ import com.court.oa.project.adapter.THall_Leave_Adapter;
 import com.court.oa.project.bean.HallPackageGoodBean;
 import com.court.oa.project.bean.HallWeekBean;
 import com.court.oa.project.bean.SubmitHallBean;
-import com.court.oa.project.bean.SubmitHallParentBean;
 import com.court.oa.project.bean.WXPrePost;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.okhttp.DailogShow;
@@ -295,17 +294,17 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
 
     //周菜单
     private void initHallWeekDate(String weekDay) {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("weekDay", weekDay);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.HALL_WEEK, parameters,
-                this, null, Contants.HALL_WEEK);
+                this, Contants.HALL_WEEK);
     }
 
     //商品列表
     private void initHallGoodListDate(String time) {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("showTime", "2018-7-24");//7-24
         parameters.put("ctgId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("pageIndex", "" + 1);
@@ -313,13 +312,13 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.HALL_GOODLIST, parameters,
-                this, null, Contants.HALL_GOODLIST);
+                this, Contants.HALL_GOODLIST);
     }
 
     //更多商品列表
     private void initHallMoreGoodListDate(String time) {
         page++;
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("showTime", time);
         parameters.put("ctgId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("pageIndex", "" + page);
@@ -327,35 +326,35 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.HALL_GOODLIST, parameters,
-                this, null, Contants.MORE);
+                this, Contants.MORE);
     }
 
     //外卖商品订单
-    private void initHallGoodOrder(SubmitHallParentBean bean) {
-        HashMap<String, String> parameters = new HashMap<>();
+    private void initHallGoodOrder() {
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("originalPrice", "" + allPrice);//原价相同
         parameters.put("sumPrice", "" + allPrice);
         parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("takeUser", SharePreferenceUtils.readUser("realName", getActivity()));
         parameters.put("takeMobile", SharePreferenceUtils.readUser("mobile", getActivity()));
         parameters.put("takeTime", "2018-7-27");
-        parameters.put("subOrders", new Gson().toJson(bean));
+        parameters.put("subOrders", newList);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.ORDER_CREATE, parameters,
-                this, null, Contants.ORDER_CREATE);
+                this, Contants.ORDER_CREATE);
     }
 
     //打包商品订单
     private void initHallPackageOrder(String data) {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("takeTime", data);
-        parameters.put("subCount", "" + 1);
+        parameters.put("subCount", 1);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
                 Contants.ORDER_DINNER, parameters,
-                this, null, Contants.ORDER_DINNER);
+                this, Contants.ORDER_DINNER);
     }
 
     @Override
@@ -425,10 +424,10 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     break;
 
             }
-        } else{
-            switch (method){
+        } else {
+            switch (method) {
                 case Contants.ORDER_CREATE:
-                    ToastUtil.show(getActivity(),"后台获取订单失败");
+                    ToastUtil.show(getActivity(), "后台获取订单失败");
                     break;
             }
         }
@@ -455,7 +454,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                 newList.remove(i);
             }
         }
-        if(bean.getSubCount()!=0){
+        if (bean.getSubCount() != 0) {
             newList.add(bean);
         }
     }
@@ -518,10 +517,8 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     ToastUtil.getShortToastByString(getActivity(), "请先添加商品");
                     return;
                 }
-                SubmitHallParentBean bean = new SubmitHallParentBean();
-                bean.setSubOrders(newList);
                 setAllPrice(newList);
-                initHallGoodOrder(bean);
+                initHallGoodOrder();
                 break;
             case R.id.ll_week_one:
                 if (ll_week_one.isSelected()) {
@@ -660,7 +657,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
             post.body = object.getString("title");
             post.detail = object.getString("desc");
             post.out_trade_no = object.getString("orderNum"); //商户订单号 **2
-            post.total_fee = Integer.valueOf(object.getString("sumPrice"))*100;//单位是分
+            post.total_fee = (int) (Double.valueOf(object.getString("sumPrice")) * 100);//单位是分
             post.spbill_create_ip = Utils.getLocalIpAddress();//ip地址  **3
             post.notify_url = object.getString("payNotifyUrl");//这里是后台接受支付结果通知的url地址
             post.trade_type = "APP";

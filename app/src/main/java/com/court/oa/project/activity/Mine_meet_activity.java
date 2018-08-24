@@ -84,25 +84,25 @@ public class Mine_meet_activity extends AppCompatActivity implements View.OnClic
 
     private void initMeetDate() {
         page=1;
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
         parameters.put("pageSize", "10");
         parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.MEETING_LIST, parameters,
-                this, null, Contants.MEETING_LIST);
+                this, Contants.MEETING_LIST);
     }
     private void initMoreMeetDate() {
         page++;
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("pageIndex", ""+page);
         parameters.put("pageSize", "10");
         parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.MEETING_LIST, parameters,
-                this, null, Contants.MORE);
+                this, Contants.MORE);
     }
 
     @Override
@@ -132,6 +132,11 @@ public class Mine_meet_activity extends AppCompatActivity implements View.OnClic
                             startActivity(intent);
                         }
                     });
+                    if(listMeet.size()<=10){
+                        swipeLayout.setOnLoadListener(null);
+                    }else {
+                        swipeLayout.setOnLoadListener(this);
+                    }
                     break;
                 case Contants.MORE:
                     Gson gson1 = new Gson();
@@ -142,6 +147,8 @@ public class Mine_meet_activity extends AppCompatActivity implements View.OnClic
                             listMeet.add(listMeet1.get(i));
                         }
                         adapter.notifyDataSetChanged();
+                    }else {
+                        swipeLayout.setOnLoadListener(null);
                     }
                     break;
 

@@ -2,7 +2,6 @@ package com.court.oa.project.adapter;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.court.oa.project.bean.SubmitHallBean;
 import com.court.oa.project.utils.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by MateBook D on 2018/5/15.
@@ -72,9 +70,9 @@ public class THall_Leave_Adapter extends BaseAdapter {
         holder.hall_leave_price.setText(bean.getPrice());
         holder.hall_leave_count.setText("剩余"+bean.getCount()+"份");
         holder.iv_plus.setTag(position);
-        holder.iv_plus.setOnClickListener(new ButtonClickListener(holder.tv_showcount,bean.getCount(),holder.iv_reduce,Double.valueOf(bean.getPrice())));
+        holder.iv_plus.setOnClickListener(new ButtonClickListener(holder.hall_leave_count,holder.tv_showcount,bean.getCount(),holder.iv_reduce,Double.valueOf(bean.getPrice())));
         holder.iv_reduce.setTag(position);
-        holder.iv_reduce.setOnClickListener(new ButtonClickListener(holder.tv_showcount,bean.getCount(),holder.iv_reduce,Double.valueOf(bean.getPrice())));
+        holder.iv_reduce.setOnClickListener(new ButtonClickListener(holder.hall_leave_count,holder.tv_showcount,bean.getCount(),holder.iv_reduce,Double.valueOf(bean.getPrice())));
         return convertView;
     }
     private final class ViewHolder{
@@ -89,15 +87,16 @@ public class THall_Leave_Adapter extends BaseAdapter {
 
     //Button点击监听器
     private final class ButtonClickListener implements View.OnClickListener{
-        private TextView tv_showcount;
+        private TextView tv_showcount,hall_leave_count;
         private int count;
         private double price;
         private ImageView iv_reduce;
-        public ButtonClickListener(TextView textView,int count,ImageView iv_reduce,double price){
+        public ButtonClickListener(TextView hall_leave_count,TextView textView,int count,ImageView iv_reduce,double price){
             tv_showcount = textView;
             this.count = count;
             this.iv_reduce = iv_reduce;
             this.price = price;
+            this.hall_leave_count = hall_leave_count;
         }
         @Override
         public void onClick(View v) {
@@ -117,6 +116,7 @@ public class THall_Leave_Adapter extends BaseAdapter {
                     tv_showcount.setText(number+"");
                     SubmitHallBean newBean = new SubmitHallBean();
                     HallPackageGoodBean bean = list.get((int)v.getTag());
+                    hall_leave_count.setText("剩余"+(bean.getCount()-number)+"份");
                     newBean.setGid(bean.getId());
                     newBean.setSubCount(number);
                     newBean.setSubCurrentPrice(bean.getPrice());
@@ -136,6 +136,7 @@ public class THall_Leave_Adapter extends BaseAdapter {
                 tv_showcount.setText(number+"");
                 SubmitHallBean newBean = new SubmitHallBean();
                 HallPackageGoodBean bean = list.get((int)v.getTag());
+                hall_leave_count.setText("剩余"+(bean.getCount()-number)+"份");
                 newBean.setGid(bean.getId());
                 newBean.setSubCount(number);
                 newBean.setSubCurrentPrice(bean.getPrice());

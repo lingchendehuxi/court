@@ -61,12 +61,12 @@ public class Login_My_activity extends AppCompatActivity implements View.OnClick
     private void initLogin(){
         mobile = et_account.getText().toString().trim();
         String pass = MD5Utils.encode(et_password.getText().toString().trim());
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("userName", mobile);
         parameters.put("pwd", pass);
         OkHttpManager.postAsync(
                 Contants.LOGIN_FOR_PWD, parameters,
-                Login_My_activity.this, null, Contants.LOGIN_FOR_PWD);
+                Login_My_activity.this, Contants.LOGIN_FOR_PWD);
     }
 
 

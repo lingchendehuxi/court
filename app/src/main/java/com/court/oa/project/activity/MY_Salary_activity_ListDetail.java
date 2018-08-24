@@ -65,13 +65,13 @@ public class MY_Salary_activity_ListDetail extends AppCompatActivity implements 
     }
 
     private void initSalaryDate() {
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("wagesId", "" + wagesId);
         parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.WAGE_DETAIL, parameters,
-                this, null, Contants.WAGE_DETAIL);
+                this, Contants.WAGE_DETAIL);
     }
 
     @Override

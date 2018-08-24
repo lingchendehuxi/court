@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.court.oa.project.activity.Login_My_activity;
 import com.court.oa.project.contants.Contants;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -339,18 +341,18 @@ public class OkHttpManager {
      * @param params
      * @param callBack
      */
-    public static void postAsync(String url, Map<String, String> params, DataCallBack callBack,Map<String, String> headersParams,String method) {
+    public static void postAsync(String url, Map<String, Object> params, DataCallBack callBack,String method) {
     	if(callBack instanceof Activity){
     		if(HttpUtil.isCheckNet((Activity)callBack)){
     			DailogShow.showWaitDialog((Activity)callBack);
-    			getInstance().inner_postAsync(Contants.SERVER_ADDRESS + url, params, callBack,headersParams,method);
+    			getInstance().inner_postAsync(Contants.SERVER_ADDRESS + url, params, callBack,method);
     		}else{
     			HttpUtil.showToast((Activity)callBack, "请检查网络");
     		}
     	}else{
     		if(HttpUtil.isCheckNet(((android.support.v4.app.Fragment) callBack).getActivity())){
     			DailogShow.showWaitDialog(((android.support.v4.app.Fragment)callBack).getActivity());
-    			getInstance().inner_postAsync(Contants.SERVER_ADDRESS + url, params, callBack,headersParams,method);
+    			getInstance().inner_postAsync(Contants.SERVER_ADDRESS + url, params, callBack,method);
     		}else{
     			HttpUtil.showToast(((android.support.v4.app.Fragment) callBack).getActivity(), "请检查网络");
     		}
@@ -379,47 +381,14 @@ public class OkHttpManager {
         headers=headersbuilder.build();  
           
         return headers;  
-    }  
-    private void inner_postAsync(String url, Map<String, String> params, final DataCallBack callBack,Map<String, String> headersParams,final String method) {
-
-        RequestBody requestBody = null;
+    }
+    private void inner_postAsync(String url, Map<String, Object> params, final DataCallBack callBack,final String method) {
         if (params == null) {
             params = new HashMap<>();
         }
-        
-        /**
-         * 如果�?3.0之前版本的，构建表单数据是下面的�?�?
-         */
-        //FormEncodingBuilder builder = new FormEncodingBuilder();
-
-        /**
-         * 3.0之后版本
-         */
-        FormBody.Builder builder = new FormBody.Builder();
-
-        /**
-         * 在这对添加的参数进行遍历，map遍历有四种方式，如果想要了解的可以网上查�?
-         */
-        for (Map.Entry<String, String> map : params.entrySet()) {
-            String key = map.getKey().toString();
-            String value = null;
-            /**
-             * 判断值是否是空的
-             */
-            if (map.getValue() == null) {
-                value = "";
-            } else {
-                value = map.getValue();
-            }
-            /**
-             * 把key和value添加到formbody�?
-             */
-            builder.add(key, value);
-        }
-        requestBody = builder.build();
-        //结果返回
-        Builder okbuilder = new Request.Builder().url(url).headers(SetHeaders(headersParams));
-        final Request request = okbuilder.post(requestBody).build();
+        String string = new Gson().toJson(params);
+        RequestBody body = RequestBody.create(JSON, string);
+        final Request request = new Request.Builder().url(url).post(body).build();
         mClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -437,7 +406,6 @@ public class OkHttpManager {
 
         });
     }
-
 
     //-------------------------文件下载--------------------------
     public static void downloadAsync(String url, String desDir, DataCallBack callBack,String method) {
