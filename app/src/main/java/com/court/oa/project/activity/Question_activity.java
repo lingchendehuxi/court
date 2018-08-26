@@ -95,6 +95,7 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
                     }.getType());
                     if (qustion.getStatus() == 1) {
                         Intent intent = new Intent(Question_activity.this, Notify_question_result_activity.class);
+                        intent.putExtra("result",qustion);
                         startActivity(intent);
                         this.finish();
                     } else {
@@ -102,7 +103,12 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
                     }
                     break;
                 case EXAM_CREATE:
-                    
+                    Gson gson1 = new Gson();
+                    qustion = gson1.fromJson(jsonObj1, new TypeToken<QuestionDetailBean>() {
+                    }.getType());
+                    Intent intent = new Intent(Question_activity.this,Notify_question_result_activity.class);
+                    intent.putExtra("result",qustion);
+                    startActivity(intent);
                     break;
 
                 default:

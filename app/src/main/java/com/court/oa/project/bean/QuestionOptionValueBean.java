@@ -6,10 +6,27 @@ import java.io.Serializable;
  * Created by MateBook D on 2018/7/28.
  */
 
-public class QuestionOptionValueBean implements Serializable{
+public class QuestionOptionValueBean implements Serializable {
     private String opId;
     private String title;
-    private String sequence;
+    private int submitCount;
+    private int percent;
+
+    public int getSubmitCount() {
+        return submitCount;
+    }
+
+    public void setSubmitCount(int submitCount) {
+        this.submitCount = submitCount;
+    }
+
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
 
     public String getOpId() {
         return opId;
@@ -25,13 +42,5 @@ public class QuestionOptionValueBean implements Serializable{
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(String sequence) {
-        this.sequence = sequence;
     }
 }

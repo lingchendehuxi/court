@@ -6,15 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.adapter.QuestionResultAdapter;
 import com.court.oa.project.application.MyApplication;
+import com.court.oa.project.bean.QuestionDetailBean;
+import com.court.oa.project.bean.QuestionOptionValueBean;
 import com.court.oa.project.tool.FitStateUI;
 
+import java.util.ArrayList;
+
 public class Notify_question_result_activity extends AppCompatActivity implements View.OnClickListener {
-    private SeekBar seekBar_1;
+    private QuestionDetailBean resultBean;
+    private TextView result_title;
+    private ListView my_list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,12 +33,18 @@ public class Notify_question_result_activity extends AppCompatActivity implement
         initView();
     }
     private void initView(){
+        Intent intent = getIntent();
+        resultBean = (QuestionDetailBean) intent.getSerializableExtra("result");
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
         tv_title.setText("调查结果");
-        seekBar_1 = findViewById(R.id.seek_1);
-        seekBar_1.setEnabled(false);
+        result_title = findViewById(R.id.result_title);
+        my_list = findViewById(R.id.my_list);
+        if(resultBean != null){
+            result_title.setText(resultBean.getQuestions().get(0).getTitle());
+            my_list.setAdapter(new QuestionResultAdapter(this,(ArrayList<QuestionOptionValueBean>) resultBean.getQuestions().get(0).getOptions()));
+        }
     }
 
     @Override

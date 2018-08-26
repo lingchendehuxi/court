@@ -8,19 +8,10 @@ import java.util.List;
  * Created by MateBook D on 2018/7/28.
  */
 
-public class QuestionOptionBean implements Serializable{
+public class QuestionOptionBean implements Serializable {
     private String qusId;
     private String title;
     private String examType;
-    private String sequence;
-
-    public String getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(String sequence) {
-        this.sequence = sequence;
-    }
 
     private List<QuestionOptionValueBean> options;
 
