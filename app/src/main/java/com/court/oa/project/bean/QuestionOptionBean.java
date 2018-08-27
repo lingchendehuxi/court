@@ -11,7 +11,7 @@ import java.util.List;
 public class QuestionOptionBean implements Serializable {
     private String qusId;
     private String title;
-    private String examType;
+    private int examType;
 
     private List<QuestionOptionValueBean> options;
 
@@ -31,11 +31,11 @@ public class QuestionOptionBean implements Serializable {
         this.title = title;
     }
 
-    public String getExamType() {
+    public int getExamType() {
         return examType;
     }
 
-    public void setExamType(String examType) {
+    public void setExamType(int examType) {
         this.examType = examType;
     }
 

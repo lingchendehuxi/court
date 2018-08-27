@@ -8,10 +8,10 @@
             <!-- angle 是角度 -->
             <gradient
                 android:angle="90"
-                android:centerColor="#545454"
+                android:centerColor="@color/mine_menu_deepgray"
                 android:centerY="0.75"
-                android:endColor="#545454"
-                android:startColor="#545454" />
+                android:endColor="@color/mine_menu_deepgray"
+                android:startColor="@color/mine_menu_deepgray" />
         </shape>
     </item>
 
@@ -22,10 +22,10 @@
             <shape>
                 <gradient
                     android:angle="90"
-                    android:centerColor="@color/hall_little_yellow"
+                    android:centerColor="@color/login_password"
                     android:centerY="0.75"
-                    android:endColor="@color/hall_little_yellow"
-                    android:startColor="@color/hall_little_yellow" />
+                    android:endColor="@color/login_password"
+                    android:startColor="@color/login_password" />
             </shape>
         </clip>
     </item>

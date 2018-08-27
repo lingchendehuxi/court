@@ -56,9 +56,6 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); // 设置无标题栏
         MyApplication.getInstance().addActivity(this);
         FitStateUI.setImmersionStateMode(this);
-        setContentView(R.layout.activity_question);
-        tv_next = findViewById(R.id.tv_next);
-        tv_next.setOnClickListener(this);
         Intent intent = getIntent();
         exId = intent.getStringExtra("exId");
         if (listparent == null) {
@@ -99,6 +96,9 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
                         startActivity(intent);
                         this.finish();
                     } else {
+                        setContentView(R.layout.activity_question);
+                        tv_next = findViewById(R.id.tv_next);
+                        tv_next.setOnClickListener(this);
                         initFragment();
                     }
                     break;
@@ -139,10 +139,8 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
             listparent.add(parent);
             QuestionFragment fragment = new QuestionFragment();
             Bundle bundle = new Bundle();
-            ArrayList<QuestionOptionValueBean> optionValueBeans = (ArrayList<QuestionOptionValueBean>) listOption.get(i).getOptions();
-            bundle.putSerializable(Contants.QUESTION_ID, optionValueBeans);
+            bundle.putSerializable(Contants.QUESTION_ID, listOption.get(i));
             bundle.putInt(Contants.QUESTION_GOBACK, i);
-            bundle.putString("question_title", listOption.get(i).getTitle());
             fragment.setArguments(bundle);
             list.add(fragment);
         }

@@ -1,7 +1,6 @@
 package com.court.oa.project.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +9,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
-import com.court.oa.project.activity.MY_Salary_activity_ListDetail;
 import com.court.oa.project.bean.QuestionOptionValueBean;
-import com.court.oa.project.bean.SalaryListBean;
 
 import java.util.ArrayList;
 
@@ -51,7 +48,12 @@ public class QuestionResultAdapter extends BaseAdapter {
         View view = null;
         ViewHolder holder = null;
         if (convertView == null) {
-            view = layoutInflater.inflate(R.layout.activity_question_result_item, null);
+            if(position %2 == 0){
+                view = layoutInflater.inflate(R.layout.activity_question_result_item_1, null);
+            }else {
+                view = layoutInflater.inflate(R.layout.activity_question_result_item_2, null);
+            }
+
             holder = new ViewHolder();
             holder.item_title  = view.findViewById(R.id.item_title);
             holder.item_percent = view.findViewById(R.id.item_percent);
@@ -62,8 +64,8 @@ public class QuestionResultAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.item_title.setText(list.get(position).getTitle());
-        holder.item_percent.setText(list.get(position).getPercent()+"");
-        holder.seek_progress.setProgress(list.get(position).getSubmitCount());
+        holder.item_percent.setText(list.get(position).getSubmitCount()+" ("+list.get(position).getPercent()+"%)");
+        holder.seek_progress.setProgress(list.get(position).getPercent());
         holder.seek_progress.setEnabled(false);
         return view;
     }

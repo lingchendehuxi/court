@@ -56,7 +56,9 @@
     </style>
 
 
-    <style name="AppTheme.Main" parent="AppTheme" />
+    <style name="AppTheme.Main" parent="AppTheme" >
+        <item name="android:launchMode">singleTop</item>
+    </style>
 
     <!--hall_work_style-->
     <style name="hall_work_table">
