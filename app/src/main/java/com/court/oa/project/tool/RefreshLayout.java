@@ -33,6 +33,8 @@ public class RefreshLayout extends SwipeRefreshLayout implements
      */
 
     private int mTouchSlop;
+    // 上一次触摸时的X坐标
+    private float mPrevX;
     /**
      * listview实例
      */
@@ -243,5 +245,25 @@ public class RefreshLayout extends SwipeRefreshLayout implements
      */
     public static interface OnLoadListener {
         public void onLoad();
+    }
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mPrevX = event.getX();
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                final float eventX = event.getX();
+                float xDiff = Math.abs(eventX - mPrevX);
+                // Log.d("refresh" ,"move----" + eventX + "   " + mPrevX + "   " + mTouchSlop);
+                // 增加60的容差，让下拉刷新在竖直滑动时就可以触发
+                if (xDiff > mTouchSlop + 60) {
+                    return false;
+                }
+        }
+
+        return super.onInterceptTouchEvent(event);
     }
 }
