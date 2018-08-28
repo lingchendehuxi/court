@@ -6,55 +6,45 @@
     android:orientation="vertical">
 
     <TextView
+        style="@style/title_context"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:paddingTop="20dp"
         android:background="@mipmap/title_bar_bg"
         android:gravity="center"
+        android:paddingTop="20dp"
         android:text="考勤" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:orientation="horizontal"
         android:background="@color/card_gray"
-
-        >
-        <CheckBox
-            android:id="@+id/cb_part"
-            style="@style/card_top"
-            android:drawableRight="@drawable/fragment_meet_ico"
-            android:background="@color/chose_date_yellow"
-            android:text="部门"
-            android:textColor="@drawable/footer_home_textcolor" />
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/cb_person"
             style="@style/card_top"
-            android:drawableRight="@drawable/fragment_meet_ico"
             android:text="人员"
             android:textColor="@drawable/footer_home_textcolor" />
 
         <CheckBox
             android:id="@+id/cb_time"
             style="@style/card_top"
-            android:drawableRight="@drawable/fragment_meet_ico"
+            android:drawableRight="@drawable/fragment_tcard_ico"
             android:text="时间"
             android:textColor="@drawable/footer_home_textcolor" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mine_menu_deepgray" />
 
-
-    <com.court.oa.project.tool.RefreshLayout
-        android:id="@+id/swipe_container"
+    <ListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
-
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
-
-    </com.court.oa.project.tool.RefreshLayout>
+        android:background="@android:color/white"
+        android:divider="@color/mine_menu_deepgray"
+        android:dividerHeight="1dp" />
 
 </LinearLayout>

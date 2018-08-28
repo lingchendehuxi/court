@@ -8,20 +8,21 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.bean.HallWeekDetailBean;
+import com.court.oa.project.bean.TCardBean;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by MateBook D on 2018/5/15.
  */
 
-public class TCardAdapter extends BaseAdapter {
-    public ArrayList<HashMap<String, String>> list;
+public class TCardDetailAdapter extends BaseAdapter {
+    public ArrayList<TCardBean> list;
     public Context context;
     public LayoutInflater layoutInflater;
 
-    public TCardAdapter(Context context, ArrayList<HashMap<String, String>> list) {
+    public TCardDetailAdapter(Context context, ArrayList<TCardBean> list) {
         this.context = context;
         this.list = list;
         layoutInflater = LayoutInflater.from(context);
@@ -45,22 +46,34 @@ public class TCardAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = null;
-        ViewHolder holder;
+        ViewHolder holder = null;
         if (convertView == null) {
-            view = layoutInflater.inflate(R.layout.fragment_card_listitem_1, null);
+            view = layoutInflater.inflate(R.layout.fragment_card_listitem, null);
             holder = new ViewHolder();
-            holder.tv_title = view.findViewById(R.id.tv_title);
+            holder.tv_title  = view.findViewById(R.id.tv_title);
+            holder.tv_detail1  = view.findViewById(R.id.tv_detail1);
+            holder.tv_detail2  = view.findViewById(R.id.tv_detail2);
             view.setTag(holder);
         } else {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
-        holder.tv_title.setText(list.get(position).get("itemText"));
+        TCardBean bean = list.get(position);
+        holder.tv_title.setText(bean.getAdate());
+        if("0".equals(bean.getStatus())){
+            holder.tv_detail1.setText(bean.getSigninDesc());
+            holder.tv_detail2.setText(bean.getSignoutDesc());
+        }else {
+            holder.tv_detail1.setText(bean.getDesc());
+            holder.tv_detail2.setVisibility(View.GONE);
+        }
         return view;
     }
 
-    static class ViewHolder {
+    class ViewHolder {
         TextView tv_title;
+        TextView tv_detail1;
+        TextView tv_detail2;
     }
 
 }

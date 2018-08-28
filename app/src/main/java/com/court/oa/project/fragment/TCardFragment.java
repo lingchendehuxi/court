@@ -13,233 +13,161 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.activity.Leave_apply_activity;
 import com.court.oa.project.activity.Meet_Detail_activity;
+import com.court.oa.project.activity.Mine_leave_addmine_activity;
+import com.court.oa.project.activity.Mine_leave_chose_activity;
 import com.court.oa.project.adapter.TCardAdapter;
-import com.court.oa.project.adapter.TMeetAdapter;
+import com.court.oa.project.adapter.TCardDetailAdapter;
+import com.court.oa.project.adapter.TMine_Leave_fir_Adapter;
+import com.court.oa.project.bean.LeaveListBean;
+import com.court.oa.project.bean.TCardBean;
+import com.court.oa.project.contants.Contants;
+import com.court.oa.project.okhttp.OkHttpManager;
+import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.RefreshLayout;
+import com.court.oa.project.utils.ToastUtil;
+import com.court.oa.project.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class TCardFragment extends Fragment implements RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener {
+import okhttp3.Request;
+
+public class TCardFragment extends Fragment implements OkHttpManager.DataCallBack {
     private View view;
-    private RefreshLayout swipeLayout;
     private ArrayList list;
     private ListView listView;
     private TCardAdapter adapter;
-    private CheckBox cb_part,cb_person,cb_time;
-
+    private TCardDetailAdapter tCardDetailAdapter;
+    private CheckBox cb_person, cb_time;
+    private ArrayList<TCardBean> tCardList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = (View) inflater.inflate(R.layout.tcardfragment, null);
+        view = inflater.inflate(R.layout.tcardfragment, null);
         initView();
         return view;
     }
 
     private void initView() {
-        swipeLayout = (RefreshLayout) view.findViewById(R.id.swipe_container);
-        cb_part = view.findViewById(R.id.cb_part);
         cb_person = view.findViewById(R.id.cb_person);
+        listView = view.findViewById(R.id.list);
         cb_time = view.findViewById(R.id.cb_time);
-        cb_part.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb_person.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    setPartData();
-                    swipeLayout.setOnLoadListener(null);
-                    listView.setVisibility(View.VISIBLE);
-                }else{
-                    listView.setVisibility(View.INVISIBLE);
-                    isShow();
-                }
-            }
-        });
-        cb_person.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    setPersonData();
-                    swipeLayout.setOnLoadListener(null);
-                    listView.setVisibility(View.VISIBLE);
-                }else{
-                    listView.setVisibility(View.INVISIBLE);
-                    isShow();
-                }
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Mine_leave_chose_activity.class);
+                intent.putExtra("type", 1);
+                startActivityForResult(intent, 100);
             }
         });
         cb_time.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     setTimeData();
-                    swipeLayout.setOnLoadListener(null);
                     listView.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     listView.setVisibility(View.INVISIBLE);
-                    isShow();
                 }
             }
         });
     }
 
     /**
+     * else
      * 添加数据
      */
-    private void setData() {
-        list = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < 5; i++) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("itemImage", i + "数据");
-            map.put("itemText", i + "数据");
-            list.add(map);
-        }
-        listView = (ListView) view.findViewById(R.id.list);
-        adapter = new TCardAdapter(getActivity(), list,2);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), Meet_Detail_activity.class);
-                getActivity().startActivity(intent);
-            }
-        });
-        setListener();
+    private void initCardData(String data) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("month", data);
+        parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
+        parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
+        OkHttpManager.postAsync(
+                Contants.CARD_LIST, parameters,
+                this, Contants.CARD_LIST);
     }
-    /**
-     * 添加部门数据
-     */
-    private void setPartData() {
-        list = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < 1; i++) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("itemImage", i + "默认");
-            map.put("itemText", i + "默认");
-            list.add(map);
-        }
-        listView = (ListView) view.findViewById(R.id.list);
-        adapter = new TCardAdapter(getActivity(), list,1);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                HashMap<String,String> map = (HashMap<String, String>) list.get(i);
-                cb_part.setText(map.get("itemImage"));
-                listView.setVisibility(View.INVISIBLE);
-                cb_part.setChecked(false);
-            }
-        });
+
+    @Override
+    public void requestFailure(Request request, IOException e, String method) {
+        ToastUtil.getShortToastByString(getActivity(),
+                getString(R.string.networkRequst_resultFailed));
     }
-    /**
-     * 添加人员数据
-     */
-    private void setPersonData() {
-        list = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < 1; i++) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("itemImage", i + "默认");
-            map.put("itemText", i + "默认");
-            list.add(map);
-        }
-        listView = (ListView) view.findViewById(R.id.list);
-        adapter = new TCardAdapter(getActivity(), list,1);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                HashMap<String,String> map = (HashMap<String, String>) list.get(i);
-                cb_person.setText(map.get("itemImage"));
-                listView.setVisibility(View.INVISIBLE);
-                cb_person.setChecked(false);
+
+    @Override
+    public void requestSuccess(String result, String method) throws Exception {
+        JSONObject object = new JSONObject(result);
+        if (object.getInt("code") == 1) {
+            String jsonObj1 = object.getString("data");
+            switch (method) {
+                case Contants.CARD_LIST:
+                    Gson gson = new Gson();
+                    tCardList = gson.fromJson(jsonObj1, new TypeToken<List<TCardBean>>() {
+                    }.getType());
+                    adapter = null;
+                    tCardDetailAdapter = new TCardDetailAdapter(getActivity(),tCardList);
+                    listView.setAdapter(tCardDetailAdapter);
+                    listView.setVisibility(View.VISIBLE);
+                    break;
+
+                default:
+                    break;
             }
-        });
+        }
+
     }
+
+
     /**
      * 添加时间数据
      */
     private void setTimeData() {
         list = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < 1; i++) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("itemImage", i + "默认");
-            map.put("itemText", i + "默认");
-            list.add(map);
-        }
-        listView = (ListView) view.findViewById(R.id.list);
-        adapter = new TCardAdapter(getActivity(), list,1);
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("itemText", "上月");
+        map.put("itemValue", Utils.getFetureMonth(Utils.getCurrentMonthLastDay()));
+        HashMap<String, String> map1 = new HashMap<String, String>();
+        map1.put("itemText", "本月");
+        map1.put("itemValue", Utils.getFetureMonth(0));
+        list.add(map);
+        list.add(map1);
+        listView = view.findViewById(R.id.list);
+        adapter = new TCardAdapter(getActivity(), list);
+        tCardDetailAdapter = null;
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                HashMap<String,String> map = (HashMap<String, String>) list.get(i);
-                cb_time.setText(map.get("itemImage"));
+                HashMap<String, String> map = (HashMap<String, String>) list.get(i);
+                cb_time.setText(map.get("itemText"));
                 listView.setVisibility(View.INVISIBLE);
                 cb_time.setChecked(false);
+                isShow(map.get("itemValue"));
             }
         });
     }
-    //设置检查是否三个选项全选中
-    private void isShow(){
-        if("部门".equals(cb_part.getText().toString())||
-                "人员".equals(cb_person.getText().toString())||"时间".equals(cb_time.getText().toString())){
+
+    //设置检查是否两个选项全选中
+    private void isShow(String data) {
+        if ("人员".equals(cb_person.getText().toString()) || "时间".equals(cb_time.getText().toString())) {
+            ToastUtil.getShortToastByString(getActivity(),"请先选择员工");
             return;
         }
-        setData();
-        listView.setVisibility(View.VISIBLE);
+        initCardData(data);
     }
 
-
-    /**
-     * 设置监听
-     */
-    private void setListener() {
-        swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setOnLoadListener(this);
-    }
-
-    /**
-     * 上拉刷新
-     */
     @Override
-    public void onRefresh() {
-        swipeLayout.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                // 更新数据  更新完后调用该方法结束刷新
-                list.clear();
-                for (int i = 0; i < 8; i++) {
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("itemImage", i + "刷新");
-                    map.put("itemText", i + "刷新");
-                    list.add(map);
-                }
-                adapter.notifyDataSetChanged();
-                swipeLayout.setRefreshing(false);
-            }
-        }, 2000);
-
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 100 && requestCode == 100) {
+            cb_person.setText(data.getStringExtra("user"));
+        }
     }
-
-    /**
-     * 加载更多
-     */
-    @Override
-    public void onLoad() {
-        swipeLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // 更新数据  更新完后调用该方法结束刷新
-                swipeLayout.setLoading(false);
-                for (int i = 1; i < 10; i++) {
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("itemImage", i + "更多");
-                    map.put("itemText", i + "更多");
-                    list.add(map);
-                }
-                adapter.notifyDataSetChanged();
-            }
-        }, 2000);
-    }
-
 }

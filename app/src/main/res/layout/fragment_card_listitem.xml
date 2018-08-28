@@ -15,13 +15,17 @@
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:textColor="@color/home_title_gray"/>
     <TextView
+        android:id="@+id/tv_detail1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="上班迟到"/>
     <TextView
+        android:id="@+id/tv_detail2"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

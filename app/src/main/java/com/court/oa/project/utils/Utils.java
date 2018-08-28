@@ -462,4 +462,26 @@ public class Utils {
     public static long genTimeStamp() {
         return System.currentTimeMillis() / 1000;
     }
+    /**
+     * 获取未来 第 past 天的日期
+     * @param past
+     * @return
+     */
+    public static String getFetureMonth(int past) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - past);
+        Date today = calendar.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("YYYY-MM");
+        String result = format.format(today);
+        Log.e("text", result);
+        return result;
+    }
+    public static int getCurrentMonthLastDay()
+    {
+        Calendar a = Calendar.getInstance();
+        a.set(Calendar.DATE, 1);//把日期设置为当月第一天
+        a.roll(Calendar.DATE, -1);//日期回滚一天，也就是最后一天
+        int maxDate = a.get(Calendar.DATE);
+        return maxDate;
+    }
 }

@@ -137,23 +137,23 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
                     }.getType());
                     for (int i = 0; i < articalList.size(); i++) {
                         if ("614".equals(articalList.get(i).getCtgId())) {
+                            topList.clear();
                             for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
-                                topList.clear();
                                 topList.add(articalList.get(i).getInfoList().get(j));
                             }
                         } else if ("611".equals(articalList.get(i).getCtgId())) {
+                            meetList.clear();
                             for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
-                                meetList.clear();
                                 meetList.add(articalList.get(i).getInfoList().get(j));
                             }
                         } else if ("612".equals(articalList.get(i).getCtgId())) {
+                            notifyList.clear();
                             for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
-                                notifyList.clear();
                                 notifyList.add(articalList.get(i).getInfoList().get(j));
                             }
                         } else if ("613".equals(articalList.get(i).getCtgId())) {
+                            hallList.clear();
                             for (int j = 0; j < articalList.get(i).getInfoList().size(); j++) {
-                                hallList.clear();
                                 hallList.add(articalList.get(i).getInfoList().get(j));
                             }
                         }

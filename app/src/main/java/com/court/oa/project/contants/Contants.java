@@ -36,6 +36,7 @@ public class Contants {
     public static final String MESSAGE_LIST = "message/list";//通知列表
     public static final String EXAM_DETAIL = "exam/detail";//问卷详情exam/answer/create
     public static final String EXAM_CREATE = "exam/answer/create";//提交问卷
+    public static final String CARD_LIST = "attendance/list";//考勤
 
     //传参
     public static final String QUESTION_ID = "question";

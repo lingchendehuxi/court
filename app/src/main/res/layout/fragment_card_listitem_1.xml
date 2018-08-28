@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     android:alpha="1"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/meet_padding"
-    android:paddingRight="@dimen/meet_padding"
-    android:paddingTop="20dp"
     android:background="@color/card_gray">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:layout_height="wrap_content" />
 </LinearLayout>
