@@ -60,7 +60,7 @@ public class TNotifyAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.notifyList_title.setText(list.get(position).getMsgTitle());
-        String type = list.get(position).getMsgCtg();
+        String type = list.get(position).getMsgCtg()+"";
         if("0".equals(type)){
             holder.tv_time.setVisibility(View.VISIBLE);
             holder.tv_person.setVisibility(View.VISIBLE);
@@ -70,12 +70,6 @@ public class TNotifyAdapter extends BaseAdapter {
             holder.tv_person.setVisibility(View.INVISIBLE);
             holder.tv_time.setVisibility(View.GONE);
         }
-        holder.tv_question.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         return view;
     }
 

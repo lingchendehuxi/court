@@ -80,12 +80,14 @@ public class THomeAdapter extends BaseAdapter {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(j==0){
                     ((MainActivity)context).otherSkip(j);
-                }else if(j==1){
-                    Intent intent = new Intent(context, Notify_Detail_activity.class);
-                    context.startActivity(intent);
                 }else {
-                    Intent intent = new Intent(context, Meet_Detail_activity.class);
-                    intent.putExtra("meetId",listBean.get(j).getInfoList().get(i).getId());
+                    Intent intent = new Intent(context, Notify_Detail_activity.class);
+                    if(j==1){
+                        intent.putExtra("title","通知");
+                    }else {
+                        intent.putExtra("title","会议");
+                    }
+                    intent.putExtra("id",listBean.get(j).getInfoList().get(i).getId());
                     context.startActivity(intent);
                 }
             }

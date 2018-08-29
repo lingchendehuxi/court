@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class MessageBean implements Serializable{
     private String msgId;
     private String msgType;
-    private String msgCtg;
+    private int msgCtg;
     private String msgCtgId;
     private String msgTitle;
     private String msgContent;
@@ -33,11 +33,11 @@ public class MessageBean implements Serializable{
         this.msgType = msgType;
     }
 
-    public String getMsgCtg() {
+    public int getMsgCtg() {
         return msgCtg;
     }
 
-    public void setMsgCtg(String msgCtg) {
+    public void setMsgCtg(int msgCtg) {
         this.msgCtg = msgCtg;
     }
 
