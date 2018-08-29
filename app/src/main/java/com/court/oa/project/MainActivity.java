@@ -2,6 +2,7 @@ package com.court.oa.project;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.court.oa.project.activity.Login_My_activity;
+import com.court.oa.project.activity.StartActivity;
 import com.court.oa.project.application.MyApplication;
 import com.court.oa.project.contants.Contants;
 import com.court.oa.project.fragment.TCardFragment;
@@ -33,6 +35,10 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.List;
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
@@ -62,6 +68,16 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         initView();
         RadioButton rb_home = findViewById(R.id.rb_home);
         rb_home.setChecked(true);
+        //设置别名
+        Log.d("liuhong","000000 ==== "+SharePreferenceUtils.readUser("userId",this));
+        if("yes".equals(SharePreferenceUtils.readUser("login",this)) && !"true".equals(SharePreferenceUtils.readUser("user_device_token",this))){
+            mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS,
+                    SharePreferenceUtils.readUser("userId",this)));
+            Log.d("liuhong","11111 ==== "+SharePreferenceUtils.readUser("userId",this));
+        }else{
+            Log.d("liuhong","333333 ==== "+SharePreferenceUtils.readUser("userId",this));
+        }
+
     }
 
     private void initView() {
@@ -233,5 +249,46 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             this.finish();
         }
     }
+
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            switch (code) {
+                case 0:
+                    Log.i(TAG, "Set tag and alias success");
+                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+                    SharePreferenceUtils.saveUserString("user_device_token","true",MainActivity.this);
+                    break;
+                case 6002:
+                    Log.i(TAG, "Failed to set alias and tags due to timeout. Try again after 60s.");
+                    // 延迟 60 秒来调用 Handler 设置别名
+                    mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+                    break;
+                default:
+                    Log.e(TAG, "Failed with errorCode = " + code);
+            }
+        }
+    };
+    private String TAG = "Main_JPush";
+    private static final int MSG_SET_ALIAS = 1001;
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_SET_ALIAS:
+                    Log.d(TAG, "Set alias in handler.");
+                    // 调用 JPush 接口来设置别名。
+                    JPushInterface.setAliasAndTags(getApplicationContext(),
+                            (String) msg.obj,
+                            null,
+                            mAliasCallback);
+                    break;
+                default:
+                    Log.i(TAG, "Unhandled msg - " + msg.what);
+            }
+        }
+    };
 }
 

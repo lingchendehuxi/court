@@ -16,9 +16,11 @@
     <TextView
         android:id="@+id/mine_set_password"
         style="@style/mine_menu_style"
-        android:text="修改密码" />
+        android:text="修改密码"
+        android:visibility="gone"/>
 
-    <View style="@style/mine_menu_gap_4" />
+    <View style="@style/mine_menu_gap_4"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/mine_set_update"

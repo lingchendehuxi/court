@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -14,6 +15,11 @@ import com.court.oa.project.application.MyApplication;
 import com.court.oa.project.save.SharePreferenceUtils;
 import com.court.oa.project.tool.FitStateUI;
 import com.court.oa.project.utils.ToastUtil;
+
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class Mine_set_acitivity extends AppCompatActivity implements View.OnClickListener {
     private TextView mine_set_info,mine_set_update,mine_set_logout,mine_set_password;
@@ -60,6 +66,13 @@ public class Mine_set_acitivity extends AppCompatActivity implements View.OnClic
                 ToastUtil.show(Mine_set_acitivity.this,"暂无更新");
                 break;
             case R.id.mine_set_logout:
+                //清除极光推送别名
+                JPushInterface.setAlias(Mine_set_acitivity.this,"",new TagAliasCallback() {
+                    @Override
+                    public void gotResult(int code, String alias, Set<String> tags) {
+                        Log.e("liuhong","TagAliasCallback0成功==="+code);
+                    }
+                });
                 SharePreferenceUtils.saveUserString("login", "no", Mine_set_acitivity.this);
                 this.finish();
                 break;

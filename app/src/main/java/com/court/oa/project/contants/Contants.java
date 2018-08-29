@@ -7,7 +7,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
  */
 
 public class Contants {
-    public static final String SERVER_ADDRESS = "http://114.55.248.239:8089/api/";// 接口地址
+    public static final String SERVER_ADDRESS = "http://61.177.43.46:8089/api/";// 接口地址
     public static final String MORE = "more";//更多
     public static final String REGIST_FOR_USER = "regist";// 用户注册
     public static final String WAGE_LIST = "wages/list";// 工资条列表
