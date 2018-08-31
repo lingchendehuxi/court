@@ -26,7 +26,8 @@
                 android:layout_height="70dp"
                 android:layout_marginLeft="20dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/mine" />
+                android:src="@mipmap/mine"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -94,6 +95,13 @@
             android:id="@+id/mine_salary"
             style="@style/mine_menu_style"
             android:text="我的工资条" />
+
+        <View style="@style/mine_menu_gap_4" />
+
+        <TextView
+            android:id="@+id/mine_bonus"
+            style="@style/mine_menu_style"
+            android:text="我的奖金" />
 
         <View style="@style/mine_menu_gap_4" />
 

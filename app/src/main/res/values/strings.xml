@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">吴江法院政务</string>
+    <string name="app_name">吴江智慧政务</string>
     <string name="networkRequst_resultFailed">网络加载延迟，请重新加载!</string>
-    <string name="loading">玩命处理中...</string>
+    <string name="loading">数据梳理中</string>
     <string name="title_activity_mine__menu_activity">Mine_Menu_activity</string>
     <string name="title_activity_mine_question_activity">Mine_question_activity</string>
 

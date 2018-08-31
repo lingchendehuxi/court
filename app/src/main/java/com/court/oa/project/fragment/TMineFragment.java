@@ -26,7 +26,7 @@ import com.squareup.picasso.Picasso;
 public class TMineFragment extends Fragment implements View.OnClickListener {
     private View view;
     private ImageView mine_pic,mine_info_go;
-    private TextView mine_name,mine_job;
+    private TextView mine_name,mine_job,mine_bonus;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +59,8 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
         mine_salary.setOnClickListener(this);
         TextView mine_meet = view.findViewById(R.id.mine_meet);
         mine_meet.setOnClickListener(this);
+        mine_bonus = view.findViewById(R.id.mine_bonus);
+        mine_bonus.setOnClickListener(this);
         mine_name = view.findViewById(R.id.mine_name);
         mine_job = view.findViewById(R.id.mine_job);
         mine_pic = view.findViewById(R.id.mine_pic);
@@ -91,6 +93,9 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.mine_meet:
                 startActivity(new Intent(getActivity(), Mine_meet_activity.class));
+                break;
+            case R.id.mine_bonus:
+                startActivity(new Intent(getActivity(), MY_Salary_activity.class));
                 break;
         }
     }

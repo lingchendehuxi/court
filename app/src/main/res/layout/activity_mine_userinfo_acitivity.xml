@@ -9,21 +9,21 @@
     <TextView
         android:id="@+id/tv_mobile"
         style="@style/mine_menu_style"
-        android:text="账号" />
+        android:text="姓名" />
 
     <View style="@style/mine_menu_gap_4" />
 
     <TextView
         android:id="@+id/tv_duty"
         style="@style/mine_menu_style"
-        android:text="职务" />
+        android:text="工号" />
 
     <View style="@style/mine_menu_gap_4" />
 
     <TextView
         android:id="@+id/tv_role"
         style="@style/mine_menu_style"
-        android:text="级别" />
+        android:text="部门" />
 
     <View style="@style/mine_menu_gap_4" />
 

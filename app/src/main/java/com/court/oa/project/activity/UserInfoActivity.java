@@ -40,15 +40,15 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         tv_mobile = findViewById(R.id.tv_mobile);
         tv_duty = findViewById(R.id.tv_duty);
         tv_role = findViewById(R.id.tv_role);
-        tv_mobile.setText("账号       "+SharePreferenceUtils.readUser("realName",this));
-        tv_duty.setText("职务       "+SharePreferenceUtils.readUser("duty",this));
+        tv_mobile.setText("姓名       "+SharePreferenceUtils.readUser("realName",this));
+        tv_duty.setText("工号       "+SharePreferenceUtils.readUser("duty",this));
         String role = SharePreferenceUtils.readUser("role",this);
         if("1".equals(role)){
-            tv_role.setText("级别     院领导");
+            tv_role.setText("部门       院领导");
         } else if("2".equals(role)){
-            tv_role.setText("级别     部门领导");
+            tv_role.setText("部门       部门领导");
         } else if("3".equals(role)){
-            tv_role.setText("级别     部门普通员工");
+            tv_role.setText("部门       部门普通员工");
         }
 
     }
