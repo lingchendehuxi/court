@@ -1,6 +1,7 @@
 package com.court.oa.project.fragment;
 
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -79,6 +80,11 @@ public class TCardFragment extends Fragment implements OkHttpManager.DataCallBac
                 }
             }
         });
+        if("3".equals(SharePreferenceUtils.readUser("role",getActivity()))){
+            cb_person.setVisibility(View.GONE);
+        }else {
+            cb_person.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -156,11 +162,15 @@ public class TCardFragment extends Fragment implements OkHttpManager.DataCallBac
 
     //设置检查是否两个选项全选中
     private void isShow(String data) {
-        if ("人员".equals(cb_person.getText().toString()) || "时间".equals(cb_time.getText().toString())) {
-            ToastUtil.getShortToastByString(getActivity(),"请先选择员工");
-            return;
+        if(cb_person.getVisibility() == View.INVISIBLE){
+            initCardData(data);
+        }else {
+            if ("人员".equals(cb_person.getText().toString()) || "时间".equals(cb_time.getText().toString())) {
+                ToastUtil.getShortToastByString(getActivity(),"请先选择员工");
+                return;
+            }
+            initCardData(data);
         }
-        initCardData(data);
     }
 
     @Override

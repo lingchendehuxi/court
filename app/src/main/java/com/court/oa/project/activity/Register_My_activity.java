@@ -104,7 +104,6 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
                 if (object.getInt("code") == 1) {
                     ParseUser.saveUser(object, this);
                     SharePreferenceUtils.saveUserString("login", "yes", Register_My_activity.this);
-                    SharePreferenceUtils.saveUserString("mobile",StrPhone,Register_My_activity.this);
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 }

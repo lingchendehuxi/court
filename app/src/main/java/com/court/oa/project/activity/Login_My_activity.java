@@ -116,7 +116,6 @@ public class Login_My_activity extends AppCompatActivity implements View.OnClick
                 if (object.getInt("code") == 1) {
                     ParseUser.saveUser(object, this);
                     SharePreferenceUtils.saveUserString("login", "yes", Login_My_activity.this);
-                    SharePreferenceUtils.saveUserString("mobile",mobile,Login_My_activity.this);
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 }
