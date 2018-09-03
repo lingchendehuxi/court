@@ -19,15 +19,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
+        android:layout_weight="2"
+        android:gravity="center"
         android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/register_edit"
+            android:gravity="center_vertical"
+            android:hint="请输入用户名"
+            android:maxLength="11"
+            android:paddingLeft="20dp"
+            android:singleLine="true"
+            android:textColorHint="@android:color/white"
+            android:textColorLink="@color/login_blow_white" />
 
         <EditText
             android:id="@+id/et_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="13dp"
             android:background="@mipmap/register_edit"
             android:gravity="center_vertical"
             android:hint="请输入手机号"
@@ -80,7 +95,8 @@
             android:background="@mipmap/register_edit"
             android:gravity="center"
             android:text="注册"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="17dp" />
     </LinearLayout>
 
 

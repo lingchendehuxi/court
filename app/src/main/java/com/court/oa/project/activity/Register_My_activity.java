@@ -33,9 +33,9 @@ import okhttp3.Request;
 
 public class Register_My_activity extends AppCompatActivity implements View.OnClickListener ,OkHttpManager.DataCallBack{
 
-    private EditText et_phone,et_pass,et_passAgain;
+    private EditText et_phone,et_pass,et_passAgain,et_name;
     private TextView tv_register;
-    private String StrPhone;
+    private String strPhone,strName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +48,7 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
     private void initView(){
         et_phone = findViewById(R.id.et_phone);
         et_pass = findViewById(R.id.et_pass);
+        et_name = findViewById(R.id.et_name);
         et_passAgain = findViewById(R.id.et_passAgain);
         tv_register = findViewById(R.id.tv_register);
         tv_register.setOnClickListener(this);
@@ -57,6 +58,10 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_register:
+                if(StringUtils.isEmpty(et_name.getText().toString().trim())){
+                    ToastUtil.show(this,"用户名为空！");
+                    break;
+                }
                 if(StringUtils.isEmpty(et_phone.getText().toString())){
                     ToastUtil.show(this,"手机号为空！");
                     break;
@@ -79,10 +84,12 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
     }
 
     private void initRegist(){
-        StrPhone = et_phone.getText().toString();
+        strPhone = et_phone.getText().toString();
+        strName = et_name.getText().toString().trim();
         String strPass = MD5Utils.encode(et_pass.getText().toString());
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("userName", StrPhone);
+        parameters.put("userName", strPhone);
+        parameters.put("realName", strName);
         parameters.put("pwd", strPass);
         OkHttpManager.postAsync(
                 Contants.REGIST_FOR_USER, parameters,

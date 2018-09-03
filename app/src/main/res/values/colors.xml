@@ -31,4 +31,6 @@
     <color name="font_lake_blue">#06c1ae</color>
     <color name="red">#ff0000</color>
     <color name="lighter_gray">#80ffffff</color>
+    <color name="login_title_white">#FDFDFD</color>
+    <color name="login_text_white">#FFFFFD</color>
 </resources>
