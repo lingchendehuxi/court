@@ -174,6 +174,9 @@ public class Question_activity extends AppCompatActivity implements View.OnClick
                 this.finish();
                 break;
             case R.id.tv_next:
+                if(listparent==null || listparent.size()==0){//IndexOutOfBoundsException
+                    return;
+                }
                 if (listparent.get(currentPosition).getChoseOptions() == null) {
                     ToastUtil.getShortToastByString(this, "请先选中答案");
                     return;

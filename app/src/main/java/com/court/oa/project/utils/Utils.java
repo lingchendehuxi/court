@@ -382,7 +382,7 @@ public class Utils {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + past);
         Date today = calendar.getTime();
-        SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String result = format.format(today);
         Log.e("text", result);
         return result;
@@ -471,7 +471,7 @@ public class Utils {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - past);
         Date today = calendar.getTime();
-        SimpleDateFormat format = new SimpleDateFormat("YYYY-MM");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
         String result = format.format(today);
         Log.e("text", result);
         return result;
