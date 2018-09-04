@@ -23,11 +23,13 @@ public class SalaryListAdapter extends BaseAdapter {
     public ArrayList<SalaryListBean> list;
     public Context context;
     public LayoutInflater layoutInflater;
+    private int activityType;
 
-    public SalaryListAdapter(Context context, ArrayList<SalaryListBean> list) {
+    public SalaryListAdapter(Context context, ArrayList<SalaryListBean> list, int activityType) {
         this.context = context;
         this.list = list;
         layoutInflater = LayoutInflater.from(context);
+        this.activityType = activityType;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class SalaryListAdapter extends BaseAdapter {
         if (convertView == null) {
             view = layoutInflater.inflate(R.layout.activity_salary_list_detail, null);
             holder = new ViewHolder();
-            holder.tv_title  = view.findViewById(R.id.tv_title);
+            holder.tv_title = view.findViewById(R.id.tv_title);
             view.setTag(holder);
         } else {
             view = convertView;
@@ -63,7 +65,8 @@ public class SalaryListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MY_Salary_activity_ListDetail.class);
-                intent.putExtra("wagesId",list.get(position).getWagesId());
+                intent.putExtra("wagesId", list.get(position).getWagesId());
+                intent.putExtra("activityType", activityType);
                 context.startActivity(intent);
             }
         });

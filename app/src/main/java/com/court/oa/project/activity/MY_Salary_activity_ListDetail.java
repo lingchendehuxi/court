@@ -35,7 +35,7 @@ public class MY_Salary_activity_ListDetail extends AppCompatActivity implements 
     private SalaryListDetailBean salaryBean;
     private TextView real_salary_key;
     private TextView real_salary_value;
-    private int wagesId;
+    private int wagesId, activityType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +48,24 @@ public class MY_Salary_activity_ListDetail extends AppCompatActivity implements 
     }
 
     private void initView() {
+        activityType = getIntent().getIntExtra("activityType", 0);
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
-        tv_title.setText("我的工资条");
+        real_salary_value = findViewById(R.id.real_salary_value);
+        if (activityType == 1) {
+            tv_title.setText("我的工资条");
+            real_salary_value.setText("实发工资");
+        } else {
+            tv_title.setText("我的奖金");
+            real_salary_value.setText("实发奖金");
+        }
         TextView tv_sort = findViewById(R.id.tv_sort);
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
         iv_set.setVisibility(View.INVISIBLE);
         listView = findViewById(R.id.list);
         real_salary_key = findViewById(R.id.real_salary_key);
-        real_salary_value = findViewById(R.id.real_salary_value);
         Intent intent = getIntent();
         wagesId = intent.getIntExtra("wagesId", 0);
         initSalaryDate();
@@ -90,7 +97,7 @@ public class MY_Salary_activity_ListDetail extends AppCompatActivity implements 
                     Gson gson = new Gson();
                     salaryBean = gson.fromJson(jsonObj1, new TypeToken<SalaryListDetailBean>() {
                     }.getType());
-                    real_salary_value.setText(salaryBean.getSfgz()+"元");
+                    real_salary_value.setText(salaryBean.getSfgz() + "元");
                     adapter = new SalaryListDetailAdapter(this, salaryBean.getWagesList());
                     listView.setAdapter(adapter);
                     break;

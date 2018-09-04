@@ -1,5 +1,6 @@
 package com.court.oa.project.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -32,12 +33,14 @@ import java.util.List;
 
 import okhttp3.Request;
 
-public class MY_Salary_activity extends AppCompatActivity implements View.OnClickListener ,OkHttpManager.DataCallBack,RefreshLayout.OnLoadListener,SwipeRefreshLayout.OnRefreshListener{
+public class MY_Salary_activity extends AppCompatActivity implements View.OnClickListener, OkHttpManager.DataCallBack, RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener {
     private RefreshLayout swipeLayout;
     private ListView listView;
     private SalaryListAdapter adapter;
     private int page = 1;
     private ArrayList<SalaryListBean> listBeans;
+    private int activityType = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +50,17 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_salary_list);
         initView();
     }
-    private void initView(){
+
+    private void initView() {
+        activityType = getIntent().getIntExtra("activityType", 0);
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
-        tv_title.setText("我的工资条");
+        if (activityType == 1) {
+            tv_title.setText("我的工资条");
+        } else {
+            tv_title.setText("我的奖金");
+        }
         TextView tv_sort = findViewById(R.id.tv_sort);
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
@@ -61,28 +70,37 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
         setListener();
         initSalaryDate();
     }
+
     private void initSalaryDate() {
-        page=1;
+        if (activityType == 0) {
+            ToastUtil.getShortToastByString(this, "参数传达错误");
+            return;
+        }
+        page = 1;
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("pageIndex", ""+page);
+        parameters.put("pageIndex", "" + page);
         parameters.put("pageSize", "10");
+        parameters.put("type", activityType);
         parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.WAGE_LIST, parameters,
                 this, Contants.WAGE_LIST);
     }
+
     private void initMoreSalaryDate() {
         page++;
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("pageIndex", ""+page);
+        parameters.put("pageIndex", "" + page);
         parameters.put("pageSize", "10");
+        parameters.put("type", activityType);
         parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.WAGE_LIST, parameters,
                 this, Contants.MORE);
     }
+
     @Override
     public void requestFailure(Request request, IOException e, String method) {
         ToastUtil.getShortToastByString(this,
@@ -99,11 +117,11 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
                     Gson gson = new Gson();
                     listBeans = gson.fromJson(jsonObj1, new TypeToken<List<SalaryListBean>>() {
                     }.getType());
-                    adapter = new SalaryListAdapter(this, listBeans);
+                    adapter = new SalaryListAdapter(this, listBeans, activityType);
                     listView.setAdapter(adapter);
-                    if(listBeans.size()<=10){
+                    if (listBeans.size() <= 10) {
                         swipeLayout.setOnLoadListener(null);
-                    }else {
+                    } else {
                         swipeLayout.setOnLoadListener(this);
                     }
                     break;
@@ -111,12 +129,12 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
                     Gson gson1 = new Gson();
                     ArrayList<SalaryListBean> listSalary1 = gson1.fromJson(jsonObj1, new TypeToken<List<SalaryListBean>>() {
                     }.getType());
-                    if(listSalary1.size()!=0){
-                        for(int i = 0;i<listSalary1.size();i++){
+                    if (listSalary1.size() != 0) {
+                        for (int i = 0; i < listSalary1.size(); i++) {
                             listBeans.add(listSalary1.get(i));
                         }
                         adapter.notifyDataSetChanged();
-                    }else {
+                    } else {
                         swipeLayout.setOnLoadListener(null);
                     }
                     break;
@@ -170,17 +188,17 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_back:
                 this.finish();
-            break;
+                break;
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(listBeans!=null){
+        if (listBeans != null) {
             listBeans.clear();
         }
     }

@@ -89,13 +89,17 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_tel:
                 break;
             case R.id.mine_salary:
-                startActivity(new Intent(getActivity(), MY_Salary_activity.class));
+                Intent intent = new Intent(getActivity(), MY_Salary_activity.class);
+                intent.putExtra("activityType",1);
+                startActivity(intent);
                 break;
             case R.id.mine_meet:
                 startActivity(new Intent(getActivity(), Mine_meet_activity.class));
                 break;
             case R.id.mine_bonus:
-                startActivity(new Intent(getActivity(), MY_Salary_activity.class));
+                Intent intent1 = new Intent(getActivity(), MY_Salary_activity.class);
+                intent1.putExtra("activityType",2);
+                startActivity(intent1);
                 break;
         }
     }
