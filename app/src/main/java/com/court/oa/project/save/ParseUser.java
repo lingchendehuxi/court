@@ -28,6 +28,7 @@ public class ParseUser {
 			map.put("duty", JSONCatch.parseString("duty", jsonobject));
 			map.put("mobile", JSONCatch.parseString("mobile", jsonobject));
 			map.put("iconUrl", JSONCatch.parseString("iconUrl", jsonobject));
+			map.put("userCode", JSONCatch.parseString("userCode", jsonobject));
 			SharePreferenceUtils.saveUser(map,context);
 		} catch (JSONException e) {				
 			e.printStackTrace();

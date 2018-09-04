@@ -41,7 +41,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         tv_duty = findViewById(R.id.tv_duty);
         tv_role = findViewById(R.id.tv_role);
         tv_mobile.setText("姓名       "+SharePreferenceUtils.readUser("realName",this));
-        tv_duty.setText("工号       "+SharePreferenceUtils.readUser("duty",this));
+        tv_duty.setText("工号       "+SharePreferenceUtils.readUser("userCode",this));
         String role = SharePreferenceUtils.readUser("role",this);
         if("1".equals(role)){
             tv_role.setText("部门       院领导");
