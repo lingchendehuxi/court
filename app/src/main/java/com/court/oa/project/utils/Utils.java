@@ -1,5 +1,6 @@
 package com.court.oa.project.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -46,6 +47,7 @@ public class Utils {
     // 两次点击按钮之间的点击间隔不能少于1000毫秒
     private static final int MIN_CLICK_DELAY_TIME = 1000;
     private static long lastClickTime;
+    private static long M24HOURMS = 86400000;
 
     public static boolean isFastClick() {
         boolean flag = false;
@@ -59,23 +61,17 @@ public class Utils {
 
 
     // 判断是否有网
-    public static boolean isNetworkAvailable(Context ctx)
-    {
+    public static boolean isNetworkAvailable(Context ctx) {
         Context context = ctx.getApplicationContext();
         ConnectivityManager connectivity = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity == null)
-        {
+        if (connectivity == null) {
             return false;
-        } else
-        {
+        } else {
             NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null)
-            {
-                for (int i = 0; i < info.length; i++)
-                {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
-                    {
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
                         return true;
                     }
                 }
@@ -99,23 +95,20 @@ public class Utils {
     }
 
     // 是否是手机号
-    public static boolean isMobileNO(String mobiles)
-    {
+    public static boolean isMobileNO(String mobiles) {
         Pattern p = Pattern.compile("^1[3|4|5|7|8][0-9]\\d{8}$");
         Matcher m = p.matcher(mobiles);
         return m.matches();
     }
 
     // 是否是email
-    public static boolean isEmail(String email)
-    {
+    public static boolean isEmail(String email) {
         String str = "\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
         return email.matches(str);
     }
 
     // 只能输入由数字、26个英文字母或者下划线组成的字符串(6-15位)
-    public static boolean isRegisterPassword(String pass)
-    {
+    public static boolean isRegisterPassword(String pass) {
         String str = "^\\w{6,15}$";
         return pass.matches(str);
     }
@@ -123,55 +116,45 @@ public class Utils {
     /**
      * 返回当前程序版本名
      */
-    public static String getAppVersionName(Context context)
-    {
+    public static String getAppVersionName(Context context) {
         String versionName = "";
-        try
-        {
+        try {
             // ---get the package info---
             PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
             versionName = pi.versionName;
-            if (versionName == null || versionName.length() <= 0)
-            {
+            if (versionName == null || versionName.length() <= 0) {
                 return "";
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e("VersionInfo", "Exception", e);
         }
         return versionName;
     }
 
     // 防止webview内存泄露
-    public static void setConfigCallback(WindowManager windowManager)
-    {
-        try
-        {
+    public static void setConfigCallback(WindowManager windowManager) {
+        try {
             Field field = WebView.class.getDeclaredField("mWebViewCore");
             field = field.getType().getDeclaredField("mBrowserFrame");
             field = field.getType().getDeclaredField("sConfigCallback");
             field.setAccessible(true);
             Object configCallback = field.get(null);
 
-            if (null == configCallback)
-            {
+            if (null == configCallback) {
                 return;
             }
 
             field = field.getType().getDeclaredField("mWindowManager");
             field.setAccessible(true);
             field.set(configCallback, windowManager);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
         }
     }
 
     // 隐藏虚拟键盘
-    public static void hiddenInput(Context context, EditText et_Content)
-    {
-        if (null != et_Content)
-        {
+    public static void hiddenInput(Context context, EditText et_Content) {
+        if (null != et_Content) {
             InputMethodManager imm = (InputMethodManager) context
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(et_Content.getWindowToken(), 0);
@@ -179,8 +162,7 @@ public class Utils {
     }
 
     // 隐藏虚拟键盘
-    public static void hiddenInputForce(Activity context)
-    {
+    public static void hiddenInputForce(Activity context) {
         InputMethodManager imm = (InputMethodManager) context
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         if (context.getCurrentFocus() != null)
@@ -191,15 +173,12 @@ public class Utils {
     /**
      * 判断是否是json结构
      */
-    public static boolean isJson(String value)
-    {
+    public static boolean isJson(String value) {
         value = removeBOM(value);
-        try
-        {
+        try {
             new JSONObject(value);
 
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             Log.i("RelayRecommendActivity",
                     "JSONException--------------->" + e.toString());
             e.printStackTrace();
@@ -209,26 +188,20 @@ public class Utils {
     }
 
     // 移除json返回中的bom头，当服务器端字符编码和客户端不同时出现
-    public static final String removeBOM(String data)
-    {
-        if (StringUtils.isEmpty(data))
-        {
+    public static final String removeBOM(String data) {
+        if (StringUtils.isEmpty(data)) {
             return data;
         }
-        if (data.startsWith("\ufeff"))
-        {
+        if (data.startsWith("\ufeff")) {
             return data.substring(1);
-        } else
-        {
+        } else {
             return data;
         }
     }
 
     // 判断集合是否为空
-    public static boolean isListNotEmpty(List<?> list)
-    {
-        if (null != list)
-        {
+    public static boolean isListNotEmpty(List<?> list) {
+        if (null != list) {
             if ((list.size() > 0) && !list.isEmpty())
                 return true;
         }
@@ -241,14 +214,11 @@ public class Utils {
      * @param obj
      * @return
      */
-    public static String beanToJson(Object obj)
-    {
-        try
-        {
+    public static String beanToJson(Object obj) {
+        try {
             Gson gson = new Gson();
             return gson.toJson(obj);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             // TODO: handle exception
             return "";
         }
@@ -261,33 +231,26 @@ public class Utils {
      * @param type
      * @return
      */
-    public static <T> T beanfromJson(String str, Class<T> type)
-    {
-        try
-        {
+    public static <T> T beanfromJson(String str, Class<T> type) {
+        try {
             Gson gson = new Gson();
             return gson.fromJson(str, type);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             // TODO: handle exception
-            Log.e("Utils","beanfromJson ====" + e.getMessage());
+            Log.e("Utils", "beanfromJson ====" + e.getMessage());
             return null;
         }
     }
 
-    public static String getJsonData(String str)
-    {
+    public static String getJsonData(String str) {
         String data = "";
         JSONObject jsonObject;
-        try
-        {
+        try {
             jsonObject = new JSONObject(str);
-            if (jsonObject.has("data"))
-            {
+            if (jsonObject.has("data")) {
                 data = jsonObject.getString("data");
             }
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             data = "";
@@ -295,19 +258,15 @@ public class Utils {
         return data;
     }
 
-    public static String getJsonById(String str, String key)
-    {
+    public static String getJsonById(String str, String key) {
         String data = "";
         JSONObject jsonObject;
-        try
-        {
+        try {
             jsonObject = new JSONObject(str);
-            if (jsonObject.has(key))
-            {
+            if (jsonObject.has(key)) {
                 data = jsonObject.getString(key);
             }
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             data = "";
@@ -320,42 +279,24 @@ public class Utils {
      * @param cls
      * @return
      */
-    public static <T> List<T> listfromJson(String array, Class<T> cls)
-    {
+    public static <T> List<T> listfromJson(String array, Class<T> cls) {
 
         List<T> list = new ArrayList<T>();
 
-        try
-        {
+        try {
             JSONArray jsonArray = new JSONArray(array);
 
-            for (int i = 0; i < jsonArray.length(); i++)
-            {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 T t = beanfromJson(jsonArray.get(i).toString(), cls);
                 list.add(t);
             }
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return list;
     }
 
-    /**
-     * 获取过去或者未来 任意天内的日期数组
-     * @param intervals      intervals天内
-     * @return              日期数组
-     */
-    public static ArrayList<String> test(int intervals ) {
-        ArrayList<String> pastDaysList = new ArrayList<>();
-        ArrayList<String> fetureDaysList = new ArrayList<>();
-        for (int i = 0; i <intervals; i++) {
-//            pastDaysList.add(getPastDate(i));
-            fetureDaysList.add(getFetureDate(i));
-        }
-        return fetureDaysList;
-    }
 
     /**
      * 获取过去第几天的日期
@@ -373,8 +314,34 @@ public class Utils {
         return result;
     }
 
+    //转换格式
+    public static String formatDate(Long date) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(date);
+    }
+
+    public static List<String> getFetureDaysList() {
+        List<String> weekMillisList = new ArrayList<>();
+        long dateMill = System.currentTimeMillis();
+        // Calendar
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(dateMill);
+        // 本周的第几天
+        int weekNumber = calendar.get(Calendar.DAY_OF_WEEK);
+        Log.e("本周第几天", weekNumber + "");
+        // 获取本周一的毫秒值
+        long mondayMill = dateMill - M24HOURMS * (weekNumber - 2);
+
+        for (int i = 0; i < 7; i++) {
+            String temp = formatDate(mondayMill + M24HOURMS * i);
+            weekMillisList.add(temp);
+        }
+        return weekMillisList;
+    }
+
     /**
      * 获取未来 第 past 天的日期
+     *
      * @param past
      * @return
      */
@@ -462,8 +429,10 @@ public class Utils {
     public static long genTimeStamp() {
         return System.currentTimeMillis() / 1000;
     }
+
     /**
      * 获取未来 第 past 天的日期
+     *
      * @param past
      * @return
      */
@@ -476,8 +445,8 @@ public class Utils {
         Log.e("text", result);
         return result;
     }
-    public static int getCurrentMonthLastDay()
-    {
+
+    public static int getCurrentMonthLastDay() {
         Calendar a = Calendar.getInstance();
         a.set(Calendar.DATE, 1);//把日期设置为当月第一天
         a.roll(Calendar.DATE, -1);//日期回滚一天，也就是最后一天

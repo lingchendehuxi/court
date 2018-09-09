@@ -157,7 +157,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
         radio.setOnCheckedChangeListener(this);
         rb_normal = view.findViewById(R.id.rb_normal);
         newList = new ArrayList<>();
-        listTime = Utils.test(7);
+        listTime = Utils.getFetureDaysList();
         newListTime = new ArrayList<>();
         TextView[] textViews = new TextView[]{tv_1, tv_2, tv_3, tv_4, tv_5, tv_6, tv_7};
         for (int i = 0; i < listTime.size(); i++) {
