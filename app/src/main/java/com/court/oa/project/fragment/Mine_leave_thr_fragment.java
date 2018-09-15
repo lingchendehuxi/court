@@ -55,19 +55,19 @@ public class Mine_leave_thr_fragment extends Fragment implements RefreshLayout.O
         setListener();
         return view;
     }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {// 在最前端界面显示
+            initLeaveDate();
+        }
+    }
     /**
      * 添加数据
      */
     private void setData() {
         swipeLayout = view.findViewById(R.id.swipe_container);
         listView =  view.findViewById(R.id.list);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), Notify_Detail_activity.class);
-                getActivity().startActivity(intent);
-            }
-        });
     }
     private void initLeaveDate() {
         page=1;

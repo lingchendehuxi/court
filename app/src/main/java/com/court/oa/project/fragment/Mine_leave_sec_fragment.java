@@ -61,13 +61,13 @@ public class Mine_leave_sec_fragment extends Fragment implements RefreshLayout.O
     private void setData() {
         swipeLayout = view.findViewById(R.id.swipe_container);
         listView =  view.findViewById(R.id.list);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), Notify_Detail_activity.class);
-                getActivity().startActivity(intent);
-            }
-        });
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {// 在最前端界面显示
+            initLeaveDate();
+        }
     }
     private void initLeaveDate() {
         page=1;

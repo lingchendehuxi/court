@@ -48,8 +48,7 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
     private ListView listView;
     private THomeAdapter adapter;
     private View header;
-    private ArrayList<Drawable> listAdaver;
-    private boolean isRunning = false;
+    private ArrayList<String> listAdaver;
     private ArrayList<ArticalBean> articalList;
     private ArrayList<ArticalBean> newList;
     private ArrayList<ArticalListBean> topList;
@@ -61,7 +60,6 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.thomefragment, null);
         initView();
-
         return view;
     }
 
@@ -91,14 +89,6 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
         swipeLayout = view.findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent, R.color.theme_color);
         listAdaver = new ArrayList<>();
-        Drawable Imag1 = getResources().getDrawable(R.mipmap.home_top);
-        Drawable Imag2 = getResources().getDrawable(R.mipmap.home1);
-        Drawable Imag3 = getResources().getDrawable(R.mipmap.home2);
-        listAdaver.add(Imag1);
-        listAdaver.add(Imag2);
-        listAdaver.add(Imag3);
-        isRunning = true;
-        initviewpager();
         topList = new ArrayList<>();
         notifyList = new ArrayList<>();
         hallList = new ArrayList<>();
@@ -160,6 +150,7 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
                     }
                     setData();
                     setListener();
+                    initviewpager();
                     break;
 
                 default:
@@ -227,7 +218,9 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
     }
 
     private void initviewpager() {
-
+        for (int i = 0; i < topList.size(); i++) {
+            listAdaver.add(topList.get(i).getImgUrl());
+        }
         if (listAdaver.size() > 1) {
             Banner banner = header.findViewById(R.id.myBanner);
             //设置banner样式

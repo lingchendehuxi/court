@@ -14,6 +14,24 @@ public class LeaveDetailBean {
     private String auditUser;
     private String copyUsser;
     private String status;
+    private float dayCount;
+    private String desc;
+
+    public float getDayCount() {
+        return dayCount;
+    }
+
+    public void setDayCount(float dayCount) {
+        this.dayCount = dayCount;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public int getVid() {
         return vid;
