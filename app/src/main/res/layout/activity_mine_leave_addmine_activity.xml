@@ -124,7 +124,6 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="right|center"
-                    android:inputType="number"
                     android:layout_weight="1" />
 
                 <TextView

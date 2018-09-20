@@ -79,11 +79,7 @@ public class Login_My_activity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.tv_login:
                 if(StringUtils.isEmpty(et_account.getText().toString())){
-                    ToastUtil.show(this,"请输入手机号！");
-                    break;
-                }
-                if(!Utils.isMobileNO(et_account.getText().toString())){
-                    ToastUtil.show(this,"手机号错误！");
+                    ToastUtil.show(this,"请输入工号！");
                     break;
                 }
                 if(StringUtils.isEmpty(et_password.getText().toString())){

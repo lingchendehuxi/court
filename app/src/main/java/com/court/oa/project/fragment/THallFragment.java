@@ -305,7 +305,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     //商品列表
     private void initHallGoodListDate(String time) {
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("showTime", "2018-7-24");//7-24
+        parameters.put("showTime", time);//7-24
         parameters.put("ctgId", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("pageIndex", "" + 1);
         parameters.put("pageSize", "10");
@@ -330,14 +330,14 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
     }
 
     //外卖商品订单
-    private void initHallGoodOrder() {
+    private void initHallGoodOrder(String time) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("originalPrice", "" + allPrice);//原价相同
         parameters.put("sumPrice", "" + allPrice);
         parameters.put("uid", SharePreferenceUtils.readUser("userId", getActivity()));
         parameters.put("takeUser", SharePreferenceUtils.readUser("realName", getActivity()));
-        parameters.put("takeMobile", SharePreferenceUtils.readUser("mobile", getActivity()));
-        parameters.put("takeTime", "2018-7-27");
+        //parameters.put("takeMobile", SharePreferenceUtils.readUser("mobile", getActivity()));
+        parameters.put("takeTime", time);
         parameters.put("subOrders", newList);
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", getActivity()));
         OkHttpManager.postAsync(
@@ -518,7 +518,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     return;
                 }
                 setAllPrice(newList);
-                initHallGoodOrder();
+                initHallGoodOrder(currentTime);
                 break;
             case R.id.ll_week_one:
                 if (ll_week_one.isSelected()) {

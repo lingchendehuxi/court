@@ -218,6 +218,7 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
     }
 
     private void initviewpager() {
+        listAdaver.clear();
         for (int i = 0; i < topList.size(); i++) {
             listAdaver.add(topList.get(i).getImgUrl());
         }

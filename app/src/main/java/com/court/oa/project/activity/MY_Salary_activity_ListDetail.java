@@ -53,19 +53,19 @@ public class MY_Salary_activity_ListDetail extends AppCompatActivity implements 
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
         real_salary_value = findViewById(R.id.real_salary_value);
+        real_salary_key = findViewById(R.id.real_salary_key);
         if (activityType == 1) {
             tv_title.setText("我的工资条");
-            real_salary_value.setText("实发工资");
+            real_salary_key.setText("实发工资");
         } else {
             tv_title.setText("我的奖金");
-            real_salary_value.setText("实发奖金");
+            real_salary_key.setText("实发奖金");
         }
         TextView tv_sort = findViewById(R.id.tv_sort);
         tv_sort.setVisibility(View.INVISIBLE);
         ImageView iv_set = findViewById(R.id.iv_set);
         iv_set.setVisibility(View.INVISIBLE);
         listView = findViewById(R.id.list);
-        real_salary_key = findViewById(R.id.real_salary_key);
         Intent intent = getIntent();
         wagesId = intent.getIntExtra("wagesId", 0);
         initSalaryDate();
@@ -74,7 +74,7 @@ public class MY_Salary_activity_ListDetail extends AppCompatActivity implements 
     private void initSalaryDate() {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("wagesId", "" + wagesId);
-        parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
+        parameters.put("uid", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.WAGE_DETAIL, parameters,

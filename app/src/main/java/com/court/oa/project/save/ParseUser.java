@@ -24,7 +24,7 @@ public class ParseUser {
 			map.put("userId", JSONCatch.parseString("userId", jsonobject));
 			map.put("role", JSONCatch.parseString("role", jsonobject));
 			map.put("appToken", JSONCatch.parseString("appToken", jsonobject));
-			map.put("realName", JSONCatch.parseInt("realName", jsonobject)+"");
+			map.put("realName", JSONCatch.parseString("realName", jsonobject)+"");
 			map.put("duty", JSONCatch.parseString("duty", jsonobject));
 			map.put("mobile", JSONCatch.parseString("mobile", jsonobject));
 			map.put("iconUrl", JSONCatch.parseString("iconUrl", jsonobject));

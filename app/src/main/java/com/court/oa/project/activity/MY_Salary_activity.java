@@ -81,7 +81,7 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
         parameters.put("pageIndex", "" + page);
         parameters.put("pageSize", "10");
         parameters.put("type", activityType);
-        parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
+        parameters.put("uid", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.WAGE_LIST, parameters,
@@ -94,7 +94,7 @@ public class MY_Salary_activity extends AppCompatActivity implements View.OnClic
         parameters.put("pageIndex", "" + page);
         parameters.put("pageSize", "10");
         parameters.put("type", activityType);
-        parameters.put("userId", SharePreferenceUtils.readUser("userId", this));
+        parameters.put("uid", SharePreferenceUtils.readUser("userId", this));
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         OkHttpManager.postAsync(
                 Contants.WAGE_LIST, parameters,

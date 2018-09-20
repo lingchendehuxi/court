@@ -108,7 +108,7 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
                 this, Contants.LEAVE_DETAIL);
     }
 
-    private void leavePass(String auditUser,int isPass) {
+    private void leavePass(String auditUser, int isPass) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("appToken", SharePreferenceUtils.readUser("appToken", this));
         parameters.put("vid", bean.getVid());
@@ -159,7 +159,7 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
                             tv_pass.setText("审批不通过");
                             tv_pass.setBackgroundResource(R.color.notify_context_gray);
                             tv_pass.setClickable(false);
-                        } else if("0".equals(bean.getStatus())){
+                        } else if ("0".equals(bean.getStatus())) {
                             tv_pass.setText("待审批");
                             tv_pass.setBackgroundResource(R.color.theme_color);
                             tv_pass.setClickable(false);
@@ -183,55 +183,58 @@ public class Leave_apply_activity extends AppCompatActivity implements View.OnCl
                 this.finish();
                 break;
             case R.id.tv_pass:
-                if(type == 1){
-                    if(!leave_edit.getText().toString().trim().isEmpty()){
-                        if(bean.getDayCount() >Contants.DAYCOUNT){
-                            Intent intent = new Intent(Leave_apply_activity.this,Mine_leave_chose_activity.class);
-                            intent.putExtra("type",1);
-                            startActivityForResult(intent,1);
-                        }else {
-                            leavePass("",1);
+                if (type == 1) {
+                    if (!leave_edit.getText().toString().trim().isEmpty()) {
+                        if (bean.getDayCount() > Contants.DAYCOUNT && !SharePreferenceUtils.readUser("role", Leave_apply_activity.this).equals("1")) {
+                            Intent intent = new Intent(Leave_apply_activity.this, Mine_leave_chose_activity.class);
+                            intent.putExtra("type", 1);
+                            intent.putExtra("isShow", 1);
+                            startActivityForResult(intent, 1);
+                        } else {
+                            leavePass("", 1);
                         }
-                    }else {
-                        ToastUtil.getShortToastByString(Leave_apply_activity.this,"请添加批注");
+                    } else {
+                        ToastUtil.getShortToastByString(Leave_apply_activity.this, "请添加批注");
                     }
                 }
                 break;
             case R.id.tv_unpass:
-                if(type == 1){
-                    if(!leave_edit.getText().toString().trim().isEmpty()){
-                        if(bean.getDayCount() >Contants.DAYCOUNT){
-                            ToastUtil.getShortToastByString(Leave_apply_activity.this,"时间超过0.5天，请先选择下级审核人");
-                            Intent intent = new Intent(Leave_apply_activity.this,Mine_leave_chose_activity.class);
-                            intent.putExtra("type",1);
-                            startActivityForResult(intent,2);
-                        }else {
-                            leavePass("",0);
+                if (type == 1) {
+                    if (!leave_edit.getText().toString().trim().isEmpty()) {
+                        if (bean.getDayCount() > Contants.DAYCOUNT && !SharePreferenceUtils.readUser("role", Leave_apply_activity.this).equals("1")) {
+                            ToastUtil.getShortToastByString(Leave_apply_activity.this, "时间超过0.5天，请先选择下级审核人");
+                            Intent intent = new Intent(Leave_apply_activity.this, Mine_leave_chose_activity.class);
+                            intent.putExtra("type", 1);
+                            intent.putExtra("isShow", 1);
+                            startActivityForResult(intent, 2);
+                        } else {
+                            leavePass("", 0);
                         }
-                    }else {
-                        ToastUtil.getShortToastByString(Leave_apply_activity.this,"请添加批注");
+                    } else {
+                        ToastUtil.getShortToastByString(Leave_apply_activity.this, "请添加批注");
                     }
                 }
                 break;
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 100 && requestCode == 1){
-            leave_apply.setText(bean.getAuditUser()+","+data.getStringExtra("user"));
-            if(data.getStringExtra("user").length() == 0){
-                ToastUtil.getShortToastByString(Leave_apply_activity.this,"时间超过0.5天，请先选择下级审核人");
+        if (resultCode == 100 && requestCode == 1) {
+            leave_apply.setText(bean.getAuditUser() + "," + data.getStringExtra("user"));
+            if (data.getStringExtra("user").length() == 0) {
+                ToastUtil.getShortToastByString(Leave_apply_activity.this, "时间超过0.5天，请先选择下级审核人");
                 return;
             }
-            leavePass(data.getStringExtra("user"),1);
-        }else if(resultCode == 100 && requestCode == 2){
-            leave_apply.setText(bean.getAuditUser()+","+data.getStringExtra("user"));
-            if(data.getStringExtra("user").length() == 0){
-                ToastUtil.getShortToastByString(Leave_apply_activity.this,"时间超过0.5天，请先选择下级审核人");
+            leavePass(data.getStringExtra("user"), 1);
+        } else if (resultCode == 100 && requestCode == 2) {
+            leave_apply.setText(bean.getAuditUser() + "," + data.getStringExtra("user"));
+            if (data.getStringExtra("user").length() == 0) {
+                ToastUtil.getShortToastByString(Leave_apply_activity.this, "时间超过0.5天，请先选择下级审核人");
                 return;
             }
-            leavePass(data.getStringExtra("user"),0);
+            leavePass(data.getStringExtra("user"), 0);
         }
     }
 }

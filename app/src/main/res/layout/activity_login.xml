@@ -49,9 +49,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/register_edit"
-            android:hint="账号"
-            android:inputType="phone"
-            android:maxLength="11"
+            android:hint="工号"
+            android:inputType="number"
             android:paddingLeft="20dp"
             android:textColorHint="@color/login_text_white"
             android:textColorLink="@color/login_blow_white" />

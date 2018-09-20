@@ -10,6 +10,17 @@
     tools:context="com.court.oa.project.activity.Mine_leave_chose_activity">
 
     <include layout="@layout/title_bar_first" />
+    <TextView
+        android:id="@+id/tv_showtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="9dp"
+        android:background="@color/theme_color"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:text="请假人请假时间已超过半天，请选择下一级审批人！"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -33,7 +33,7 @@ import okhttp3.Request;
 
 public class Register_My_activity extends AppCompatActivity implements View.OnClickListener ,OkHttpManager.DataCallBack{
 
-    private EditText et_phone,et_pass,et_passAgain,et_name;
+    private EditText et_phone,et_pass,et_name;
     private TextView tv_register;
     private String strPhone,strName;
     @Override
@@ -49,7 +49,6 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
         et_phone = findViewById(R.id.et_phone);
         et_pass = findViewById(R.id.et_pass);
         et_name = findViewById(R.id.et_name);
-        et_passAgain = findViewById(R.id.et_passAgain);
         tv_register = findViewById(R.id.tv_register);
         tv_register.setOnClickListener(this);
     }
@@ -63,19 +62,11 @@ public class Register_My_activity extends AppCompatActivity implements View.OnCl
                     break;
                 }
                 if(StringUtils.isEmpty(et_phone.getText().toString())){
-                    ToastUtil.show(this,"手机号为空！");
-                    break;
-                }
-                if(!Utils.isMobileNO(et_phone.getText().toString())){
-                    ToastUtil.show(this,"手机号错误！");
+                    ToastUtil.show(this,"工号为空！");
                     break;
                 }
                 if(!Utils.isRegisterPassword(et_pass.getText().toString())){
                     ToastUtil.show(this,"密码是6-15位的数字、下划线或者大小写字母组成！");
-                    break;
-                }
-                if(!et_pass.getText().toString().equals(et_passAgain.getText().toString())){
-                    ToastUtil.show(this,"两次密码输入不一致！");
                     break;
                 }
                 initRegist();

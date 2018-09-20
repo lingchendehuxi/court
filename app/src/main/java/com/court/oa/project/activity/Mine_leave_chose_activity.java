@@ -40,10 +40,10 @@ import okhttp3.Request;
 public class Mine_leave_chose_activity extends AppCompatActivity implements View.OnClickListener, OkHttpManager.DataCallBack {
     private ListView listView;
     private ArrayList<DeptBean> listDept;
-    private int type;
+    private int type,isShow;
     private EditText et_reason;
     private ArrayList<String> ListUser = new ArrayList<>();
-    private TextView tv_userconfirm;
+    private TextView tv_userconfirm,tv_showtitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +62,20 @@ public class Mine_leave_chose_activity extends AppCompatActivity implements View
     private void initView() {
         Intent intent = getIntent();
         type = intent.getIntExtra("type", 0);
+        isShow = intent.getIntExtra("isShow",0);
         ImageView iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
         TextView tv_title = findViewById(R.id.tv_title);
+        tv_showtitle = findViewById(R.id.tv_showtitle);
         tv_title.setText("选择联系人");
         ImageView iv_set = findViewById(R.id.iv_set);
         iv_set.setVisibility(View.GONE);
         listView = findViewById(R.id.listView);
         et_reason = findViewById(R.id.et_reason);
         tv_userconfirm = findViewById(R.id.tv_sort);
+        if(isShow == 1){
+            tv_showtitle.setVisibility(View.VISIBLE);
+        }
         if(type == 2){
             tv_userconfirm.setText("确定");
         }else if(type == 1){

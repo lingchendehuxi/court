@@ -64,8 +64,8 @@ public class TMineFragment extends Fragment implements View.OnClickListener {
         mine_name = view.findViewById(R.id.mine_name);
         mine_job = view.findViewById(R.id.mine_job);
         mine_pic = view.findViewById(R.id.mine_pic);
-        mine_name.setText(SharePreferenceUtils.readUser("userCode",getActivity()));
-        mine_job.setText(SharePreferenceUtils.readUser("realName",getActivity()));
+        mine_name.setText(SharePreferenceUtils.readUser("realName",getActivity()));
+        mine_job.setText(SharePreferenceUtils.readUser("userCode",getActivity()));
         if(SharePreferenceUtils.readUser("iconUrl",getActivity())!=null && !TextUtils.isEmpty(SharePreferenceUtils.readUser("iconUrl",getActivity()))){
             Picasso.with(getActivity()).load(SharePreferenceUtils.readUser("iconUrl",getActivity())).placeholder(R.mipmap.mine)
                     .error(R.mipmap.mine).into(mine_pic);
