@@ -54,12 +54,14 @@ public class TNotifyAdapter extends BaseAdapter {
             holder.tv_time = view.findViewById(R.id.tv_time);
             holder.tv_question = view.findViewById(R.id.tv_question);
             holder.tv_person = view.findViewById(R.id.tv_person);
+            holder.tv_context = view.findViewById(R.id.tv_context);
             view.setTag(holder);
         } else {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
         holder.notifyList_title.setText(list.get(position).getMsgTitle());
+        holder.tv_context.setText(list.get(position).getMsgContent());
         String type = list.get(position).getMsgCtg()+"";
         if("0".equals(type)){
             holder.tv_time.setVisibility(View.VISIBLE);
@@ -79,6 +81,7 @@ public class TNotifyAdapter extends BaseAdapter {
         TextView tv_question;
         TextView tv_time;
         TextView tv_person;
+        TextView tv_context;
     }
 
 }

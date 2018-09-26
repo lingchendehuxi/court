@@ -15,7 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.court.oa.project.R;
+import com.court.oa.project.activity.Leave_apply_activity;
 import com.court.oa.project.activity.Meet_Detail_activity;
+import com.court.oa.project.activity.Mine_leave_activity;
 import com.court.oa.project.activity.Notify_Detail_activity;
 import com.court.oa.project.activity.Notify_question_result_activity;
 import com.court.oa.project.activity.Question_activity;
@@ -69,7 +71,10 @@ public class TNotifyFragment extends Fragment implements RefreshLayout.OnLoadLis
                     intent.putExtra("exId", listMessage.get(i).getMsgCtgId());
                     getActivity().startActivity(intent);
                 }else if(listMessage.get(i).getMsgCtg() == 2){
-
+                    Intent intent = new Intent(getActivity(), Leave_apply_activity.class);
+                    intent.putExtra("id",listMessage.get(i).getMsgId()+"");
+                    intent.putExtra("type",2);
+                    getActivity().startActivity(intent);
                 }else if(listMessage.get(i).getMsgCtg() == 1){
                     Intent intent = new Intent(getActivity(), Meet_Detail_activity.class);
                     intent.putExtra("meetId", listMessage.get(i).getMsgCtgId());

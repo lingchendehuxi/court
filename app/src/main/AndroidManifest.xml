@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.court.oa.project">
+    package="com.court.oa.project"
+    android:versionCode="1"
+    android:versionName="1.0">
     <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="26" />
     <!-- 个人权限配置 -->
     <uses-permission android:name="android.permission.INTERNET" />

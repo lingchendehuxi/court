@@ -282,6 +282,7 @@ public class THallFragment extends Fragment implements View.OnClickListener, Ref
                     textView.setSelected(true);
                     textViewlow.setSelected(true);
                     currentTime = listTime.get(j);
+                    initHallGoodListDate(currentTime);
                 }
             });
             hall_date.addView(ll);
