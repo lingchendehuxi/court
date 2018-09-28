@@ -27,6 +27,7 @@ import com.court.oa.project.utils.GlideImageLoader;
 import com.court.oa.project.utils.ToastUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tencent.mm.opensdk.utils.Log;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -222,7 +223,7 @@ public class THomeFragment extends Fragment implements View.OnClickListener, Ref
         for (int i = 0; i < topList.size(); i++) {
             listAdaver.add(topList.get(i).getImgUrl());
         }
-        if (listAdaver.size() > 1) {
+        if (listAdaver.size() > 0) {
             Banner banner = header.findViewById(R.id.myBanner);
             //设置banner样式
             banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
